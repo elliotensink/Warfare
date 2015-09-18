@@ -21,13 +21,13 @@ public class Game {
 		allCards = new ArrayList<ArrayList<Card>>();
 		
 		PointCard pointCard1 = new PointCard("One VP",2,"Worth 1 Victory Point",1);
-		ArrayList<Card> pointCard1Stack = fillCardStack(pointCard1,30);
+		ArrayList<Card> pointCard1Stack = fillCardStack(pointCard1,50);
 		allCards.add(pointCard1Stack);
 		PointCard pointCard5 = new PointCard("Five VP",6,"Worth 5 Victory Point",5);
-		ArrayList<Card> pointCard5Stack = fillCardStack(pointCard5,20);
+		ArrayList<Card> pointCard5Stack = fillCardStack(pointCard5,30);
 		allCards.add(pointCard5Stack);
 		PointCard pointCard10 = new PointCard("Ten VP",12,"Worth 10 Victory Point",10);
-		ArrayList<Card> pointCard10Stack = fillCardStack(pointCard10,10);
+		ArrayList<Card> pointCard10Stack = fillCardStack(pointCard10,15);
 		allCards.add(pointCard10Stack);
 		
 		MoneyCard moneyCard1 = new MoneyCard("One $",0,"Worth 1 $",1);
@@ -109,18 +109,19 @@ public class Game {
 	private void playerTurn()
 	{
 		Player p = players[currentPlayer];
-		System.out.println("Current Player: " + currentPlayer+1);
+		System.out.println("Current Player: " + (currentPlayer+1));
 		
 		int actions = 1; 
 		int purchases = 1; 
-		int choice;
+		int choice = 0;
 		
 		ArrayList<Card> pDeck = getCards(5);
 		System.out.println("Player Cards: ");
 		displayCards(pDeck);
 		System.out.println("____________________");
-		choice = Integer.parseInt(scan.nextLine());
+		System.out.println("Player Options");
 		displayOptions();
+		choice = Integer.parseInt(scan.nextLine());
 		playerOption(choice);
 		p.getDiscard().addAll(pDeck);
 		nextPlayer();
@@ -156,23 +157,23 @@ public class Game {
 		{
 			case 1:
 				// Play action
-				System.out.println("PlayAction");
+				System.out.println("*PlayAction*");
 				break;
 			case 2:
 				// Purchase card
-				System.out.println("PurchaseCard");
+				System.out.println("*PurchaseCard*");
 				break;
 			case 3:
 				// End Turn
-				System.out.println("EndTurn");
+				System.out.println("*EndTurn*");
 				break;
 			case 4:
 				// help
-				System.out.println("Help");
+				System.out.println("*Help*");
 				break;
 			default:
 				// Show gameboard
-				System.out.println("ShowGameboard");
+				System.out.println("*ShowGameboard*");
 				break;
 		}
 	}
@@ -189,8 +190,8 @@ public class Game {
 		Scanner s = new Scanner(System.in);
 		System.out.println("How many players in the game?");
 		int numPlayers = Integer.parseInt(s.nextLine());
-		s.close();
 		new Game(numPlayers);
+		s.close();
 	}
 	
 	public static void main(String[] args)
