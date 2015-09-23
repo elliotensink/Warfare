@@ -26,7 +26,7 @@ public class AttackCard extends Card{
 	        decode(effect);
 	}
     
-    private decode(int[] code) {
+    private void decode(int[] code) {
         /*
          'Code' is an int array with the layout of 
          ABCXX...XYY...Y
