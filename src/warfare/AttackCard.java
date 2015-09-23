@@ -31,8 +31,10 @@ public class AttackCard extends Card{
          'Code' is an int array with the layout of 
          ABCXX...XYY...Y
          A - Type of interaction with the game, other players hands or the board of cards
-         B - Target, used for the actual target of the effects only really works with hand interaction at this point have room to easily add things for the board
-         C - The number of effects on the card, e.g. 1 if it only makes players discard, 2 if players discard and you steal from them, used for easier implementation of helper methods
+         B - Target, used for the actual target of the effects only really works with hand interaction at this 
+         	point have room to easily add things for the board
+         C - The number of effects on the card, e.g. 1 if it only makes players discard, 2 if players discard and 
+         	you steal from them, used for easier implementation of helper methods
          X - Up to C amount of effects most likely not greater than 3 for our cases
          Y - Up to C amount of values assosiated with each effect, the first Y is associated with the first X
          
@@ -41,7 +43,6 @@ public class AttackCard extends Card{
          Would be All enemy players discard 1 card and you steal 1 money
          
          10122
-         
          Would make everything on the board cost 2 more for other players
          
          */
