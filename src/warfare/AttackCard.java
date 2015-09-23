@@ -23,7 +23,7 @@ public class AttackCard extends Card{
     
 	public AttackCard(String name, int cost, String description, int[] effect){
 		super(name, cost, description);
-        cardEffect = effect;
+	        decode(effect);
 	}
     
     private decode(int[] code) {
