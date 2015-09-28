@@ -2,15 +2,35 @@ package warfare;
 
 import java.util.*;
 
+/****************************************************************
+ * Class for simulation of Warfare card game.
+ * 
+ * @author Cameron Novotny, Elliot Ensink, Curtis Holden
+ * @version 
+ ***************************************************************/
 public class Game {
 	
-	private int currentPlayer;
-	private int numPlayers;
+	/* Current player (position in array) and total number of players */
+	private int currentPlayer, numPlayers;
+	
+	/* Array to store players */
 	private Player[] players;
+	
+	
+	/* Array list containing all game cards */
 	private ArrayList<ArrayList<Card>> allCards;
+	
+	/* Scanner for user input */
 	private Scanner scan;
+	
+	/* Boolean value to determine when game is over */
 	private boolean gameFinished = false;
 	
+	/************************************************************
+     * Constructor for objects of type Game.
+     * 
+     * @param number of players
+     ***********************************************************/
 	private Game(int numPlayers)
 	{
 		scan = new Scanner(System.in);
@@ -19,6 +39,30 @@ public class Game {
 		for(int i = 0;i<numPlayers;i++)
 			players[i] = new Player();
 		allCards = new ArrayList<ArrayList<Card>>();
+		
+		System.out.println("Intial Cards: ");
+		showBoard();
+		System.out.println("Setting up Players...");
+		setIntialPlayerCards();
+		System.out.println("Game Cards: ");
+		showBoard();
+		
+		currentPlayer = 0;
+		
+		while(!gameFinished)
+		{
+			playerTurn();
+			checkGameStatus();
+		}
+		
+		scan.close();
+
+	}
+	
+	/************************************************************
+     * Generate stack of cards to start game.
+     ***********************************************************/
+	private void createDeck(){
 		
 		PointCard pointCard1 = new PointCard("One VP",2,"Worth 1 Victory Point",1);
 		ArrayList<Card> pointCard1Stack = fillCardStack(pointCard1,30);
@@ -42,27 +86,13 @@ public class Game {
 		MoneyCard moneyCard4 = new MoneyCard("Four $",0,"Worth 4 $",8);
 		ArrayList<Card> moneyCard4Stack = fillCardStack(moneyCard4,20);
 		allCards.add(moneyCard4Stack);
-		
-		System.out.println("Intial Cards: ");
-		showBoard();
-		System.out.println("Setting up Players...");
-		setIntialPlayerCards();
-		System.out.println("Game Cards: ");
-		showBoard();
-		
-		currentPlayer = 0;
-		
-		while(!gameFinished)
-		{
-			playerTurn();
-			checkGameStatus();
-		}
-		
-		scan.close();
-
 	}
-	
-	//Create stack of card for beginning of the game
+
+	/************************************************************
+     * Adding cards to card stack.
+     * 
+     * @param card to add, number of cards to add
+     ***********************************************************/
 	private ArrayList<Card> fillCardStack(Card c,int n)
 	{
 		ArrayList<Card> cardStack = new ArrayList<Card>();
@@ -74,6 +104,9 @@ public class Game {
 		return cardStack;
 	}
 	
+	/************************************************************
+     * Print cards to user.
+     ***********************************************************/
 	private void showBoard()
 	{
 		int count = 1;
@@ -84,6 +117,9 @@ public class Game {
 		}
 	}
 	
+	/************************************************************
+	 * Deal initial cards to players.
+     ***********************************************************/
 	private void setIntialPlayerCards()
 	{
 		for(Player p : players)
@@ -97,6 +133,12 @@ public class Game {
 		}
 	}
 	
+	/************************************************************
+     * Drawing cards for current player.
+     * 
+     * @param number of cards to draw
+     * @return players cards
+     ***********************************************************/
 	public ArrayList<Card> getCards(int n){
 		ArrayList<Card> c = new ArrayList<Card>();
 		
@@ -106,6 +148,9 @@ public class Game {
 		 return c;
 	}
 	
+	/************************************************************
+     * Simulate one turn for current player.
+     ***********************************************************/
 	private void playerTurn()
 	{
 		Player p = players[currentPlayer];
@@ -126,12 +171,20 @@ public class Game {
 		nextPlayer();
 	}
 	
+	/************************************************************
+     * Move to next player.
+     ***********************************************************/
 	private void nextPlayer()
 	{
 		currentPlayer++;
 		currentPlayer = currentPlayer%numPlayers;//Make sure the currentPlayer stays within the the appropriate range (0 -> numPlayers)
 	}
 	
+	/************************************************************
+     * Print cards to user.
+     * 
+     * @param cards to be printed
+     ***********************************************************/
 	private void displayCards(ArrayList<Card> cards){
 		int count = 1;
 		for(Card c : cards)
@@ -141,6 +194,9 @@ public class Game {
 		}
 	}
 	
+	/************************************************************
+     * Print game options to user.
+     ***********************************************************/
 	private void displayOptions()
 	{
 		System.out.println("(1) Play Action");
@@ -150,6 +206,11 @@ public class Game {
 		System.out.println("(5) Show Gameboard");
 	}
 	
+	/************************************************************
+     * Carry out players chosen option.
+     * 
+     * @param players choice
+     ***********************************************************/
 	private void playerOption(int choice){
 		
 		switch(choice)
@@ -177,13 +238,18 @@ public class Game {
 		}
 	}
 	
-	//Checks if game is over or not
+	/************************************************************
+     * Determine if game is over or not.
+     ***********************************************************/
 	private void checkGameStatus()
 	{
 		if(allCards.get(2).size()==0)
 			gameFinished = true;//Game over
 	}
 	
+	/************************************************************
+     * Run game play.
+     ***********************************************************/
 	public static void run()
 	{
 		Scanner s = new Scanner(System.in);
@@ -193,6 +259,9 @@ public class Game {
 		new Game(numPlayers);
 	}
 	
+	/************************************************************
+     * Main function for running program.
+     ***********************************************************/
 	public static void main(String[] args)
 	{
 		run();

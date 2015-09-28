@@ -1,5 +1,11 @@
 package warfare;
 
+/****************************************************************
+ * Class to simulate attributes specific to an Attack Card
+ * 
+ * @author Cameron Novotny, Elliot Ensink, Curtis Holden
+ * @version 
+ ***************************************************************/
 public class AttackCard extends Card{
     private enum Interaction {
         HAND, BOARD;
@@ -21,6 +27,11 @@ public class AttackCard extends Card{
     private ArrayList<Effect> eff = new ArrayList<Effect>();
     private ArrayList<int> amount = new ArrayList<int>();
     
+    /************************************************************
+     * Constructor for objects of type AttackCard.
+     * 
+     * @param name of card, cost of card, description of card
+     ***********************************************************/
 	public AttackCard(String name, int cost, String description, int[] effect){
 		super(name, cost, description);
 	        decode(effect);
