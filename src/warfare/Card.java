@@ -9,7 +9,7 @@ package warfare;
 public class Card {
 
 	/* Name of the card */
-	private String name;
+	private String name, type;
 	
 	/* Cost of the card */
 	private int cost;
@@ -22,10 +22,11 @@ public class Card {
      * 
      * @param name of card, cost of card, description of card
      ***********************************************************/
-	public Card(String name, int cost, String description)
+	public Card(String name, int cost, String description, String type)
 	{
 		this.name = name;
 		this.cost = cost;
+		this.type = type;
 		this.description = description;
 	}
 	
@@ -39,6 +40,14 @@ public class Card {
 		description = "";
 	}
 	
+	public String getType(){
+		return type;
+	}
+	
+	public void setType(String type){
+		this.type = type;
+	}
+	
 	/************************************************************
      * Clone a card.
      * 
@@ -48,9 +57,10 @@ public class Card {
 	public Card cardClone(Card c)
 	{
 		Card newC = new Card();
-		newC.setName(new String(c.getName()));
-		newC.setCost(new Integer(c.getCost()));
-		newC.setDescription(new String(c.getDescription()));
+		newC.setName(c.getName());
+		newC.setCost(c.getCost());
+		newC.setDescription(c.getDescription());
+		newC.setType(c.getType());
 		return newC;
 	}
 	

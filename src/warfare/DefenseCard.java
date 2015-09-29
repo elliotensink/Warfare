@@ -13,7 +13,7 @@ public class DefenseCard extends Card{
      * 
      * @param name of card, cost of card, description of card
      ***********************************************************/
-	public DefenseCard(String name, int cost, String description){
-		super(name, cost, description);
+	public DefenseCard(String name, int cost, String description, String type){
+		super(name, cost, description, type);
 	}
 }
