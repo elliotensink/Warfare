@@ -17,9 +17,9 @@ public class MoneyCard extends Card{
      * @param name of card, cost of card, description of card,
      * 			value of card
      ***********************************************************/
-	public MoneyCard(String name, int cost, String description, int value)
+	public MoneyCard(String name, int cost, String description, int value, String type)
 	{
-		super(name, cost, description);
+		super(name, cost, description, type);
 		this.value = value;
 	}
 	

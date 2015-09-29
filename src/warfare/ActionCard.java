@@ -18,9 +18,9 @@ public class ActionCard extends Card{
      * 			number of cards, number of actions, purchase amt,
      * 			amount of money
      ***********************************************************/
-	public ActionCard(String name, int cost, String description, int cards, int actions, int purchase, int money)
+	public ActionCard(String name, int cost, String description, int cards, int actions, int purchase, int money, String type)
 	{
-		super(name, cost, description);
+		super(name, cost, description, type);
 		actionFunction = new int[]{cards, actions, purchase, money};
 	}
 	

@@ -12,19 +12,19 @@ public class PointCard extends Card{
 	private int point;
 	
 	/************************************************************
-     * Constructor for objects of type PointCard with input.
+     * Default constructor for objects of type PointCard with input.
      * 
      * @param name of card, cost of card, description of card,
      * 			point value
      ***********************************************************/
-	public PointCard(String name, int cost, String description, int point)
+	public PointCard(String name, int cost, String description, int point, String type)
 	{
-		super(name, cost, description);
+		super(name, cost, description, type);
 		this.point = point;
 	}
 	
 	/************************************************************
-     * Default constructor for objects of type DefenseCard.
+     * Constructor for objects of type DefenseCard.
      ***********************************************************/
 	public PointCard()
 	{

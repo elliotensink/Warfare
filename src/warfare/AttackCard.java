@@ -1,5 +1,7 @@
 package warfare;
 
+import java.util.*;
+
 /****************************************************************
  * Class to simulate attributes specific to an Attack Card
  * 
@@ -7,33 +9,31 @@ package warfare;
  * @version 
  ***************************************************************/
 public class AttackCard extends Card{
-    private enum Interaction {
-        HAND, BOARD;
-    }
     
-    private enum Target {
-        ALL, HIGHEST, RANDOM;
-    }
-    
-    private enum Effect {
-        DISCARD, STEAL, BHIGHER, BLOWER, BCHANGE;
-    }
-    
-    
+	public enum Target {
+		ALL, HIGHEST, RANDOM;
+	}
 
+	public enum Interaction {
+		HAND, BOARD;
+	}
+	
+	public enum Effect {
+		DISCARD, STEAL, BHIGHER, BLOWER, BCHANGE;
+	}
+	
     private Interaction inter;
     private Target tar;
-    private int efcNum;
     private ArrayList<Effect> eff = new ArrayList<Effect>();
-    private ArrayList<int> amount = new ArrayList<int>();
+    private ArrayList<Integer> amount = new ArrayList<Integer>();
     
     /************************************************************
      * Constructor for objects of type AttackCard.
      * 
      * @param name of card, cost of card, description of card
      ***********************************************************/
-	public AttackCard(String name, int cost, String description, int[] effect){
-		super(name, cost, description);
+	public AttackCard(String name, int cost, String description, int[] effect, String type){
+		super(name, cost, description, type);
 	        decode(effect);
 	}
     
@@ -60,11 +60,11 @@ public class AttackCard extends Card{
         
         switch(code[0]){
             case 0:
-                inter = HAND;
-                tar = decodeHand(code[1]);
+                inter = Interaction.HAND;
+                decodeHand(code[1]);
                 break;
             case 1:
-                inter = BOARD;
+                inter = Interaction.BOARD;
                 //may use code[1] in later implementation
                 break;
             default:
@@ -78,41 +78,41 @@ public class AttackCard extends Card{
         
     }
     
-    private Target decodeHand(int in) {
+    private void decodeHand(int in) {
         switch(in) {
             case 0:
-                return ALL;
+            	tar = Target.ALL;
                 break;
             case 1:
-                return HIGHEST;
+                tar = Target.HIGHEST;
                 break;
             case 2:
-                return RANDOM;
-                break;
+            	tar = Target.RANDOM;
+            	break;
             default:
                 //print error if get here
-                break;
+            	break;            	
         }
     }
     
     private void decodeEffect(int[] arr) {
         int count = arr[2];
         for (int i = 0; i < count; i++) {
-            switch (code[3+i]) {
+            switch (arr[3+i]) {
                 case 0:
-                    eff.add(DISCARD);
+                    eff.add(Effect.DISCARD);
                     break;
                 case 1:
-                    eff.add(STEAL);
+                    eff.add(Effect.STEAL);
                     break;
                 case 2:
-                    eff.add(BHIGHER);
+                    eff.add(Effect.BHIGHER);
                     break;
                 case 3:
-                    eff.add(BLOWER);
+                    eff.add(Effect.BLOWER);
                     break;
                 case 4:
-                    eff.add(BCHANGE);
+                    eff.add(Effect.BCHANGE);
                     break;
                 default:
                     //print error
@@ -125,7 +125,7 @@ public class AttackCard extends Card{
         int count = arr[2];
         int o = 3 + count; //Offset for start of values for each effect
         for (int i = 0; i<count; i++) {
-            values.add(arr[o+i]);
+            amount.add(arr[o+i]);
         }
     }
 

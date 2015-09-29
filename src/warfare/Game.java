@@ -16,7 +16,6 @@ public class Game {
 	/* Array to store players */
 	private Player[] players;
 	
-	
 	/* Array list containing all game cards */
 	private ArrayList<ArrayList<Card>> allCards;
 	
@@ -24,7 +23,7 @@ public class Game {
 	private Scanner scan;
 	
 	/* Boolean value to determine when game is over */
-	private boolean gameFinished = false;
+	private boolean gameFinished;
 	
 	/************************************************************
      * Constructor for objects of type Game.
@@ -39,6 +38,11 @@ public class Game {
 		for(int i = 0;i<numPlayers;i++)
 			players[i] = new Player();
 		allCards = new ArrayList<ArrayList<Card>>();
+		gameFinished = false;
+		createDeck();
+		MoneyCard moneyCard1 = new MoneyCard("One $",0,"Worth 1 $",1,"money");
+		System.out.println(moneyCard1.getType());
+		
 		
 		System.out.println("Intial Cards: ");
 		showBoard();
@@ -64,26 +68,26 @@ public class Game {
      ***********************************************************/
 	private void createDeck(){
 		
-		PointCard pointCard1 = new PointCard("One VP",2,"Worth 1 Victory Point",1);
+		PointCard pointCard1 = new PointCard("One VP",2,"Worth 1 Victory Point",1,"point");
 		ArrayList<Card> pointCard1Stack = fillCardStack(pointCard1,30);
 		allCards.add(pointCard1Stack);
-		PointCard pointCard5 = new PointCard("Five VP",6,"Worth 5 Victory Point",5);
+		PointCard pointCard5 = new PointCard("Five VP",6,"Worth 5 Victory Point",5,"point");
 		ArrayList<Card> pointCard5Stack = fillCardStack(pointCard5,20);
 		allCards.add(pointCard5Stack);
-		PointCard pointCard10 = new PointCard("Ten VP",12,"Worth 10 Victory Point",10);
+		PointCard pointCard10 = new PointCard("Ten VP",12,"Worth 10 Victory Point",10,"point");
 		ArrayList<Card> pointCard10Stack = fillCardStack(pointCard10,10);
 		allCards.add(pointCard10Stack);
 		
-		MoneyCard moneyCard1 = new MoneyCard("One $",0,"Worth 1 $",1);
+		MoneyCard moneyCard1 = new MoneyCard("One $",0,"Worth 1 $",1,"money");
 		ArrayList<Card> moneyCard1Stack = fillCardStack(moneyCard1,50);
 		allCards.add(moneyCard1Stack);
-		MoneyCard moneyCard2 = new MoneyCard("Two $",0,"Worth 2 $",3);
+		MoneyCard moneyCard2 = new MoneyCard("Two $",0,"Worth 2 $",3,"money");
 		ArrayList<Card> moneyCard2Stack = fillCardStack(moneyCard2,40);
 		allCards.add(moneyCard2Stack);
-		MoneyCard moneyCard3 = new MoneyCard("Three $",0,"Worth 3 $",6);
+		MoneyCard moneyCard3 = new MoneyCard("Three $",0,"Worth 3 $",6,"money");
 		ArrayList<Card> moneyCard3Stack = fillCardStack(moneyCard3,30);
 		allCards.add(moneyCard3Stack);
-		MoneyCard moneyCard4 = new MoneyCard("Four $",0,"Worth 4 $",8);
+		MoneyCard moneyCard4 = new MoneyCard("Four $",0,"Worth 4 $",8,"money");
 		ArrayList<Card> moneyCard4Stack = fillCardStack(moneyCard4,20);
 		allCards.add(moneyCard4Stack);
 	}
@@ -129,23 +133,11 @@ public class Game {
 				pDeck.add(allCards.get(0).remove(0));
 			for(int i = 0;i<7;i++)
 				pDeck.add(allCards.get(3).remove(0));
+			
+			Collections.shuffle(pDeck, new Random());
 			p.setDeck(pDeck);
+			p.drawCards(5);
 		}
-	}
-	
-	/************************************************************
-     * Drawing cards for current player.
-     * 
-     * @param number of cards to draw
-     * @return players cards
-     ***********************************************************/
-	public ArrayList<Card> getCards(int n){
-		ArrayList<Card> c = new ArrayList<Card>();
-		
-		for(int i=0; i<n; i++){
-			c.add(players[currentPlayer].draw());
-		}
-		 return c;
 	}
 	
 	/************************************************************
@@ -156,19 +148,29 @@ public class Game {
 		Player p = players[currentPlayer];
 		System.out.println("Current Player: " + currentPlayer+1);
 		
-		int actions = 1; 
-		int purchases = 1; 
-		int choice;
+		int actions = 1, purchases = 1, choice, money;
 		
-		ArrayList<Card> pDeck = getCards(5);
+		ArrayList<Card> pDeck = p.getHand();
 		System.out.println("Player Cards: ");
 		displayCards(pDeck);
 		System.out.println("____________________");
-		choice = Integer.parseInt(scan.nextLine());
 		displayOptions();
+		choice = scan.nextInt();
 		playerOption(choice);
-		p.getDiscard().addAll(pDeck);
+		p.setCurrentMoney(0);
+		p.discard();
 		nextPlayer();
+	}
+	
+	private Card purchaseCard(int cardNum){
+		Player p = players[currentPlayer];
+		int cost = allCards.get(cardNum-1).get(0).getCost();
+		if(cost > p.getCurrentMoney()){
+			System.out.println("Sorry, you're broke.");
+			return null;
+		}
+		p.setCurrentMoney(p.getCurrentMoney()-cost);
+		return allCards.get(cardNum).remove(0);
 	}
 	
 	/************************************************************
@@ -212,7 +214,7 @@ public class Game {
      * @param players choice
      ***********************************************************/
 	private void playerOption(int choice){
-		
+		Player p = players[currentPlayer];
 		switch(choice)
 		{
 			case 1:
@@ -222,6 +224,11 @@ public class Game {
 			case 2:
 				// Purchase card
 				System.out.println("PurchaseCard");
+				showBoard();
+				System.out.println("User money: " + p.getCurrentMoney());
+				System.out.println("Enter card choice: ");
+				purchaseCard(scan.nextInt());
+				
 				break;
 			case 3:
 				// End Turn
@@ -254,9 +261,9 @@ public class Game {
 	{
 		Scanner s = new Scanner(System.in);
 		System.out.println("How many players in the game?");
-		int numPlayers = Integer.parseInt(s.nextLine());
-		s.close();
+		int numPlayers = s.nextInt();
 		new Game(numPlayers);
+		s.close();
 	}
 	
 	/************************************************************
@@ -264,6 +271,7 @@ public class Game {
      ***********************************************************/
 	public static void main(String[] args)
 	{
+		//Game g = new Game();
 		run();
 	}
 }
