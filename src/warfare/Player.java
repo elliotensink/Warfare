@@ -38,15 +38,16 @@ public class Player {
 		for(int i=0; i<num; i++){
 			hand.add(deck.remove(0));
 		}
+		System.out.println(hand);
 		calcMoney();
 	}
 	
 	public void calcMoney(){
 		int sum = currentMoney;
-		for(Object crd: hand){
+		for(Card crd: hand){
 			if(crd instanceof MoneyCard){
 				sum += ((MoneyCard)crd).getValue();
-				System.out.println(sum);
+				//System.out.println(sum);
 			}
 		}
 		currentMoney = sum;

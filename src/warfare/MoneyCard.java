@@ -38,14 +38,16 @@ public class MoneyCard extends Card{
      * @param card to be cloned
      * @return cloned card
      ***********************************************************/
-	public MoneyCard cardClone(MoneyCard c)
-	{
-		MoneyCard newC = new MoneyCard();
-		newC.setName(new String(c.getName()));
-		newC.setCost(new Integer(c.getCost()));
-		newC.setDescription(new String(c.getDescription()));
-		newC.setValue(new Integer(c.getValue()));
-		return newC;
+	@Override
+	public MoneyCard cardClone(Card c){
+		MoneyCard clone = new MoneyCard();
+		clone.setCost(c.getCost());
+		clone.setDescription(c.getDescription());
+		clone.setName(c.getName());
+		clone.setType(c.getType());		
+		clone.setValue(((MoneyCard)c).getValue());
+		
+		return clone;
 	}
 
 	/************************************************************
@@ -64,5 +66,11 @@ public class MoneyCard extends Card{
      ***********************************************************/
 	public void setValue(int value) {
 		this.value = value;
+	}
+	
+	public String toString(){
+		String str = super.toString();
+		str += " " +value;
+		return str;
 	}
 }
