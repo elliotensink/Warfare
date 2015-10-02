@@ -11,6 +11,7 @@ public class ActionCard extends Card{
 	/*  */
 	private int[] actionFunction;
 	
+
 	/************************************************************
      * Constructor for objects of type ActionCard with attributes.
      * 
@@ -33,25 +34,31 @@ public class ActionCard extends Card{
 		actionFunction = null;
 	}
 	
+	public int[] getActionFunction() {
+		return actionFunction;
+	}
+
+	public void setActionFunction(int[] actionFunction) {
+		this.actionFunction = actionFunction;
+	}
+	
 	/************************************************************
      * Clone an action card.
      * 
      * @param action card to be cloned
      * @return clone of action card (c) 
      ***********************************************************/
-	public ActionCard cardClone(ActionCard c)
+	@Override
+	public ActionCard cardClone(Card c)
 	{
-		ActionCard newC = new ActionCard();
-		newC.setName(new String(c.getName()));
-		newC.setCost(new Integer(c.getCost()));
-		newC.setDescription(new String(c.getDescription()));
-		int[] actionFunction = new int[4];
-		actionFunction[0] = new Integer(c.getFunction()[0]);
-		actionFunction[1] = new Integer(c.getFunction()[1]);
-		actionFunction[2] = new Integer(c.getFunction()[2]);
-		actionFunction[3] = new Integer(c.getFunction()[3]);
-		newC.setFunction(actionFunction);
-		return newC;
+		ActionCard clone = new ActionCard();
+		clone.setCost(c.getCost());
+		clone.setDescription(c.getDescription());
+		clone.setName(c.getName());
+		clone.setType(c.getType());	
+		clone.setFunction(((ActionCard)c).getActionFunction());
+		
+		return clone;
 	}
 	
 	/************************************************************

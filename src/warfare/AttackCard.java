@@ -26,6 +26,7 @@ public class AttackCard extends Card{
     private Target tar;
     private ArrayList<Effect> eff = new ArrayList<Effect>();
     private ArrayList<Integer> amount = new ArrayList<Integer>();
+    int[] effect;
     
     /************************************************************
      * Constructor for objects of type AttackCard.
@@ -34,10 +35,75 @@ public class AttackCard extends Card{
      ***********************************************************/
 	public AttackCard(String name, int cost, String description, int[] effect, String type){
 		super(name, cost, description, type);
-	        decode(effect);
+		this.effect = effect;
+	    decode(effect);
+	}
+	
+	public AttackCard(){
+		super();
+		effect = null;
+	}
+	
+	/************************************************************
+     * Create clone of a card.
+     * 
+     * @param card to be cloned
+     * @return cloned card
+     ***********************************************************/
+	@Override
+	public AttackCard cardClone(Card c){
+		AttackCard clone = new AttackCard();
+		clone.setCost(c.getCost());
+		clone.setDescription(c.getDescription());
+		clone.setName(c.getName());
+		clone.setType(c.getType());		
+		clone.setEffect(((AttackCard)c).getEffect());
+		clone.decode(clone.effect);
+		
+		return clone;
 	}
     
-    private void decode(int[] code) {
+    public int[] getEffect() {
+		return effect;
+	}
+
+	public void setEffect(int[] effect) {
+		this.effect = effect;
+	}
+
+	public Interaction getInter() {
+		return inter;
+	}
+
+	public void setInter(Interaction inter) {
+		this.inter = inter;
+	}
+
+	public Target getTar() {
+		return tar;
+	}
+
+	public void setTar(Target tar) {
+		this.tar = tar;
+	}
+
+	public ArrayList<Effect> getEff() {
+		return eff;
+	}
+
+	public void setEff(ArrayList<Effect> eff) {
+		this.eff = eff;
+	}
+
+	public ArrayList<Integer> getAmount() {
+		return amount;
+	}
+
+	public void setAmount(ArrayList<Integer> amount) {
+		this.amount = amount;
+	}
+
+	private void decode(int[] code) {
         /*
          'Code' is an int array with the layout of 
          ABCXX...XYY...Y

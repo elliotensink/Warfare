@@ -33,19 +33,21 @@ public class PointCard extends Card{
 	}
 	
 	/************************************************************
-     * Create a clone of a card.
+     * Create clone of a card.
      * 
      * @param card to be cloned
-     * @return cloned cards
+     * @return cloned card
      ***********************************************************/
-	public PointCard cardClone(PointCard c)
-	{
-		PointCard newC = new PointCard();
-		newC.setName(new String(c.getName()));
-		newC.setCost(new Integer(c.getCost()));
-		newC.setDescription(new String(c.getDescription()));
-		newC.setPoint(new Integer(c.getPoint()));
-		return newC;
+	@Override
+	public PointCard cardClone(Card c){
+		PointCard clone = new PointCard();
+		clone.setCost(c.getCost());
+		clone.setDescription(c.getDescription());
+		clone.setName(c.getName());
+		clone.setType(c.getType());		
+		clone.setPoint(((PointCard)c).getPoint());
+		
+		return clone;
 	}
 
 	/************************************************************
