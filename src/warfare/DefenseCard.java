@@ -17,15 +17,18 @@ public class DefenseCard extends Card{
 		super(name, cost, description, type);
 	}
 	
+	/************************************************************
+     * Constructor for objects of type DefenseCard.
+     ***********************************************************/
 	public DefenseCard(){
 		super();
 	}
 	
 	/************************************************************
-     * Clone an action card.
+     * Clone a defense card.
      * 
-     * @param action card to be cloned
-     * @return clone of action card (c) 
+     * @param defense card to be cloned
+     * @return clone of defense card (c) 
      ***********************************************************/
 	@Override
 	public DefenseCard cardClone(Card c){
@@ -33,7 +36,18 @@ public class DefenseCard extends Card{
 		clone.setCost(c.getCost());
 		clone.setDescription(c.getDescription());
 		clone.setName(c.getName());
-		clone.setType(c.getType());		
+		clone.setType(c.getType());	
+		
 		return clone;
+	}
+	
+	/************************************************************
+     * Get formatted string of card attributes for printing.
+     * 
+     * @return formatted string of card attributes
+     ***********************************************************/
+	public String toString(){
+		String str = super.toString();
+		return str;
 	}
 }

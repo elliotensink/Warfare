@@ -8,7 +8,7 @@ package warfare;
  ***************************************************************/
 public class ActionCard extends Card{
 	
-	/*  */
+	/* Array of integers representing action functions */
 	private int[] actionFunction;
 	
 
@@ -26,20 +26,12 @@ public class ActionCard extends Card{
 	}
 	
 	/************************************************************
-     * Default constructor for objects of type ACtionCard.
+     * Constructor for objects of type ACtionCard.
      ***********************************************************/
 	public ActionCard()
 	{
 		super();
 		actionFunction = null;
-	}
-	
-	public int[] getActionFunction() {
-		return actionFunction;
-	}
-
-	public void setActionFunction(int[] actionFunction) {
-		this.actionFunction = actionFunction;
 	}
 	
 	/************************************************************
@@ -49,14 +41,13 @@ public class ActionCard extends Card{
      * @return clone of action card (c) 
      ***********************************************************/
 	@Override
-	public ActionCard cardClone(Card c)
-	{
+	public ActionCard cardClone(Card c){
 		ActionCard clone = new ActionCard();
 		clone.setCost(c.getCost());
 		clone.setDescription(c.getDescription());
 		clone.setName(c.getName());
 		clone.setType(c.getType());	
-		clone.setFunction(((ActionCard)c).getActionFunction());
+		clone.setActionFunction(((ActionCard)c).getActionFunction());
 		
 		return clone;
 	}
@@ -66,19 +57,27 @@ public class ActionCard extends Card{
      * 
      * @return function of card
      ***********************************************************/
-	public int[] getFunction()
-	{
+	public int[] getActionFunction() {
 		return actionFunction;
 	}
-	
+
 	/************************************************************
      * Set card function. 
      * 			Format: [cards, actions, purchase, money]
      * 
      * @param function of card
      ***********************************************************/
-	public void setFunction(int[] actionFunction)
-	{
+	public void setActionFunction(int[] actionFunction) {
 		this.actionFunction = actionFunction;
+	}
+	
+	/************************************************************
+     * Get formatted string of card attributes for printing.
+     * 
+     * @return formatted string of card attributes
+     ***********************************************************/
+	public String toString(){
+		String str = super.toString();
+		return str;
 	}
 }

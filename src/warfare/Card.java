@@ -31,21 +31,13 @@ public class Card {
 	}
 	
 	/************************************************************
-     * Default constructor for objects of type Card.
+     * Constructor for objects of type Card.
      ***********************************************************/
 	public Card()
 	{
 		name = "";
 		cost = 0;
 		description = "";
-	}
-	
-	public String getType(){
-		return type;
-	}
-	
-	public void setType(String type){
-		this.type = type;
 	}
 	
 	/************************************************************
@@ -124,6 +116,23 @@ public class Card {
 		this.description = description;
 	}
 
+	/************************************************************
+     * Get card type.
+     * 
+     * @return type of card
+     ***********************************************************/
+	public String getType(){
+		return type;
+	}
+	
+	/************************************************************
+     * Set card type.
+     * 
+     * @param type of card
+     ***********************************************************/
+	public void setType(String type){
+		this.type = type;
+	}
 	
 	/************************************************************
      * Get formatted string of card attributes for printing.

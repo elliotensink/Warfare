@@ -24,7 +24,7 @@ public class MoneyCard extends Card{
 	}
 	
 	/************************************************************
-     * Default constructor for objects of type DefenseCard.
+     * Constructor for objects of type DefenseCard.
      ***********************************************************/
 	public MoneyCard()
 	{
@@ -33,10 +33,10 @@ public class MoneyCard extends Card{
 	}
 	
 	/************************************************************
-     * Create clone of a card.
+     * Clone a money card.
      * 
-     * @param card to be cloned
-     * @return cloned card
+     * @param money card to be cloned
+     * @return cloned money card
      ***********************************************************/
 	@Override
 	public MoneyCard cardClone(Card c){
@@ -68,6 +68,11 @@ public class MoneyCard extends Card{
 		this.value = value;
 	}
 	
+	/************************************************************
+     * Get formatted string of card attributes for printing.
+     * 
+     * @return formatted string of card attributes
+     ***********************************************************/
 	public String toString(){
 		String str = super.toString();
 		str += " " +value;

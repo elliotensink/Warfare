@@ -162,6 +162,12 @@ public class Game {
 		nextPlayer();
 	}
 	
+	/************************************************************
+     * Simulate the purchase of a card.
+     * 
+     * @param card number
+     * @return card purchased
+     ***********************************************************/
 	private Card purchaseCard(int cardNum){
 		Player p = players[currentPlayer];
 		int cost = allCards.get(cardNum-1).get(0).getCost();
@@ -264,6 +270,78 @@ public class Game {
 		int numPlayers = s.nextInt();
 		new Game(numPlayers);
 		s.close();
+	}
+	
+	/************************************************************
+     * Get current player.
+     * 
+     * @return current player
+     ***********************************************************/
+	public int getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+	/************************************************************
+     * Set current player.
+     * 
+     * @param current player
+     ***********************************************************/
+	public void setCurrentPlayer(int currentPlayer) {
+		this.currentPlayer = currentPlayer;
+	}
+
+	/************************************************************
+     * Get number of players.
+     * 
+     * @return number of player
+     ***********************************************************/
+	public int getNumPlayers() {
+		return numPlayers;
+	}
+
+	/************************************************************
+     * Set number of players.
+     * 
+     * @param number of player
+     ***********************************************************/
+	public void setNumPlayers(int numPlayers) {
+		this.numPlayers = numPlayers;
+	}
+
+	/************************************************************
+     * Get players.
+     * 
+     * @return array of players
+     ***********************************************************/
+	public Player[] getPlayers() {
+		return players;
+	}
+
+	/************************************************************
+     * Set players.
+     * 
+     * @param array of players
+     ***********************************************************/
+	public void setPlayers(Player[] players) {
+		this.players = players;
+	}
+
+	/************************************************************
+     * Check if game is over.
+     * 
+     * @return true if finished, false if not
+     ***********************************************************/
+	public boolean isGameFinished() {
+		return gameFinished;
+	}
+
+	/************************************************************
+     * Set game as finished/not finished.
+     * 
+     * @param true if finished, false if not
+     ***********************************************************/
+	public void setGameFinished(boolean gameFinished) {
+		this.gameFinished = gameFinished;
 	}
 	
 	/************************************************************

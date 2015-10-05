@@ -12,7 +12,7 @@ public class PointCard extends Card{
 	private int point;
 	
 	/************************************************************
-     * Default constructor for objects of type PointCard with input.
+     * Constructor for objects of type PointCard with input.
      * 
      * @param name of card, cost of card, description of card,
      * 			point value
@@ -33,10 +33,10 @@ public class PointCard extends Card{
 	}
 	
 	/************************************************************
-     * Create clone of a card.
+     * Create clone of a defense card.
      * 
-     * @param card to be cloned
-     * @return cloned card
+     * @param defense card to be cloned
+     * @return cloned defense card
      ***********************************************************/
 	@Override
 	public PointCard cardClone(Card c){
@@ -70,5 +70,14 @@ public class PointCard extends Card{
 		this.point = point;
 	}
 	
-	
+	/************************************************************
+     * Get formatted string of card attributes for printing.
+     * 
+     * @return formatted string of card attributes
+     ***********************************************************/
+	public String toString(){
+		String str = super.toString();
+		str += " " +point;
+		return str;
+	}
 }

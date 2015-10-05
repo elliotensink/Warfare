@@ -22,10 +22,19 @@ public class AttackCard extends Card{
 		DISCARD, STEAL, BHIGHER, BLOWER, BCHANGE;
 	}
 	
+	/*  */
     private Interaction inter;
+    
+    /*  */
     private Target tar;
+    
+    /*  */
     private ArrayList<Effect> eff = new ArrayList<Effect>();
+    
+    /*  */
     private ArrayList<Integer> amount = new ArrayList<Integer>();
+    
+    /*  */
     int[] effect;
     
     /************************************************************
@@ -39,16 +48,19 @@ public class AttackCard extends Card{
 	    decode(effect);
 	}
 	
+	/************************************************************
+     * Constructor for objects of type AttackCard.
+     ***********************************************************/
 	public AttackCard(){
 		super();
 		effect = null;
 	}
 	
 	/************************************************************
-     * Create clone of a card.
+     * Clone an attack card.
      * 
-     * @param card to be cloned
-     * @return cloned card
+     * @param attack card to be cloned
+     * @return cloned attack card
      ***********************************************************/
 	@Override
 	public AttackCard cardClone(Card c){
@@ -62,47 +74,12 @@ public class AttackCard extends Card{
 		
 		return clone;
 	}
-    
-    public int[] getEffect() {
-		return effect;
-	}
 
-	public void setEffect(int[] effect) {
-		this.effect = effect;
-	}
-
-	public Interaction getInter() {
-		return inter;
-	}
-
-	public void setInter(Interaction inter) {
-		this.inter = inter;
-	}
-
-	public Target getTar() {
-		return tar;
-	}
-
-	public void setTar(Target tar) {
-		this.tar = tar;
-	}
-
-	public ArrayList<Effect> getEff() {
-		return eff;
-	}
-
-	public void setEff(ArrayList<Effect> eff) {
-		this.eff = eff;
-	}
-
-	public ArrayList<Integer> getAmount() {
-		return amount;
-	}
-
-	public void setAmount(ArrayList<Integer> amount) {
-		this.amount = amount;
-	}
-
+	/************************************************************
+     * Decode effects array.
+     * 
+     * @param array of effects
+     ***********************************************************/
 	private void decode(int[] code) {
         /*
          'Code' is an int array with the layout of 
@@ -140,10 +117,13 @@ public class AttackCard extends Card{
         decodeEffect(code);
         decodeValue(code);
         
-        
-        
     }
     
+	/************************************************************
+     * Decode hand.
+     * 
+     * @param type
+     ***********************************************************/
     private void decodeHand(int in) {
         switch(in) {
             case 0:
@@ -161,6 +141,11 @@ public class AttackCard extends Card{
         }
     }
     
+    /************************************************************
+     * Determine what to do with effect.
+     * 
+     * @param array of effects
+     ***********************************************************/
     private void decodeEffect(int[] arr) {
         int count = arr[2];
         for (int i = 0; i < count; i++) {
@@ -187,6 +172,11 @@ public class AttackCard extends Card{
         }
     }
 
+    /************************************************************
+     * Determine what to do with value.
+     * 
+     * @param array of effects
+     ***********************************************************/
     private void decodeValue(int[] arr) {
         int count = arr[2];
         int o = 3 + count; //Offset for start of values for each effect
@@ -195,5 +185,103 @@ public class AttackCard extends Card{
         }
     }
 
+    /************************************************************
+     * Get effects of attack card.
+     * 
+     * @return array of effects
+     ***********************************************************/
+    public int[] getEffect() {
+		return effect;
+	}
 
+    /************************************************************
+     * Set effects of attack card.
+     * 
+     * @param array of effects
+     ***********************************************************/
+	public void setEffect(int[] effect) {
+		this.effect = effect;
+	}
+
+	/************************************************************
+     * Get interaction of attack card.
+     * 
+     * @return interaction
+     ***********************************************************/
+	public Interaction getInter() {
+		return inter;
+	}
+
+	/************************************************************
+     * Set interaction of attack card.
+     * 
+     * @param interaction
+     ***********************************************************/
+	public void setInter(Interaction inter) {
+		this.inter = inter;
+	}
+
+	/************************************************************
+     * Get target of attack card.
+     * 
+     * @return target
+     ***********************************************************/
+	public Target getTar() {
+		return tar;
+	}
+
+	/************************************************************
+     * Set target of attack card.
+     * 
+     * @param target
+     ***********************************************************/
+	public void setTar(Target tar) {
+		this.tar = tar;
+	}
+
+	/************************************************************
+     * Get effects of attack card.
+     * 
+     * @return ArrayList of effects
+     ***********************************************************/
+	public ArrayList<Effect> getEff() {
+		return eff;
+	}
+
+	/************************************************************
+     * Set effects of attack card.
+     * 
+     * @param ArrayList of effects
+     ***********************************************************/
+	public void setEff(ArrayList<Effect> eff) {
+		this.eff = eff;
+	}
+
+	/************************************************************
+     * Get amount.
+     * 
+     * @return ArrayList of amounts
+     ***********************************************************/
+	public ArrayList<Integer> getAmount() {
+		return amount;
+	}
+
+	/************************************************************
+     * Set amount.
+     * 
+     * @param ArrayList of amounts
+     ***********************************************************/
+	public void setAmount(ArrayList<Integer> amount) {
+		this.amount = amount;
+	}
+	
+	/************************************************************
+     * Get formatted string of card attributes for printing.
+     * 
+     * @return formatted string of card attributes
+     ***********************************************************/
+	public String toString(){
+		String str = super.toString();
+		return str;
+	}
 }
