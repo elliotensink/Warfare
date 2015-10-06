@@ -24,7 +24,7 @@ public class MoneyCard extends Card{
 	}
 	
 	/************************************************************
-     * Default constructor for objects of type DefenseCard.
+     * Constructor for objects of type DefenseCard.
      ***********************************************************/
 	public MoneyCard()
 	{
@@ -32,32 +32,23 @@ public class MoneyCard extends Card{
 		value = 0;
 	}
 	
-	/************************************************************
-     * Get formatted string of card attributes for printing.
-     * 
-     * @return formatted string of card attributes
-     ***********************************************************/
-	public String toString()
-	{
-		String str = super.toString() + "," + value;
-		return str;
-	}
 	
 	/************************************************************
-     * Create clone of a card.
+     * Clone a money card.
      * 
-     * @param card to be cloned
-     * @return cloned card
+     * @param money card to be cloned
+     * @return cloned money card
      ***********************************************************/
-	public MoneyCard cardClone(MoneyCard c)
-	{
-		MoneyCard newC = new MoneyCard();
-		newC.setName(new String(c.getName()));
-		newC.setCost(new Integer(c.getCost()));
-		newC.setType(c.getType());
-		newC.setDescription(new String(c.getDescription()));
-		newC.setValue(new Integer(c.getValue()));
-		return newC;
+	@Override
+	public MoneyCard cardClone(Card c){
+		MoneyCard clone = new MoneyCard();
+		clone.setCost(c.getCost());
+		clone.setDescription(c.getDescription());
+		clone.setName(c.getName());
+		clone.setType(c.getType());		
+		clone.setValue(((MoneyCard)c).getValue());
+		
+		return clone;
 	}
 
 	/************************************************************
@@ -76,5 +67,16 @@ public class MoneyCard extends Card{
      ***********************************************************/
 	public void setValue(int value) {
 		this.value = value;
+	}
+	
+	/************************************************************
+     * Get formatted string of card attributes for printing.
+     * 
+     * @return formatted string of card attributes
+     ***********************************************************/
+	public String toString(){
+		String str = super.toString();
+		str += " " +value;
+		return str;
 	}
 }

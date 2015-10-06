@@ -8,9 +8,10 @@ package warfare;
  ***************************************************************/
 public class ActionCard extends Card{
 	
-	/*  */
+	/* Array of integers representing action functions */
 	private int[] actionFunction;
 	
+
 	/************************************************************
      * Constructor for objects of type ActionCard with attributes.
      * 
@@ -25,7 +26,7 @@ public class ActionCard extends Card{
 	}
 	
 	/************************************************************
-     * Default constructor for objects of type ACtionCard.
+     * Constructor for objects of type ACtionCard.
      ***********************************************************/
 	public ActionCard()
 	{
@@ -39,19 +40,16 @@ public class ActionCard extends Card{
      * @param action card to be cloned
      * @return clone of action card (c) 
      ***********************************************************/
-	public ActionCard cardClone(ActionCard c)
-	{
-		ActionCard newC = new ActionCard();
-		newC.setName(new String(c.getName()));
-		newC.setCost(new Integer(c.getCost()));
-		newC.setDescription(new String(c.getDescription()));
-		int[] actionFunction = new int[4];
-		actionFunction[0] = new Integer(c.getFunction()[0]);
-		actionFunction[1] = new Integer(c.getFunction()[1]);
-		actionFunction[2] = new Integer(c.getFunction()[2]);
-		actionFunction[3] = new Integer(c.getFunction()[3]);
-		newC.setFunction(actionFunction);
-		return newC;
+	@Override
+	public ActionCard cardClone(Card c){
+		ActionCard clone = new ActionCard();
+		clone.setCost(c.getCost());
+		clone.setDescription(c.getDescription());
+		clone.setName(c.getName());
+		clone.setType(c.getType());	
+		clone.setActionFunction(((ActionCard)c).getActionFunction());
+		
+		return clone;
 	}
 	
 	/************************************************************
@@ -59,19 +57,27 @@ public class ActionCard extends Card{
      * 
      * @return function of card
      ***********************************************************/
-	public int[] getFunction()
-	{
+	public int[] getActionFunction() {
 		return actionFunction;
 	}
-	
+
 	/************************************************************
      * Set card function. 
      * 			Format: [cards, actions, purchase, money]
      * 
      * @param function of card
      ***********************************************************/
-	public void setFunction(int[] actionFunction)
-	{
+	public void setActionFunction(int[] actionFunction) {
 		this.actionFunction = actionFunction;
+	}
+	
+	/************************************************************
+     * Get formatted string of card attributes for printing.
+     * 
+     * @return formatted string of card attributes
+     ***********************************************************/
+	public String toString(){
+		String str = super.toString();
+		return str;
 	}
 }
