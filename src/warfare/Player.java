@@ -41,10 +41,16 @@ public class Player {
 		calcMoney();
 	}
 	
-	public void calcMoney(){
+	public void calcMoney()
+	{
+		System.out.println("CALCULATING MONEY!!!");
 		int sum = currentMoney;
-		for(Object crd: hand){
-			if(crd instanceof MoneyCard){
+		for(Card crd: hand)
+		{
+			System.out.println(crd);
+			if(crd.getClass() == MoneyCard.class)
+			{
+				System.out.println("HEY I'M A MONEY CARD");
 				sum += ((MoneyCard)crd).getValue();
 				System.out.println(sum);
 			}

@@ -33,6 +33,17 @@ public class MoneyCard extends Card{
 	}
 	
 	/************************************************************
+     * Get formatted string of card attributes for printing.
+     * 
+     * @return formatted string of card attributes
+     ***********************************************************/
+	public String toString()
+	{
+		String str = super.toString() + "," + value;
+		return str;
+	}
+	
+	/************************************************************
      * Create clone of a card.
      * 
      * @param card to be cloned
@@ -43,6 +54,7 @@ public class MoneyCard extends Card{
 		MoneyCard newC = new MoneyCard();
 		newC.setName(new String(c.getName()));
 		newC.setCost(new Integer(c.getCost()));
+		newC.setType(c.getType());
 		newC.setDescription(new String(c.getDescription()));
 		newC.setValue(new Integer(c.getValue()));
 		return newC;
