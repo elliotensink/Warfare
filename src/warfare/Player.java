@@ -35,7 +35,7 @@ public class Player {
      ***********************************************************/
 	public void drawCards(int num){
 		if(deck.size() < num){
-			Collections.shuffle(discard, new Random());
+			Collections.shuffle(discard, new Random(System.currentTimeMillis()));
 			deck.addAll(discard);
 			discard.clear();
 		}
@@ -43,12 +43,13 @@ public class Player {
 		for(int i=0; i<num; i++){
 			hand.add(deck.remove(0));
 		}
-		System.out.println(hand);
+		//System.out.println(hand);
 		calcMoney();
 	}
 	
 
-	public void calcMoney(){
+	public void calcMoney()
+	{
 		int sum = currentMoney;
 		for(Card crd: hand){
 			if(crd instanceof MoneyCard)
@@ -58,6 +59,19 @@ public class Player {
 			}
 		}
 		currentMoney = sum;
+	}
+	
+	public int calcPoints()
+	{
+		int points = 0;
+		deck.addAll(discard);
+		for(Card crd: deck){
+			if(crd instanceof PointCard)
+			{
+				points += ((PointCard)crd).getPoint();
+			}
+		}
+		return points;
 	}
 	
 	/************************************************************
