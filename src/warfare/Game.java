@@ -68,6 +68,7 @@ public class Game {
 	 ***********************************************************/
 	private void createDeck(){
 
+			// Adding point cards
 		PointCard pointCard1 = new PointCard("One VP",2,"Worth 1 Victory Point",1,"point");
 		ArrayList<Card> pointCard1Stack = fillCardStack(pointCard1,25);
 		allCards.add(pointCard1Stack);
@@ -78,6 +79,7 @@ public class Game {
 		ArrayList<Card> pointCard10Stack = fillCardStack(pointCard10,5);
 		allCards.add(pointCard10Stack);
 
+			// Adding money cards
 		MoneyCard moneyCard1 = new MoneyCard("One $",2,"Worth 1 $",1,"money");
 		ArrayList<Card> moneyCard1Stack = fillCardStack(moneyCard1,50);
 		allCards.add(moneyCard1Stack);
@@ -90,7 +92,21 @@ public class Game {
 		MoneyCard moneyCard4 = new MoneyCard("Four $",8,"Worth 4 $",8,"money");
 		ArrayList<Card> moneyCard4Stack = fillCardStack(moneyCard4,20);
 		allCards.add(moneyCard4Stack);
-
+		
+			// Adding action cards
+		ActionCard actionCard1 = new ActionCard("A one", 2, "des", 2, 0, 2, 0, "action");
+		ArrayList<Card> actionCard1Stack = fillCardStack(actionCard1, 50);
+		allCards.add(actionCard1Stack);
+		ActionCard actionCard2 = new ActionCard("A two", 4, "des", 2, 2, 0, 2, "action");
+		ArrayList<Card> actionCard2Stack = fillCardStack(actionCard2, 40);
+		allCards.add(actionCard2Stack);
+		ActionCard actionCard3 = new ActionCard("A three", 6, "des", 2, 2, 2, 0, "action");
+		ArrayList<Card> actionCard3Stack = fillCardStack(actionCard3, 30);
+		allCards.add(actionCard3Stack);
+		ActionCard actionCard4 = new ActionCard("A four", 10, "des", 2, 2, 2, 4, "action");
+		ArrayList<Card> actionCard4Stack = fillCardStack(actionCard4, 20);
+		allCards.add(actionCard4Stack);
+		
 		referenceDeck = new ArrayList<Card>();
 		referenceDeck.add(pointCard1);
 		referenceDeck.add(pointCard5);
@@ -99,6 +115,11 @@ public class Game {
 		referenceDeck.add(moneyCard2);
 		referenceDeck.add(moneyCard3);
 		referenceDeck.add(moneyCard4);
+		referenceDeck.add(actionCard1);
+		referenceDeck.add(actionCard2);
+		referenceDeck.add(actionCard3);
+		referenceDeck.add(actionCard4);
+		
 	}
 
 	/************************************************************
@@ -181,6 +202,10 @@ public class Game {
 			case 1:
 				// Play action
 				System.out.println("*PlayAction*");
+				System.out.println("Choose which card to play: ");
+				int add[] = action();
+				actions += add[0];
+				purchases += add[1];
 				actions--;
 				break;
 			case 2:
@@ -320,7 +345,20 @@ public class Game {
 		}
 		return winningPlayer;
 	}
-
+	
+	/************************************************************
+	 * 
+	 ***********************************************************/
+	public int[] action(){
+		int c = scan.nextInt();
+		ActionCard ac = (ActionCard) players[currentPlayer].getCard(c+1);
+		int action[] = ac.getActionFunction();
+		players[currentPlayer].drawCards(action[0]);
+		players[currentPlayer].addMoney(action[3]);
+		int ret[] = {action[1], action[2]};
+		
+		return ret;		
+	}
 
 	/************************************************************
 	 * Run game play.

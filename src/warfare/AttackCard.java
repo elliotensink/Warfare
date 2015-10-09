@@ -28,6 +28,9 @@ public class AttackCard extends Card{
     /*  */
     private Target tar;
     
+    /* */
+    private String tarEff;
+    
     /*  */
     private ArrayList<Effect> eff = new ArrayList<Effect>();
     
@@ -90,7 +93,7 @@ public class AttackCard extends Card{
          C - The number of effects on the card, e.g. 1 if it only makes players discard, 2 if players discard and 
          	you steal from them, used for easier implementation of helper methods
          X - Up to C amount of effects most likely not greater than 3 for our cases
-         Y - Up to C amount of values assosiated with each effect, the first Y is associated with the first X
+         Y - Up to C amount of values associated with each effect, the first Y is associated with the first X
          
          e.g.
          0020111
@@ -282,6 +285,7 @@ public class AttackCard extends Card{
      ***********************************************************/
 	public String toString(){
 		String str = super.toString();
+		str += "Effect: " + tarEff;
 		return str;
 	}
 }

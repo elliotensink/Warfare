@@ -77,7 +77,7 @@ public class PointCard extends Card{
      ***********************************************************/
 	public String toString(){
 		String str = super.toString();
-		str += " " +point;
+		str += point + " Point(s)";
 		return str;
 	}
 }
