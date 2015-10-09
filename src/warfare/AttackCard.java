@@ -1,32 +1,99 @@
 package warfare;
 
-public class AttackCard extends Card{
-    private enum Interaction {
-        HAND, BOARD;
-    }
-    
-    private enum Target {
-        ALL, HIGHEST, RANDOM;
-    }
-    
-    private enum Effect {
-        DISCARD, STEAL, BHIGHER, BLOWER, BCHANGE;
-    }
-    
-    
+import java.util.*;
 
+/****************************************************************
+ * Class to simulate attributes specific to an Attack Card
+ * 
+ * @author Cameron Novotny, Elliot Ensink, Curtis Holden
+ * @version 
+ ***************************************************************/
+public class AttackCard extends Card{
+    
+	
     private Interaction inter;
     private Target tar;
-    private int efcNum;
     private ArrayList<Effect> eff = new ArrayList<Effect>();
-    private ArrayList<int> amount = new ArrayList<int>();
+    private ArrayList<Integer> amount = new ArrayList<Integer>();
+    int[] effect;
+    public int[] vals;
     
-	public AttackCard(String name, int cost, String description, int[] effect){
-		super(name, cost, description);
-	        decode(effect);
+    /************************************************************
+     * Constructor for objects of type AttackCard.
+     * 
+     * @param name of card, cost of card, description of card
+     ***********************************************************/
+	public AttackCard(String name, int cost, String description, int[] effect, String type){
+		super(name, cost, description, type);
+		this.effect = effect;
+	    decode(effect);
+	}
+	
+	public AttackCard(){
+		super();
+		effect = null;
+	}
+	
+	/************************************************************
+     * Create clone of a card.
+     * 
+     * @param card to be cloned
+     * @return cloned card
+     ***********************************************************/
+	@Override
+	public AttackCard cardClone(Card c){
+		AttackCard clone = new AttackCard();
+		clone.setCost(c.getCost());
+		clone.setDescription(c.getDescription());
+		clone.setName(c.getName());
+		clone.setType(c.getType());		
+		clone.setEffect(((AttackCard)c).getEffect());
+		clone.decode(clone.effect);
+		
+		return clone;
 	}
     
-    private void decode(int[] code) {
+    public int[] getEffect() {
+		return effect;
+	}
+
+	public void setEffect(int[] effect) {
+		this.effect = effect;
+	}
+
+	public Interaction getInter() {
+		return inter;
+	}
+
+	public void setInter(Interaction inter) {
+		this.inter = inter;
+	}
+
+	public Target getTar() {
+		return tar;
+	}
+
+	public void setTar(Target tar) {
+		this.tar = tar;
+	}
+
+	public ArrayList<Effect> getEff() {
+		return eff;
+	}
+
+	public void setEff(ArrayList<Effect> eff) {
+		this.eff = eff;
+	}
+
+	public ArrayList<Integer> getAmount() {
+		return amount;
+	}
+
+	public void setAmount(ArrayList<Integer> amount) {
+		this.amount = amount;
+	}
+
+	private void decode(int[] code) {
         /*
          'Code' is an int array with the layout of 
          ABCXX...XYY...Y
@@ -49,11 +116,11 @@ public class AttackCard extends Card{
         
         switch(code[0]){
             case 0:
-                inter = HAND;
-                tar = decodeHand(code[1]);
+                inter = Interaction.HAND;
+                decodeHand(code[1]);
                 break;
             case 1:
-                inter = BOARD;
+                inter = Interaction.BOARD;
                 //may use code[1] in later implementation
                 break;
             default:
@@ -67,41 +134,41 @@ public class AttackCard extends Card{
         
     }
     
-    private Target decodeHand(int in) {
+    private void decodeHand(int in) {
         switch(in) {
             case 0:
-                return ALL;
+            	tar = Target.ALL;
                 break;
             case 1:
-                return HIGHEST;
+                tar = Target.HIGHEST;
                 break;
             case 2:
-                return RANDOM;
-                break;
+            	tar = Target.RANDOM;
+            	break;
             default:
                 //print error if get here
-                break;
+            	break;            	
         }
     }
     
     private void decodeEffect(int[] arr) {
         int count = arr[2];
         for (int i = 0; i < count; i++) {
-            switch (code[3+i]) {
+            switch (arr[3+i]) {
                 case 0:
-                    eff.add(DISCARD);
+                    eff.add(Effect.DISCARD);
                     break;
                 case 1:
-                    eff.add(STEAL);
+                    eff.add(Effect.STEAL);
                     break;
                 case 2:
-                    eff.add(BHIGHER);
+                    eff.add(Effect.BHIGHER);
                     break;
                 case 3:
-                    eff.add(BLOWER);
+                    eff.add(Effect.BLOWER);
                     break;
                 case 4:
-                    eff.add(BCHANGE);
+                    eff.add(Effect.BCHANGE);
                     break;
                 default:
                     //print error
@@ -112,9 +179,11 @@ public class AttackCard extends Card{
 
     private void decodeValue(int[] arr) {
         int count = arr[2];
+        vals = new int[count];
         int o = 3 + count; //Offset for start of values for each effect
         for (int i = 0; i<count; i++) {
-            values.add(arr[o+i]);
+            amount.add(arr[o+i]);
+            vals[i] = arr[o+i];
         }
     }
 
