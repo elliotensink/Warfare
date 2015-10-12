@@ -204,6 +204,7 @@ public class Game {
 				// Play action
 				System.out.println("*PlayAction*");
 				System.out.println("Choose which card to play: ");
+				displayCards(players[currentPlayer].getHand());
 				int add[] = action();
 				actions += add[0];
 				purchases += add[1];
@@ -215,7 +216,6 @@ public class Game {
 				System.out.println("User money: " + p.getCurrentMoney());
 				showBoard();
 				System.out.println("Enter card choice: ");
-				ArrayList<Card> playerDiscard = p.getDiscard();
 				int purchaseChoice = scan.nextInt();
 				if(purchaseChoice <= referenceDeck.size())
 				{
@@ -232,8 +232,7 @@ public class Game {
 						else
 							break;
 					}
-					playerDiscard.add(cardChoice);
-					p.setDeck(playerDiscard);
+					players[currentPlayer].addPurchase(cardChoice);
 					purchases--;
 				}
 				break;
@@ -540,7 +539,7 @@ public class Game {
 	 ***********************************************************/
 	public int[] action(){
 		int c = scan.nextInt();
-		ActionCard ac = (ActionCard) players[currentPlayer].getCard(c+1);
+		ActionCard ac = (ActionCard) players[currentPlayer].getCard(c-1);
 		int action[] = ac.getActionFunction();
 		players[currentPlayer].drawCards(action[0]);
 		players[currentPlayer].addMoney(action[3]);

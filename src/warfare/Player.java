@@ -40,6 +40,9 @@ public class Player {
 			discard.clear();
 		}
 		
+		System.out.println("Deck: " + deck.size() + " num: " + num);
+		System.out.println("Discard: " + discard.size());
+		
 		for(int i=0; i<num; i++){
 			hand.add(deck.remove(0));
 		}
@@ -177,6 +180,10 @@ public class Player {
 	public ArrayList<Card> getDiscard()
 	{
 		return discard;
+	}
+	
+	public void addPurchase(Card c){
+		discard.add(c);
 	}
 	
 	public Card getCard(int c){
