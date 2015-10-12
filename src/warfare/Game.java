@@ -157,7 +157,7 @@ public class Game {
 	private void playerTurn()
 	{
 		Player p = players[currentPlayer];
-		System.out.println("******************************************************");
+		System.out.println("*******************Next Players Turn*******************");
 		System.out.println("Current Player: " + (currentPlayer+1));
 
 		int actions = 1; 
