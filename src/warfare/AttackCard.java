@@ -8,25 +8,15 @@ import java.util.*;
  * @author Cameron Novotny, Elliot Ensink, Curtis Holden
  * @version 
  ***************************************************************/
-public class AttackCard extends Card{
-    
-	
-	/*  */
+public class AttackCard extends Card
+{
+   
     private Interaction inter;
-    
-    /*  */
     private Target tar;
-    
-    /* */
-    private String tarEff;
-    
-    /*  */
     private ArrayList<Effect> eff = new ArrayList<Effect>();
-    
-    /*  */
+    private ArrayList<Integer> amount = new ArrayList<Integer>();
     int[] effect;
-    
-    int[] vals;
+    public int[] vals;
     
     /************************************************************
      * Constructor for objects of type AttackCard.
@@ -39,19 +29,16 @@ public class AttackCard extends Card{
 	    decode(effect);
 	}
 	
-	/************************************************************
-     * Constructor for objects of type AttackCard.
-     ***********************************************************/
 	public AttackCard(){
 		super();
 		effect = null;
 	}
 	
 	/************************************************************
-     * Clone an attack card.
+     * Create clone of a card.
      * 
-     * @param attack card to be cloned
-     * @return cloned attack card
+     * @param card to be cloned
+     * @return cloned card
      ***********************************************************/
 	@Override
 	public AttackCard cardClone(Card c){
@@ -65,12 +52,47 @@ public class AttackCard extends Card{
 		
 		return clone;
 	}
+    
+    public int[] getEffect() {
+		return effect;
+	}
 
-	/************************************************************
-     * Decode effects array.
-     * 
-     * @param array of effects
-     ***********************************************************/
+	public void setEffect(int[] effect) {
+		this.effect = effect;
+	}
+
+	public Interaction getInter() {
+		return inter;
+	}
+
+	public void setInter(Interaction inter) {
+		this.inter = inter;
+	}
+
+	public Target getTar() {
+		return tar;
+	}
+
+	public void setTar(Target tar) {
+		this.tar = tar;
+	}
+
+	public ArrayList<Effect> getEff() {
+		return eff;
+	}
+
+	public void setEff(ArrayList<Effect> eff) {
+		this.eff = eff;
+	}
+
+	public ArrayList<Integer> getAmount() {
+		return amount;
+	}
+
+	public void setAmount(ArrayList<Integer> amount) {
+		this.amount = amount;
+	}
+
 	private void decode(int[] code) {
         /*
          'Code' is an int array with the layout of 
@@ -81,7 +103,7 @@ public class AttackCard extends Card{
          C - The number of effects on the card, e.g. 1 if it only makes players discard, 2 if players discard and 
          	you steal from them, used for easier implementation of helper methods
          X - Up to C amount of effects most likely not greater than 3 for our cases
-         Y - Up to C amount of values associated with each effect, the first Y is associated with the first X
+         Y - Up to C amount of values assosiated with each effect, the first Y is associated with the first X
          
          e.g.
          0020111
@@ -108,13 +130,10 @@ public class AttackCard extends Card{
         decodeEffect(code);
         decodeValue(code);
         
+        
+        
     }
     
-	/************************************************************
-     * Decode hand.
-     * 
-     * @param type
-     ***********************************************************/
     private void decodeHand(int in) {
         switch(in) {
             case 0:
@@ -132,11 +151,6 @@ public class AttackCard extends Card{
         }
     }
     
-    /************************************************************
-     * Determine what to do with effect.
-     * 
-     * @param array of effects
-     ***********************************************************/
     private void decodeEffect(int[] arr) {
         int count = arr[2];
         for (int i = 0; i < count; i++) {
@@ -163,94 +177,16 @@ public class AttackCard extends Card{
         }
     }
 
-    /************************************************************
-     * Determine what to do with value.
-     * 
-     * @param array of effects
-     ***********************************************************/
     private void decodeValue(int[] arr) {
         int count = arr[2];
         vals = new int[count];
         int o = 3 + count; //Offset for start of values for each effect
         for (int i = 0; i<count; i++) {
+            amount.add(arr[o+i]);
             vals[i] = arr[o+i];
         }
     }
-
-    /************************************************************
-     * Get effects of attack card.
-     * 
-     * @return array of effects
-     ***********************************************************/
-    public int[] getEffect() {
-		return effect;
-	}
-
-    /************************************************************
-     * Set effects of attack card.
-     * 
-     * @param array of effects
-     ***********************************************************/
-	public void setEffect(int[] effect) {
-		this.effect = effect;
-	}
-
-	/************************************************************
-     * Get interaction of attack card.
-     * 
-     * @return interaction
-     ***********************************************************/
-	public Interaction getInter() {
-		return inter;
-	}
-
-	/************************************************************
-     * Set interaction of attack card.
-     * 
-     * @param interaction
-     ***********************************************************/
-	public void setInter(Interaction inter) {
-		this.inter = inter;
-	}
-
-	/************************************************************
-     * Get target of attack card.
-     * 
-     * @return target
-     ***********************************************************/
-	public Target getTar() {
-		return tar;
-	}
-
-	/************************************************************
-     * Set target of attack card.
-     * 
-     * @param target
-     ***********************************************************/
-	public void setTar(Target tar) {
-		this.tar = tar;
-	}
-
-	/************************************************************
-     * Get effects of attack card.
-     * 
-     * @return ArrayList of effects
-     ***********************************************************/
-	public ArrayList<Effect> getEff() {
-		return eff;
-	}
-
-	/************************************************************
-     * Set effects of attack card.
-     * 
-     * @param ArrayList of effects
-     ***********************************************************/
-	public void setEff(ArrayList<Effect> eff) {
-		this.eff = eff;
-	}
-
-
-	
+    
 	/************************************************************
      * Get formatted string of card attributes for printing.
      * 
@@ -258,7 +194,10 @@ public class AttackCard extends Card{
      ***********************************************************/
 	public String toString(){
 		String str = super.toString();
-		str += "Effect: " + tarEff;
+		str += "Effect: " + eff + " Target: " + tar;
 		return str;
+		
 	}
+
+
 }

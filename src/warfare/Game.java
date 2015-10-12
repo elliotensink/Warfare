@@ -10,6 +10,8 @@ import java.util.*;
  ***************************************************************/
 public class Game {
 
+	Random rand = new Random(69);
+	
 	/* Current player (position in array) and total number of players */
 	private int currentPlayer, numPlayers;
 
@@ -156,6 +158,7 @@ public class Game {
 	/************************************************************
 	 * Deal initial cards to players.
 	 ***********************************************************/
+
 	private void setIntialPlayerCards()
 	{
 		for(Player p : players)
@@ -165,13 +168,11 @@ public class Game {
 				pDeck.add(allCards.get(0).remove(0));
 			for(int i = 0;i<7;i++)
 				pDeck.add(allCards.get(3).remove(0));
-
 			Collections.shuffle(pDeck, new Random());
 			p.setDeck(pDeck);
 			p.drawCards(5);
 		}
 	}
-
 	/************************************************************
 	 * Simulate one turn for current player.
 	 ***********************************************************/
@@ -274,10 +275,197 @@ public class Game {
 		p.setCurrentMoney(p.getCurrentMoney()-cost);
 		return allCards.get(cardNum-1).remove(0);
 	}
+	
+	private void pAction(Player p) {
 
+		displayCards(p.getHand());
+		int pChoice = scan.nextInt();
+		if (!(checkIfAction(pChoice-1, p))) {
+			System.out.println("That is not a playabe card please select a playable card");
+			pAction(p);
+			return;
+		} else {
+			Card toPlay = p.getHand().get(pChoice-1);
+			if (toPlay instanceof AttackCard) {
+				p.getDiscard().add(p.getHand().remove(pChoice-1));
+				playAttack(toPlay);
+			} else {
+				//playAction(toPlay);
+			}
+		}
+	}
+	
+	private void defenseActivate(ArrayList<DefenseCard> list, int pNum) {
+		//if (list.size() == 1) {
+			DefenseCard d = list.get(0);
+			defTarget(d, pNum);
+			ArrayList<Card> hand = players[pNum].getHand();
+			for (Card c :hand)
+				if (c instanceof DefenseCard) {
+					if (c.getName().equals(d.getName()))
+						players[pNum].getDiscard().add(d);
+					    players[pNum].getHand().remove(c);
+				}
+			
+		//} 
+//		else {
+//			System.out.println("Player " + pNum + " please select the Defense Card to use");
+//		}
+		
+		
+	}
+	
+	private void executeEffect(Effect e, int val, Player target, Player source) {
+		ArrayList<Player> temp = new ArrayList<Player>();
+		executeEffect(e, val, temp, source);
+	}
+	
+	private void executeEffect(ArrayList<Effect> eList, int[] valList, ArrayList<Player> target, Player source) {
+		for (int i = 0; i < eList.size(); i++) {
+			executeEffect(eList.get(i), valList[i], target, source);
+		}
+	}
+	
+	private void executeEffect(ArrayList<Effect> eList, int[] valList, Player target, Player source) {
+		ArrayList<Player> temp = new ArrayList<Player>();
+		executeEffect(eList, valList, temp, source);
+	}
+	private void executeEffect(Effect e, int val, ArrayList<Player> target, Player source) {
+		switch(e) {
+		case DISCARD:
+			for (Player p : target) {
+				ArrayList<Card> newHand = p.getHand();
+				int max = newHand.size();
+				for (int i = 0; i<val; i++)
+					newHand.remove(rand.nextInt() % max);//Random Value no bigger than max
+				p.calcMoney();
+			}
+			
+			break;
+			
+		case STEAL:
+			source.setCurrentMoney(source.getCurrentMoney() + val);
+			for (Player p: target)
+				p.setCurrentMoney(p.getCurrentMoney() - val);
+			break;
+			
+		case BHIGHER:
+			//Raise all cost of cards on the board by val
+			break;
+		
+		case BLOWER:
+			//Raise all cost of cards on he board by val
+			break;
+		
+		case BCHANGE:
+			break;
+		}
+	}
+	
+	private void defTarget(DefenseCard card, int pNum) {
+		Target t = card.getTar();
+		//ArrayList<Player> tar = new ArrayList<Player>();
+		switch (t){
+		case SOURCE:
+		//	tar.add(players[currentPlayer]);
+			executeEffect(card.getEff(), card.getVal(), players[currentPlayer], players[pNum]);
+			break;
+		case SELF:
+	//		tar.add(players[pNum]);
+			executeEffect(card.getEff(), card.getVal(), players[pNum], players[pNum]);
+			break;
+		default:
+			//Print error, shouldn't get here
+			break;
+			
+		}
+	}
+	
+	private boolean checkDef(Player p, int pNum) {
+		ArrayList<Card> handToCheck = p.getHand();
+		ArrayList<DefenseCard> dList = new ArrayList<DefenseCard>();
+		for (Card c : handToCheck) {
+			if (c instanceof DefenseCard) {
+				DefenseCard d = (DefenseCard)c;
+				dList.add(d);
+			}
+		}
+		if (dList.size() > 0) {
+			defenseActivate(dList, pNum);
+			return true;
+		}
+		return false;
+	}
+	
+	private void attkHand(AttackCard card) {
+		Target t = card.getTar();
+		ArrayList<Effect> eList = card.getEff();
+		int[] valList = card.vals;
+		Player p = players[currentPlayer];
+		switch(t) {
+		case ALL:
+			ArrayList<Player> actualTar = new ArrayList<Player>();
+			for (int i=0; i< players.length; i++) {
+				if (i != currentPlayer)
+					if (!checkDef(players[i], i))
+							actualTar.add(players[i]);
+			}
+			executeEffect(eList, valList, actualTar, p);
+//			ArrayList<Effect> attkEff = card.getEff();
+//			int[] attkVal = card.vals;
+//			for (int i = 0; i < attkEff.size(); i++) 
+//				executeEffect(attkEff.get(i), attkVal[i], actualTar, players[currentPlayer]);
+			break;
+		case RANDOM:
+			//randomly select player store to randP
+			int randP = rand.nextInt() % players.length;
+			if (!checkDef(players[randP], randP))
+				executeEffect(eList, valList, players[randP], p);
+			break;
+			
+		case HIGHEST:
+			int tar = -1;
+			int max = -1;
+			for (int i = 0; i < players.length; i++) {
+				if (players[i].getPoints() > max && i != currentPlayer) {
+					tar = i;
+					max = players[i].getPoints();
+				}
+			}
+			if (!checkDef(players[tar], tar)) {
+				executeEffect(eList, valList, players[tar], p);
+			}
+			break;
+			
+		default:
+			break;
+		}
+	}
+	
+	private void playAttack(Card toPlay) {
+		AttackCard c = (AttackCard)toPlay;
+		Interaction intr = c.getInter();
+		
+		switch (intr) {
+		case HAND:
+			attkHand(c);
+			break;
+			
+		case BOARD:
+			break;
+		}
+	}
+	
+	private Boolean checkIfAction(int pChoice, Player p) {
+		return p.getHand().get(pChoice).isActionable();
+	}
+	
+	
+	
+	
 	/************************************************************
-	 * Move to next player.
-	 ***********************************************************/
+     * Move to next player.
+     ***********************************************************/
 	private void nextPlayer()
 	{
 		currentPlayer++;
@@ -291,9 +479,10 @@ public class Game {
 	 ***********************************************************/
 	private void displayCards(ArrayList<Card> cards){
 		int count = 1;
-		for(Card c : cards)
+		for(Object c : cards)
 		{
-			System.out.println("(" + count + ") " + c);
+			
+			System.out.println("(" + count + ") " + (Card)c);
 			count++;
 		}
 	}
@@ -309,7 +498,6 @@ public class Game {
 		System.out.println("(4) Help");
 		System.out.println("(5) Show Gameboard");
 	}
-
 	/************************************************************
 	 * Elliot - moved this method to be handled internally within playerTurn()
 	 * @param players choice
@@ -319,6 +507,7 @@ public class Game {
 	/************************************************************
 	 * Determine if game is over or not.
 	 ***********************************************************/
+
 	private void checkGameStatus()
 	{
 		if(allCards.get(2).size()==0)
@@ -440,13 +629,15 @@ public class Game {
 	 * 
 	 * @param true if finished, false if not
 	 ***********************************************************/
-	public void setGameFinished(boolean gameFinished) {
+	public void setGameFinished(boolean gameFinished) 
+	{
 		this.gameFinished = gameFinished;
 	}
 
 	/************************************************************
 	 * Main function for running program.
 	 ***********************************************************/
+
 	public static void main(String[] args)
 	{
 		//Game g = new Game();

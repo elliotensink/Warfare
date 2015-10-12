@@ -31,7 +31,7 @@ public class Card {
 	}
 	
 	/************************************************************
-     * Constructor for objects of type Card.
+     * Default constructor for objects of type Card.
      ***********************************************************/
 	public Card()
 	{
@@ -121,7 +121,8 @@ public class Card {
      * 
      * @return type of card
      ***********************************************************/
-	public String getType(){
+	public String getType()
+{
 		return type;
 	}
 	
@@ -130,7 +131,8 @@ public class Card {
      * 
      * @param type of card
      ***********************************************************/
-	public void setType(String type){
+	public void setType(String type)
+	{
 		this.type = type;
 	}
 	
@@ -142,5 +144,13 @@ public class Card {
 	public String toString()
 	{
 		return name + ", " + type + ", ";
+	}
+	
+	public boolean isActionable() {
+			if (this.type.equals("attack") || this.type.equals("action")) {
+				return true;
+			}
+			
+			return false;
 	}
 }
