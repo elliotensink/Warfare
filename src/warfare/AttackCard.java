@@ -10,17 +10,6 @@ import java.util.*;
  ***************************************************************/
 public class AttackCard extends Card{
     
-	public enum Target {
-		ALL, HIGHEST, RANDOM;
-	}
-
-	public enum Interaction {
-		HAND, BOARD;
-	}
-	
-	public enum Effect {
-		DISCARD, STEAL, BHIGHER, BLOWER, BCHANGE;
-	}
 	
 	/*  */
     private Interaction inter;
@@ -28,14 +17,16 @@ public class AttackCard extends Card{
     /*  */
     private Target tar;
     
+    /* */
+    private String tarEff;
+    
     /*  */
     private ArrayList<Effect> eff = new ArrayList<Effect>();
     
     /*  */
-    private ArrayList<Integer> amount = new ArrayList<Integer>();
-    
-    /*  */
     int[] effect;
+    
+    int[] vals;
     
     /************************************************************
      * Constructor for objects of type AttackCard.
@@ -90,7 +81,7 @@ public class AttackCard extends Card{
          C - The number of effects on the card, e.g. 1 if it only makes players discard, 2 if players discard and 
          	you steal from them, used for easier implementation of helper methods
          X - Up to C amount of effects most likely not greater than 3 for our cases
-         Y - Up to C amount of values assosiated with each effect, the first Y is associated with the first X
+         Y - Up to C amount of values associated with each effect, the first Y is associated with the first X
          
          e.g.
          0020111
@@ -179,9 +170,10 @@ public class AttackCard extends Card{
      ***********************************************************/
     private void decodeValue(int[] arr) {
         int count = arr[2];
+        vals = new int[count];
         int o = 3 + count; //Offset for start of values for each effect
         for (int i = 0; i<count; i++) {
-            amount.add(arr[o+i]);
+            vals[i] = arr[o+i];
         }
     }
 
@@ -257,23 +249,7 @@ public class AttackCard extends Card{
 		this.eff = eff;
 	}
 
-	/************************************************************
-     * Get amount.
-     * 
-     * @return ArrayList of amounts
-     ***********************************************************/
-	public ArrayList<Integer> getAmount() {
-		return amount;
-	}
 
-	/************************************************************
-     * Set amount.
-     * 
-     * @param ArrayList of amounts
-     ***********************************************************/
-	public void setAmount(ArrayList<Integer> amount) {
-		this.amount = amount;
-	}
 	
 	/************************************************************
      * Get formatted string of card attributes for printing.
@@ -282,6 +258,7 @@ public class AttackCard extends Card{
      ***********************************************************/
 	public String toString(){
 		String str = super.toString();
+		str += "Effect: " + tarEff;
 		return str;
 	}
 }

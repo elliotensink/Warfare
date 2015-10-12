@@ -76,7 +76,7 @@ public class MoneyCard extends Card{
      ***********************************************************/
 	public String toString(){
 		String str = super.toString();
-		str += " " +value;
+		str += "$" +value + " million";
 		return str;
 	}
 }

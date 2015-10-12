@@ -43,11 +43,14 @@ public class Player {
 		for(int i=0; i<num; i++){
 			hand.add(deck.remove(0));
 		}
-		//System.out.println(hand);
 		calcMoney();
 	}
 	
 
+	public void addMoney(int money){
+		currentMoney += money;
+	}
+	
 	public void calcMoney()
 	{
 		int sum = currentMoney;
@@ -55,7 +58,6 @@ public class Player {
 			if(crd instanceof MoneyCard)
 			{
 				sum += ((MoneyCard)crd).getValue();
-				//System.out.println(sum);
 			}
 		}
 		currentMoney = sum;
@@ -92,6 +94,7 @@ public class Player {
 	{
 		return deck.remove(0);
 	}
+	
 	
 	/************************************************************
      * Get money in current hand.
@@ -174,6 +177,10 @@ public class Player {
 	public ArrayList<Card> getDiscard()
 	{
 		return discard;
+	}
+	
+	public Card getCard(int c){
+		return hand.get(c);
 	}
 	
 	/************************************************************
