@@ -49,11 +49,18 @@ public class Player {
 		calcMoney();
 	}
 	
-
+	/************************************************************
+     * Add money to current hand.
+     * 
+     * @param amount of money to be added
+     ***********************************************************/
 	public void addMoney(int money){
 		currentMoney += money;
 	}
 	
+	/************************************************************
+     * Calculate money in current hand.
+     ***********************************************************/
 	public void calcMoney()
 	{
 		int sum = currentMoney;
@@ -66,6 +73,11 @@ public class Player {
 		currentMoney = sum;
 	}
 	
+	/************************************************************
+     * Calculate points in current hand.
+     * 
+     * @return number of points in current hand
+     ***********************************************************/
 	public int calcPoints()
 	{
 		int points = 0;
@@ -182,10 +194,21 @@ public class Player {
 		return discard;
 	}
 	
+	/************************************************************
+     * Add a purchased card to discard pile.
+     * 
+     * @param purchased card
+     ***********************************************************/
 	public void addPurchase(Card c){
 		discard.add(c);
 	}
 	
+	/************************************************************
+     * Get card in location 'c' of current hand.
+     * 
+     * @param location of desired card
+     * @return desired card
+     ***********************************************************/
 	public Card getCard(int c){
 		return hand.get(c);
 	}

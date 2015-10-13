@@ -11,21 +11,19 @@ import java.util.*;
 public class AttackCard extends Card{
     
 	
-	/*  */
+	/* How card interacts with game */
     private Interaction inter;
     
-    /*  */
+    /* Target of card */
     private Target tar;
     
-    /* */
+    /* Effect on target */
     private String tarEff;
     
-    /*  */
+    /* All effects of card */
     private ArrayList<Effect> eff = new ArrayList<Effect>();
     
-    /*  */
-    int[] effect;
-    
+    /* Values associated with each effect */
     int[] vals;
     
     /************************************************************
@@ -35,7 +33,6 @@ public class AttackCard extends Card{
      ***********************************************************/
 	public AttackCard(String name, int cost, String description, int[] effect, String type){
 		super(name, cost, description, type);
-		this.effect = effect;
 	    decode(effect);
 	}
 	
@@ -44,7 +41,6 @@ public class AttackCard extends Card{
      ***********************************************************/
 	public AttackCard(){
 		super();
-		effect = null;
 	}
 	
 	/************************************************************
@@ -61,7 +57,6 @@ public class AttackCard extends Card{
 		clone.setName(c.getName());
 		clone.setType(c.getType());		
 		clone.setEffect(((AttackCard)c).getEffect());
-		clone.decode(clone.effect);
 		
 		return clone;
 	}
@@ -177,24 +172,6 @@ public class AttackCard extends Card{
         }
     }
 
-    /************************************************************
-     * Get effects of attack card.
-     * 
-     * @return array of effects
-     ***********************************************************/
-    public int[] getEffect() {
-		return effect;
-	}
-
-    /************************************************************
-     * Set effects of attack card.
-     * 
-     * @param array of effects
-     ***********************************************************/
-	public void setEffect(int[] effect) {
-		this.effect = effect;
-	}
-
 	/************************************************************
      * Get interaction of attack card.
      * 
@@ -236,7 +213,7 @@ public class AttackCard extends Card{
      * 
      * @return ArrayList of effects
      ***********************************************************/
-	public ArrayList<Effect> getEff() {
+	public ArrayList<Effect> getEffect() {
 		return eff;
 	}
 
@@ -245,7 +222,7 @@ public class AttackCard extends Card{
      * 
      * @param ArrayList of effects
      ***********************************************************/
-	public void setEff(ArrayList<Effect> eff) {
+	public void setEffect(ArrayList<Effect> eff) {
 		this.eff = eff;
 	}
 

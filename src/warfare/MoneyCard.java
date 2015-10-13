@@ -32,7 +32,6 @@ public class MoneyCard extends Card{
 		value = 0;
 	}
 	
-	
 	/************************************************************
      * Clone a money card.
      * 

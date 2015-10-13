@@ -20,7 +20,7 @@ public class Game {
 	private ArrayList<ArrayList<Card>> allCards;
 
 	/* Array list containing one copy of each unique card */
-	ArrayList<Card> referenceDeck;
+	private ArrayList<Card> referenceDeck;
 
 	/* Scanner for user input */
 	private Scanner scan;
@@ -44,12 +44,11 @@ public class Game {
 		gameFinished = false;
 		createDeck();
 		System.out.println("Intial Cards: ");
-		showBoard();
+		//showBoard();
 		System.out.println("Setting up Players...");
 		setIntialPlayerCards();
 		System.out.println("Game Cards: ");
-		showBoard();
-
+		//showBoard();
 		currentPlayer = 0;
 
 		while(!gameFinished)
@@ -204,10 +203,12 @@ public class Game {
 				System.out.println("*PlayAction*");
 				System.out.println("Choose which card to play: ");
 				displayCards(players[currentPlayer].getHand());
-				int add[] = action();
-				actions += add[0];
-				purchases += add[1];
-				actions--;
+				if(pAction(p)){
+					int add[] = action();
+					actions += add[0];
+					purchases += add[1];
+					actions--;
+				}
 				break;
 			case 2:
 				// Purchase card
@@ -272,6 +273,24 @@ public class Game {
 		}
 		p.setCurrentMoney(p.getCurrentMoney()-cost);
 		return allCards.get(cardNum-1).remove(0);
+	}
+	
+	/************************************************************
+	 * Check if card is playable.
+	 * 
+	 * @param current player
+	 * @return true if playable, false if not
+	 ***********************************************************/
+	private boolean pAction(Player p) {
+		
+		displayCards(p.getHand());
+		int pChoice = scan.nextInt();
+		if (!(p.getHand().get(pChoice-1) instanceof ActionCard) || !(p.getHand().get(pChoice-1) instanceof AttackCard)) {
+			System.out.println("That is not a playabe card please select a playable card");
+			return false;
+		}
+		
+		return true;
 	}
 
 	/************************************************************
@@ -346,7 +365,9 @@ public class Game {
 	}
 	
 	/************************************************************
+	 * Carry out an ActionCard.
 	 * 
+	 * @return number of actions and purchases to be added
 	 ***********************************************************/
 	public int[] action(){
 		int c = scan.nextInt();
