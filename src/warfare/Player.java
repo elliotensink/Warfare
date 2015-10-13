@@ -101,6 +101,16 @@ public class Player {
 	}
 	
 	/************************************************************
+	 * Discard one card.
+	 * 
+	 * @param index of card to be discarded
+	 ***********************************************************/
+	public void discardOne(int c){
+		discard.add(hand.remove(c));
+		calcMoney();
+	}
+	
+	/************************************************************
      * Draw a card.
      * 
      * @return drawn card
@@ -109,7 +119,6 @@ public class Player {
 	{
 		return deck.remove(0);
 	}
-	
 	
 	/************************************************************
      * Get money in current hand.
