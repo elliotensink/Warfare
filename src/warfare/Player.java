@@ -70,6 +70,7 @@ public class Player {
 	{
 		int points = 0;
 		deck.addAll(discard);
+		deck.addAll(hand);
 		for(Card crd: deck){
 			if(crd instanceof PointCard)
 			{

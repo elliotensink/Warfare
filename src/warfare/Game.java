@@ -64,13 +64,32 @@ public class Game {
 		scan.close();
 
 	}
+	
+	public Game()
+	{
+		numPlayers = 2;
+		players = new Player[numPlayers];
+		for(int i = 0;i<numPlayers;i++)
+			players[i] = new Player();
+		allCards = new ArrayList<ArrayList<Card>>();
+		gameFinished = false;
+		createDeck();
+		System.out.println("Intial Cards: ");
+		showBoard();
+		System.out.println("Setting up Players...");
+		setIntialPlayerCards();
+		System.out.println("Game Cards: ");
+		showBoard();
+
+		currentPlayer = 0;
+	}
 
 	/************************************************************
 	 * Generate stack of cards to start game.
 	 ***********************************************************/
 	private void createDeck(){
 
-			// Adding point cards
+		// Adding point cards
 		PointCard pointCard1 = new PointCard("One VP",2,"Worth 1 Victory Point",1,"point");
 		ArrayList<Card> pointCard1Stack = fillCardStack(pointCard1,25);
 		allCards.add(pointCard1Stack);
@@ -465,7 +484,7 @@ public class Game {
 	/************************************************************
      * Move to next player.
      ***********************************************************/
-	private void nextPlayer()
+	public void nextPlayer()
 	{
 		currentPlayer++;
 		currentPlayer = currentPlayer%numPlayers;//Make sure the currentPlayer stays within the the appropriate range (0 -> numPlayers)
