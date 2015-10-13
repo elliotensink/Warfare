@@ -16,15 +16,12 @@ public class AttackCard extends Card{
     
     /* Target of card */
     private Target tar;
-    
-    /* Effect on target */
-    private String tarEff;
-    
+        
     /* All effects of card */
     private ArrayList<Effect> eff = new ArrayList<Effect>();
     
-    /* Values associated with each effect */
-    int[] vals;
+    /* Values associated with each effect */    
+    ArrayList<Integer> vals = new ArrayList<Integer>();
     
     /************************************************************
      * Constructor for objects of type AttackCard.
@@ -57,6 +54,7 @@ public class AttackCard extends Card{
 		clone.setName(c.getName());
 		clone.setType(c.getType());		
 		clone.setEffect(((AttackCard)c).getEffect());
+		clone.setVals(((AttackCard)c).getVals());
 		
 		return clone;
 	}
@@ -165,12 +163,29 @@ public class AttackCard extends Card{
      ***********************************************************/
     private void decodeValue(int[] arr) {
         int count = arr[2];
-        vals = new int[count];
         int o = 3 + count; //Offset for start of values for each effect
-        for (int i = 0; i<count; i++) {
-            vals[i] = arr[o+i];
+        for (int i = o; i<arr.length; i++) {
+            vals.add(arr[i]);
         }
     }
+    
+    /************************************************************
+     * Get values associated with effects.
+     * 
+     * @return values
+     ***********************************************************/
+	public ArrayList<Integer> getVals() {
+		return vals;
+	}
+
+	/************************************************************
+     * Set values associated with effects.
+     * 
+     * @param values
+     ***********************************************************/
+	public void setVals(ArrayList<Integer> vals) {
+		this.vals = vals;
+	}
 
 	/************************************************************
      * Get interaction of attack card.
@@ -225,8 +240,6 @@ public class AttackCard extends Card{
 	public void setEffect(ArrayList<Effect> eff) {
 		this.eff = eff;
 	}
-
-
 	
 	/************************************************************
      * Get formatted string of card attributes for printing.
@@ -235,7 +248,7 @@ public class AttackCard extends Card{
      ***********************************************************/
 	public String toString(){
 		String str = super.toString();
-		str += "Effect: " + tarEff;
+		str += "values: " + vals;
 		return str;
 	}
 }
