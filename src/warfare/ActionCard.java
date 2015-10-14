@@ -78,7 +78,7 @@ public class ActionCard extends Card{
      ***********************************************************/
 	public String toString(){
 		String str = super.toString();
-		str += ", Action: " + actionFunction;
+		str += "Action: " + actionFunction[0] + ", " + actionFunction[1] + ", " + actionFunction[2] + ", " + actionFunction[3];
 		return str;
 	}
 }

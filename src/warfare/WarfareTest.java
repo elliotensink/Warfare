@@ -129,11 +129,12 @@ public class WarfareTest
 	@Test
 	public void testActionCard()
 	{
-		PointCard c = new PointCard("Point",0,"Description",1,"point");
-		PointCard c2 = c.cardClone(c);
-		assertTrue(c2 instanceof PointCard);
-		assertTrue(c.toString().equals("Point, point, 1 Point(s)"));
-		assertTrue(c2.toString().equals("Point, point, 1 Point(s)"));
+		ActionCard c = new ActionCard("Action",0,"Description",0,0,0,0,"action");
+		ActionCard c2 = c.cardClone(c);
+		assertTrue(c2 instanceof ActionCard);
+		System.out.println(c.toString());
+		assertTrue(c.toString().equals("Action, action, Action: 0, 0, 0, 0"));
+		assertTrue(c2.toString().equals("Action, action, Action: 0, 0, 0, 0"));
 	}
 
 }
