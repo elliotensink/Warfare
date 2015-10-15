@@ -2,6 +2,10 @@ package warfare;
 
 import java.util.*;
 
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
+
 /****************************************************************
  * Class for simulation of Warfare card game.
  * 
@@ -610,6 +614,17 @@ public class Game {
 	 ***********************************************************/
 	public static void main(String[] args)
 	{
+						System.out.println("************************************** Running Tests **************************************");
+						JUnitCore junit = new JUnitCore();
+						Result result = junit.run(WarfareTest.class);
+						for (Failure failure : result.getFailures()) 
+						{
+							System.out.println(failure.toString());
+						}
+						if(result.wasSuccessful())
+						{
+							System.out.println("********************************** All Tests Successful **********************************");
+						}
 		int num = 0;
 		Scanner s = new Scanner(System.in);
 		System.out.println("How many players in the game?");
