@@ -25,9 +25,13 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	private JButton[] board;
 	private JButton[] hand;
 	
+	private CardCanvas[] cardBoard;
+	private CanvasListener cl;
+	
 	private JLabel nameLAB;
 	private JLabel infoName[];
 	private JLabel infoPlayer[];
+	private JLabel cardInfo;
 	
 	private JPanel boardPAN;
 	private JPanel playerPAN;
@@ -67,18 +71,30 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 1000, 1000);
 		
+		cl = new CanvasListener();
+		
 		boardPAN.setLayout(new GridLayout(4,4));
 		playerPAN.setLayout(new BoxLayout(playerPAN, BoxLayout.Y_AXIS));
 		framePAN.setLayout(new BorderLayout());
 		infoPAN.setLayout(new BoxLayout(infoPAN, BoxLayout.Y_AXIS));
 		menuPAN.setLayout(new BoxLayout(menuPAN, BoxLayout.Y_AXIS));
 		
-		board = new JButton[game.referenceDeck.size()];
-		for(int i=0; i<game.referenceDeck.size(); i++){
-			board[i] = new JButton(game.referenceDeck.get(i).getName());
-			boardPAN.add(board[i]);
-			board[i].addActionListener(this);
+//		board = new JButton[game.referenceDeck.size()];
+//		for(int i=0; i<game.referenceDeck.size(); i++){
+//			board[i] = new JButton(game.referenceDeck.get(i).getName());
+//			boardPAN.add(board[i]);
+//			board[i].addActionListener(this);
+//		}
+		
+		cardBoard = new CardCanvas[game.referenceDeck.size()];
+		for(int i=0; i<cardBoard.length; i++)
+		{
+			cardBoard[i] = new CardCanvas(game.referenceDeck.get(i));
+			cardBoard[i].addMouseListener(cl);
+			boardPAN.add(cardBoard[i]);
 		}
+		cardInfo = new JLabel("");
+			
 		
 		//nameLAB.setText("Player Cards:");
 		
@@ -102,6 +118,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		menuPAN.add(purchaseBUT);
 		menuPAN.add(endTurnBUT);
 		menuPAN.add(helpBUT);
+		menuPAN.add(cardInfo);
 		playerPAN.add(nameLAB);
 		playerPAN.add(handPAN);
 		framePAN.add(boardPAN, BorderLayout.CENTER);
@@ -147,11 +164,11 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			// Display help
 		}
 		
-		for(JButton b: board){
-			if(e.getSource() == b){
-				// Purchasing chosen card
-			}
-		}
+//		for(JButton b: board){
+//			if(e.getSource() == b){
+//				// Purchasing chosen card
+//			}
+//		}
 		
 		for(JButton b: hand){
 			if(e.getSource() == b){
@@ -175,7 +192,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			infoPlayer[i] = new JLabel();
 			
 			infoName[i].setText(names.get(i));
-			infoPlayer[i].setText("<html>$"+game.getPlayers()[i].getCurrentMoney()+" million<BR>"+
+			infoPlayer[i].setText("<html>$"+game.getPlayers()[i].getCurrentMoney()+ "<BR>"+
 									game.getPlayers()[i].getPoints()+" points<html>");
 			playInfo[i].add(infoName[i]);
 			playInfo[i].add(infoPlayer[i]);
@@ -211,6 +228,100 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		nameFrame.setVisible(true);
 		nameFrame.pack();
 	}
+	
+	private class CardCanvas extends JPanel 
+	{
+		private static final long serialVersionUID = 1L;
+		
+		Card crd;
+		String name;
+		JLabel nameLabel;
+		Color actionColor = new Color(255,194,97);
+		Color pointColor = new Color(231,237,55);
+		Color moneyColor = new Color(154,245,157);
+		Color attackColor = new Color(237,69,69);
+		Color defenseColor = new Color(173,221,237);
+		
+		public CardCanvas(Card crd)
+		{
+			this.crd = crd;
+			name = crd.getName();
+			nameLabel = new JLabel();
+			nameLabel.setText(name);
+			this.add(nameLabel);
+			this.setBorder(BorderFactory.createLineBorder(Color.BLACK,5));
+			switch(crd.getType())
+			{
+			case "action":
+				this.setBackground(actionColor);
+				break;
+			case "point":
+				this.setBackground(pointColor);
+				break;
+			case "money":
+				this.setBackground(moneyColor);
+				break;
+			case "attack":
+				this.setBackground(attackColor);
+				break;
+			case "defense":
+				this.setBackground(defenseColor);
+				break;
+			default:
+				this.setBackground(Color.WHITE);;
+				break;
+			}
+			
+		}
+		
+		public Card getCard()
+		{
+			return crd;
+		}
+
+		
+	}
+	
+	private class CanvasListener implements MouseListener, MouseMotionListener
+	{
+
+		public void mouseClicked(MouseEvent event) 
+		{
+
+		}
+		public void mouseEntered(MouseEvent event)
+		{
+			for(CardCanvas c : cardBoard)
+			{
+				if(event.getSource() == c)
+				{
+					cardInfo.setText(c.getCard().getName());
+				}
+			}
+		}
+		public void mouseExited(MouseEvent event) 
+		{
+
+		}
+		public void mousePressed(MouseEvent event) 
+		{
+
+		}
+		public void mouseReleased(MouseEvent event) 
+		{
+
+		}
+		public void mouseDragged(MouseEvent event) 
+		{
+
+		}
+		public void mouseMoved(MouseEvent event) 
+		{
+			
+		}
+	}
+	
+	
 
 	public static void main(String[] args){
 		new WarefareGUI();
