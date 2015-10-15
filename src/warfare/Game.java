@@ -35,7 +35,7 @@ public class Game {
 	 * 
 	 * @param number of players
 	 ***********************************************************/
-	private Game(int numPlayers)
+	Game(int numPlayers)
 	{
 		scan = new Scanner(System.in);
 		this.numPlayers = numPlayers;
@@ -368,7 +368,7 @@ public class Game {
 	/************************************************************
 	 * Move to next player.
 	 ***********************************************************/
-	private void nextPlayer()
+	void nextPlayer()
 	{
 		currentPlayer++;
 		currentPlayer = currentPlayer%numPlayers;//Make sure the currentPlayer stays within the the appropriate range (0 -> numPlayers)
