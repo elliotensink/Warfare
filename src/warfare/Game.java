@@ -19,16 +19,18 @@ public class Game {
 	private Player[] players;
 
 	/* Array list containing all game cards */
-	private ArrayList<ArrayList<Card>> allCards;
+	ArrayList<ArrayList<Card>> allCards;
 
 	/* Array list containing one copy of each unique card */
-	private ArrayList<Card> referenceDeck;
+	ArrayList<Card> referenceDeck;
 
 	/* Scanner for user input */
 	private Scanner scan;
 
 	/* Boolean value to determine when game is over */
-	private boolean gameFinished;
+	boolean gameFinished;
+	
+	int actions, purchases;
 
 	/************************************************************
 	 * Constructor for objects of type Game.
@@ -139,6 +141,10 @@ public class Game {
 		
 	}
 	
+	
+	/************************************************************
+	 * Run game.
+	 ***********************************************************/
 	private void run(){
 		while(!gameFinished)
 		{
@@ -201,14 +207,14 @@ public class Game {
 	/************************************************************
 	 * Simulate one turn for current player.
 	 ***********************************************************/
-	private void playerTurn()
+	public void playerTurn()
 	{
 		Player p = players[currentPlayer];
 		System.out.println("******************************************************");
 		System.out.println("Current Player: " + (currentPlayer+1));
 
-		int actions = 1; 
-		int purchases = 1; 
+		actions = 1; 
+		purchases = 1; 
 		int choice = 0;
 
 		ArrayList<Card> pDeck = p.getHand();
@@ -256,7 +262,7 @@ public class Game {
 		p.discard();
 		nextPlayer();
 	}
-	
+
 	/************************************************************
 	 * Carry out user action choice.
 	 * 
@@ -403,7 +409,7 @@ public class Game {
 	/************************************************************
 	 * Determine if game is over or not.
 	 ***********************************************************/
-	private void checkGameStatus()
+	public void checkGameStatus()
 	{
 		if(allCards.get(2).size()==0)
 			gameFinished = true;//Game over
@@ -412,7 +418,7 @@ public class Game {
 	/************************************************************
 	 * Determine if game is over or not.
 	 ***********************************************************/
-	private int endGame()
+	public int endGame()
 	{
 		int maxScore = 0;
 		int playerScore = 0;
@@ -603,6 +609,24 @@ public class Game {
 	 ***********************************************************/
 	public void setGameFinished(boolean gameFinished) {
 		this.gameFinished = gameFinished;
+	}
+
+	/************************************************************
+	 * Set number of actions.
+	 * 
+	 * @param number of actions
+	 ***********************************************************/
+	public void setActions(int actions) {
+		this.actions = actions;
+	}
+
+	/************************************************************
+	 * Set number of purchases.
+	 * 
+	 * @param number of purchases
+	 ***********************************************************/
+	public void setPurchases(int purchases) {
+		this.purchases = purchases;
 	}
 
 	/************************************************************
