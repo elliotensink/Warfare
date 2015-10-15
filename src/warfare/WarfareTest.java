@@ -15,7 +15,7 @@ public class WarfareTest
 	@Test
 	public void testInitialGameSetup() 
 	{
-		Game g = new Game();
+		Game g = new Game(2);
 		assertTrue(g.getNumPlayers()==2);
 		//Check initial cards for Player 1
 		Player p = g.getPlayers()[g.getCurrentPlayer()];
@@ -64,7 +64,7 @@ public class WarfareTest
 	@Test
 	public void PlayerTest() 
 	{
-		Game g = new Game();
+		Game g = new Game(2);
 		Player p = g.getPlayers()[g.getCurrentPlayer()];
 		assertTrue(p.getDeck().size()==5);
 		assertTrue(p.getHand().size()==5);
