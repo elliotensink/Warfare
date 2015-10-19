@@ -105,6 +105,9 @@ public class Game {
 		ActionCard actionCard4 = new ActionCard("Action4", 10, "des", 2, 2, 2, 4, "action");
 		ArrayList<Card> actionCard4Stack = fillCardStack(actionCard4, 20);
 		allCards.add(actionCard4Stack);
+		ActionCard actionCard5 = new ActionCard("Action5", 12, "des", 4, 0, 4, 4, "action");
+		ArrayList<Card> actionCard5Stack = fillCardStack(actionCard5, 20);
+		allCards.add(actionCard5Stack);
 		
 			// Adding attack cards
 		AttackCard attackCard1 = new AttackCard("Attack1", 2, "des", new int[]{0, 0, 1, 0, 1}, "attack");
@@ -121,7 +124,7 @@ public class Game {
 		allCards.add(attackCard4Stack);
 		
 			// Adding defense cards
-		DefenseCard defenseCard1 = new DefenseCard("Defense", 2, "des", "defense");
+		DefenseCard defenseCard1 = new DefenseCard("Defense1", 2, "des", "defense");
 		ArrayList<Card> defenseCard1Stack = fillCardStack(defenseCard1, 50);
 		allCards.add(defenseCard1Stack);
 		
@@ -137,6 +140,7 @@ public class Game {
 		referenceDeck.add(actionCard2);
 		referenceDeck.add(actionCard3);
 		referenceDeck.add(actionCard4);
+		referenceDeck.add(actionCard5);
 		referenceDeck.add(attackCard1);
 		referenceDeck.add(attackCard2);
 		referenceDeck.add(attackCard3);
