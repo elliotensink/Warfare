@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.*;
@@ -250,11 +251,33 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		private final int cardSp = 20;
 
 		private Card selectedCard;
+		
+		private BufferedImage oneVpImg;
+		private BufferedImage fiveVpImg;
+		private BufferedImage tenVpImg;
 
 		public gameCanvas(ArrayList<ArrayList<Card>> crds)
 		{
 			this.crds = crds;
 			selectedCard = null;
+			readImages();
+			
+		}
+		
+		private void readImages()
+		{
+			
+			try 
+			{                
+				oneVpImg = ImageIO.read(new File("oneVp.png"));
+				fiveVpImg = ImageIO.read(new File("twoVp.png"));
+				tenVpImg = ImageIO.read(new File("threeVp.png"));
+				
+			} 
+			catch (IOException ex) 
+			{
+				ex.printStackTrace();
+			}
 		}
 
 		private Color cardColor(String type)
@@ -314,16 +337,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
 			g.setColor(Color.BLACK);
 			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+20);
-			Image oneVpImg = null;
-			try 
-			{                
-				oneVpImg = ImageIO.read(new File("\\Images\\OneVp.png"));
-			} 
-			catch (IOException ex) 
-			{
-				// handle exception...
-				System.out.println("Could not find file: " + "OneVp.png");
-			}
 			g.drawImage(oneVpImg, XLeft+20, YTop+40, 60, 60, null);
 			cardXCoords.add(new int[]{XLeft+5,XRight+4});
 			cardYCoords.add(new int[]{YTop+5,YBot+4});
@@ -348,7 +361,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			g.setColor(pointColor);
 			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
 			g.setColor(Color.BLACK);
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+50);
+			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+20);
+			g.drawImage(fiveVpImg, XLeft+20, YTop+40, 60, 60, null);
 			cardXCoords.add(new int[]{XLeft+5,XRight+4});
 			cardYCoords.add(new int[]{YTop+5,YBot+4});
 
@@ -371,7 +385,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			g.setColor(pointColor);
 			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
 			g.setColor(Color.BLACK);
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+50);
+			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+20);
+			g.drawImage(tenVpImg, XLeft+20, YTop+40, 60, 60, null);
 			cardXCoords.add(new int[]{XLeft+5,XRight+4});
 			cardYCoords.add(new int[]{YTop+5,YBot+4});
 
