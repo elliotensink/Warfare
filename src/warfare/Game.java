@@ -68,63 +68,64 @@ public class Game {
 	private void createDeck(){
 
 			// Adding point cards
-		PointCard pointCard1 = new PointCard("One VP",2,"Worth 1 Victory Point",1,"point");
+		PointCard pointCard1 = new PointCard("One VP",2,"Worth 1 Victory Point",1,"point", "OneVP.png");
 		ArrayList<Card> pointCard1Stack = fillCardStack(pointCard1,25);
 		allCards.add(pointCard1Stack);
-		PointCard pointCard5 = new PointCard("Five VP",6,"Worth 5 Victory Point",5,"point");
+		PointCard pointCard5 = new PointCard("Five VP",6,"Worth 5 Victory Point",5,"point", "TwoVP.png");
 		ArrayList<Card> pointCard5Stack = fillCardStack(pointCard5,10);
 		allCards.add(pointCard5Stack);
-		PointCard pointCard10 = new PointCard("Ten VP",12,"Worth 10 Victory Point",10,"point");
+		PointCard pointCard10 = new PointCard("Ten VP",12,"Worth 10 Victory Point",10,"point", "ThreeVP.png");
 		ArrayList<Card> pointCard10Stack = fillCardStack(pointCard10,5);
 		allCards.add(pointCard10Stack);
 
 			// Adding money cards
-		MoneyCard moneyCard1 = new MoneyCard("One $",2,"Worth 1 $",1,"money");
+		MoneyCard moneyCard1 = new MoneyCard("One $",2,"Worth 1 $",1,"money", "money-md.png");
 		ArrayList<Card> moneyCard1Stack = fillCardStack(moneyCard1,50);
 		allCards.add(moneyCard1Stack);
-		MoneyCard moneyCard2 = new MoneyCard("Two $",3,"Worth 2 $",3,"money");
+		MoneyCard moneyCard2 = new MoneyCard("Two $",3,"Worth 2 $",3,"money", "money-md.png");
 		ArrayList<Card> moneyCard2Stack = fillCardStack(moneyCard2,40);
 		allCards.add(moneyCard2Stack);
-		MoneyCard moneyCard3 = new MoneyCard("Three $",6,"Worth 3 $",6,"money");
+		MoneyCard moneyCard3 = new MoneyCard("Three $",6,"Worth 3 $",6,"money", "money-md.png");
 		ArrayList<Card> moneyCard3Stack = fillCardStack(moneyCard3,30);
 		allCards.add(moneyCard3Stack);
-		MoneyCard moneyCard4 = new MoneyCard("Four $",8,"Worth 4 $",8,"money");
+		MoneyCard moneyCard4 = new MoneyCard("Four $",8,"Worth 4 $",8,"money", "money-md.png");
 		ArrayList<Card> moneyCard4Stack = fillCardStack(moneyCard4,20);
 		allCards.add(moneyCard4Stack);
 		
 			// Adding action cards
-		ActionCard actionCard1 = new ActionCard("Action1", 2, "des", 2, 0, 2, 0, "action");
+		ActionCard actionCard1 = new ActionCard("Action1", 2, "des", 2, 0, 2, 0, "action", "redCross.png");
 		ArrayList<Card> actionCard1Stack = fillCardStack(actionCard1, 50);
 		allCards.add(actionCard1Stack);
-		ActionCard actionCard2 = new ActionCard("Action2", 4, "des", 2, 2, 0, 2, "action");
+		ActionCard actionCard2 = new ActionCard("Action2", 4, "des", 2, 2, 0, 2, "action", "redCross.png");
 		ArrayList<Card> actionCard2Stack = fillCardStack(actionCard2, 40);
 		allCards.add(actionCard2Stack);
-		ActionCard actionCard3 = new ActionCard("Action3", 6, "des", 2, 2, 2, 0, "action");
+		ActionCard actionCard3 = new ActionCard("Action3", 6, "des", 2, 2, 2, 0, "action", "redCross.png");
 		ArrayList<Card> actionCard3Stack = fillCardStack(actionCard3, 30);
 		allCards.add(actionCard3Stack);
-		ActionCard actionCard4 = new ActionCard("Action4", 10, "des", 2, 2, 2, 4, "action");
+		ActionCard actionCard4 = new ActionCard("Action4", 10, "des", 2, 2, 2, 4, "action", "redCross.png");
 		ArrayList<Card> actionCard4Stack = fillCardStack(actionCard4, 20);
 		allCards.add(actionCard4Stack);
-		ActionCard actionCard5 = new ActionCard("Action5", 12, "des", 4, 0, 4, 4, "action");
+		ActionCard actionCard5 = new ActionCard("Action5", 12, "des", 4, 0, 4, 4, "action", "redCross.png");
 		ArrayList<Card> actionCard5Stack = fillCardStack(actionCard5, 20);
 		allCards.add(actionCard5Stack);
 		
 			// Adding attack cards
-		AttackCard attackCard1 = new AttackCard("Attack1", 2, "des", new int[]{0, 0, 1, 0, 1}, "attack");
+		AttackCard attackCard1 = new AttackCard("Attack1", 2, "des", new int[]{0, 0, 1, 0, 1}, "attack", "nuclear-md.png");
 		ArrayList<Card> attackCard1Stack = fillCardStack(attackCard1, 50);
 		allCards.add(attackCard1Stack);
-		AttackCard attackCard2 = new AttackCard("Attack2", 4, "des", new int[]{0, 0, 1, 1, 1}, "attack");
+		AttackCard attackCard2 = new AttackCard("Attack2", 4, "des", new int[]{0, 0, 1, 1, 1}, "attack", "nuclear-md.png");
 		ArrayList<Card> attackCard2Stack = fillCardStack(attackCard2, 40);
 		allCards.add(attackCard2Stack);
-		AttackCard attackCard3 = new AttackCard("Attack3", 6, "des", new int[]{0, 0, 2, 1, 0, 1, 1}, "attack");
+		AttackCard attackCard3 = new AttackCard("Attack3", 6, "des", new int[]{0, 0, 2, 1, 0, 1, 1}, "attack", "nuclear-md.png");
 		ArrayList<Card> attackCard3Stack = fillCardStack(attackCard3, 30);
 		allCards.add(attackCard3Stack);
-		AttackCard attackCard4 = new AttackCard("Attack4", 10, "des", new int[]{0, 0, 1, 0, 2}, "attack");
+		AttackCard attackCard4 = new AttackCard("Attack4", 10, "des", new int[]{0, 0, 1, 0, 2}, "attack", "nuclear-md.png");
 		ArrayList<Card> attackCard4Stack = fillCardStack(attackCard4, 20);
 		allCards.add(attackCard4Stack);
+		System.out.println("\n\n\n"+pointCard1.getImg());
 		
 			// Adding defense cards
-		DefenseCard defenseCard1 = new DefenseCard("Defense1", 2, "des", "defense");
+		DefenseCard defenseCard1 = new DefenseCard("Defense1", 2, "des", "defense", "shield.png");
 		ArrayList<Card> defenseCard1Stack = fillCardStack(defenseCard1, 50);
 		allCards.add(defenseCard1Stack);
 		

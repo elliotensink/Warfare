@@ -10,16 +10,16 @@ public class PointCard extends Card{
 	
 	/* Number of points */
 	private int point;
-	
+		
 	/************************************************************
      * Constructor for objects of type PointCard with input.
      * 
      * @param name of card, cost of card, description of card,
      * 			point value
      ***********************************************************/
-	public PointCard(String name, int cost, String description, int point, String type)
+	public PointCard(String name, int cost, String description, int point, String type, String img)
 	{
-		super(name, cost, description, type);
+		super(name, cost, description, type, img);
 		this.point = point;
 	}
 	
@@ -46,6 +46,7 @@ public class PointCard extends Card{
 		clone.setName(c.getName());
 		clone.setType(c.getType());		
 		clone.setPoint(((PointCard)c).getPoint());
+		clone.setImg(c.getImg());
 		
 		return clone;
 	}
@@ -77,7 +78,7 @@ public class PointCard extends Card{
      ***********************************************************/
 	public String toString(){
 		String str = super.toString();
-		str += point + " Point(s)";
+		str += point + " Point(s), File: " + this.getImg();
 		return str;
 	}
 }

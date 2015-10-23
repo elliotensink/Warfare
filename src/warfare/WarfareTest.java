@@ -99,7 +99,7 @@ public class WarfareTest
 	@Test
 	public void testCard()
 	{
-		Card c = new Card("Test",0,"Description","Test");
+		Card c = new Card("Test",0,"Description","Test", "imageFile");
 		Card c2 = c.cardClone(c);
 		assertTrue(c2 instanceof Card);
 		assertTrue(c.toString().equals("Test, Test, "));
@@ -109,7 +109,7 @@ public class WarfareTest
 	@Test
 	public void testMoneyCard()
 	{
-		MoneyCard c = new MoneyCard("Money",0,"Description",1,"money");
+		MoneyCard c = new MoneyCard("Money",0,"Description",1,"money", "imageFile");
 		MoneyCard c2 = c.cardClone(c);
 		assertTrue(c2 instanceof MoneyCard);
 		assertTrue(c.toString().equals("Money, money, $1 million"));
@@ -119,7 +119,7 @@ public class WarfareTest
 	@Test
 	public void testPointCard()
 	{
-		PointCard c = new PointCard("Point",0,"Description",1,"point");
+		PointCard c = new PointCard("Point",0,"Description",1,"point", "OneVP.png");
 		PointCard c2 = c.cardClone(c);
 		assertTrue(c2 instanceof PointCard);
 		assertTrue(c.toString().equals("Point, point, 1 Point(s)"));
@@ -129,7 +129,7 @@ public class WarfareTest
 	@Test
 	public void testActionCard()
 	{
-		ActionCard c = new ActionCard("Action",0,"Description",0,0,0,0,"action");
+		ActionCard c = new ActionCard("Action",0,"Description",0,0,0,0,"action", "redCross.png");
 		ActionCard c2 = c.cardClone(c);
 		assertTrue(c2 instanceof ActionCard);
 		System.out.println(c.toString());
