@@ -261,18 +261,15 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			this.crds = crds;
 			selectedCard = null;
 			readImages();
-			
 		}
 		
 		private void readImages()
 		{
-			
 			try 
 			{                
 				oneVpImg = ImageIO.read(new File("oneVp.png"));
 				fiveVpImg = ImageIO.read(new File("twoVp.png"));
 				tenVpImg = ImageIO.read(new File("threeVp.png"));
-				
 			} 
 			catch (IOException ex) 
 			{
