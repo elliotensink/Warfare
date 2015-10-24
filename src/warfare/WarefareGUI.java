@@ -238,8 +238,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	{
 		private static final long serialVersionUID = 1L;
 		private Color actionColor = new Color(255,194,97);
-		private	Color pointColor = new Color(231,237,55);
-		private Color moneyColor = new Color(154,245,157);
+		private	Color moneyColor = new Color(231,237,55);
+		private Color pointColor = new Color(154,245,157);
 		private Color attackColor = new Color(237,69,69);
 		private Color defenseColor = new Color(173,221,237);
 		private ArrayList<ArrayList<Card>> crds;
@@ -251,32 +251,11 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		private final int cardSp = 20;
 
 		private Card selectedCard;
-		
-		private BufferedImage oneVpImg;
-		private BufferedImage fiveVpImg;
-		private BufferedImage tenVpImg;
-		private BufferedImage attackImg;
 
 		public gameCanvas(ArrayList<ArrayList<Card>> crds)
 		{
 			this.crds = crds;
 			selectedCard = null;
-			readImages();
-		}
-		
-		private void readImages()
-		{
-			try 
-			{                
-				oneVpImg = ImageIO.read(new File("oneVp.png"));
-				fiveVpImg = ImageIO.read(new File("twoVp.png"));
-				tenVpImg = ImageIO.read(new File("threeVp.png"));
-				attackImg = ImageIO.read(new File("nuke.jpg"));
-			} 
-			catch (IOException ex) 
-			{
-				ex.printStackTrace();
-			}
 		}
 
 		private Color cardColor(String type)
@@ -370,10 +349,15 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			g.setColor(cardColor(crds.get(cardIndex).get(cardIndex).getType()));
 			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
 			g.setColor(Color.BLACK);
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+20);
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setStroke(new BasicStroke(2));
+			g2.drawLine(XLeft+5,YTop+10,XRight+3,YTop+10);
+			g2.drawLine(XLeft+5,YTop+35,XRight+3,YTop+35);
+			g.setFont(new Font("arial", Font.BOLD, 15));
+			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+30);
 			
 			try {
-				g.drawImage(ImageIO.read(new File(crds.get(cardIndex).get(0).getImg())), XLeft+20, YTop+40, 60, 60, null);
+				g.drawImage(ImageIO.read(new File(crds.get(cardIndex).get(0).getImg())), XLeft+25, YTop+50, 60, 60, null);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
