@@ -19,9 +19,9 @@ public class ActionCard extends Card{
      * 			number of cards, number of actions, purchase amt,
      * 			amount of money
      ***********************************************************/
-	public ActionCard(String name, int cost, String description, int cards, int actions, int purchase, int money, String type)
+	public ActionCard(String name, int cost, String description, int cards, int actions, int purchase, int money, String type, String img)
 	{
-		super(name, cost, description, type);
+		super(name, cost, description, type, img);
 		actionFunction = new int[]{cards, actions, purchase, money};
 	}
 	
@@ -48,6 +48,8 @@ public class ActionCard extends Card{
 		clone.setName(c.getName());
 		clone.setType(c.getType());	
 		clone.setActionFunction(((ActionCard)c).getActionFunction());
+		clone.setImg(c.getImg());
+
 		
 		return clone;
 	}

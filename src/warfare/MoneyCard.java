@@ -17,9 +17,9 @@ public class MoneyCard extends Card{
      * @param name of card, cost of card, description of card,
      * 			value of card
      ***********************************************************/
-	public MoneyCard(String name, int cost, String description, int value, String type)
+	public MoneyCard(String name, int cost, String description, int value, String type, String img)
 	{
-		super(name, cost, description, type);
+		super(name, cost, description, type, img);
 		this.value = value;
 	}
 	
@@ -46,6 +46,7 @@ public class MoneyCard extends Card{
 		clone.setName(c.getName());
 		clone.setType(c.getType());		
 		clone.setValue(((MoneyCard)c).getValue());
+		clone.setImg(c.getImg());
 		
 		return clone;
 	}

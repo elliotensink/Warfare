@@ -255,6 +255,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		private BufferedImage oneVpImg;
 		private BufferedImage fiveVpImg;
 		private BufferedImage tenVpImg;
+		private BufferedImage attackImg;
 
 		public gameCanvas(ArrayList<ArrayList<Card>> crds)
 		{
@@ -270,6 +271,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				oneVpImg = ImageIO.read(new File("oneVp.png"));
 				fiveVpImg = ImageIO.read(new File("twoVp.png"));
 				tenVpImg = ImageIO.read(new File("threeVp.png"));
+				attackImg = ImageIO.read(new File("nuke.jpg"));
 			} 
 			catch (IOException ex) 
 			{
@@ -313,393 +315,28 @@ public class WarefareGUI extends JFrame implements ActionListener{
 
 		public void paintComponent(Graphics g)
 		{
-			//Base Game Cards
-			//1 VP
-			int cardIndex = 0;
-			g.setColor(Color.BLACK);
-			int XLeft = 0;
-			int XRight = 0 + cardWd*(cardIndex+1);
-			int YTop = 0;
-			int YBot = 0 + cardHt;
-			g.drawPolygon(new int[]{XLeft,XRight,XRight,XLeft},new int[]{YTop,YTop,YBot,YBot},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+1,XRight+1,XRight+1,XLeft+1},new int[]{YTop+1,YTop+1,YBot+1,YBot+1},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+2,XRight+2,XRight+2,XLeft+2},new int[]{YTop+2,YTop+2,YBot+2,YBot+2},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+3,XRight+3,XRight+3,XLeft+3},new int[]{YTop+3,YTop+3,YBot+3,YBot+3},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+4,XRight+4,XRight+4,XLeft+4},new int[]{YTop+4,YTop+4,YBot+4,YBot+4},4);
-			g.setColor(pointColor);
-			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
-			g.setColor(Color.BLACK);
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+20);
-			g.drawImage(oneVpImg, XLeft+20, YTop+40, 60, 60, null);
-			cardXCoords.add(new int[]{XLeft+5,XRight+4});
-			cardYCoords.add(new int[]{YTop+5,YBot+4});
-
-
-			//5 VP
-			cardIndex = 1;
-			g.setColor(Color.BLACK);
-			XLeft = cardWd*(cardIndex) + cardSp*(cardIndex);
-			XRight = cardWd*(cardIndex+1) + cardSp*(cardIndex);
-			YTop = 0;
-			YBot = cardHt;
-			g.drawPolygon(new int[]{XLeft,XRight,XRight,XLeft},new int[]{YTop,YTop,YBot,YBot},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+1,XRight+1,XRight+1,XLeft+1},new int[]{YTop+1,YTop+1,YBot+1,YBot+1},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+2,XRight+2,XRight+2,XLeft+2},new int[]{YTop+2,YTop+2,YBot+2,YBot+2},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+3,XRight+3,XRight+3,XLeft+3},new int[]{YTop+3,YTop+3,YBot+3,YBot+3},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+4,XRight+4,XRight+4,XLeft+4},new int[]{YTop+4,YTop+4,YBot+4,YBot+4},4);
-			g.setColor(pointColor);
-			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
-			g.setColor(Color.BLACK);
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+20);
-			g.drawImage(fiveVpImg, XLeft+20, YTop+40, 60, 60, null);
-			cardXCoords.add(new int[]{XLeft+5,XRight+4});
-			cardYCoords.add(new int[]{YTop+5,YBot+4});
-
-			//10 VP
-			cardIndex = 2;
-			g.setColor(Color.BLACK);
-			XLeft = cardWd*(cardIndex) + cardSp*(cardIndex);
-			XRight = cardWd*(cardIndex+1) + cardSp*(cardIndex);
-			YTop = 0;
-			YBot = cardHt;
-			g.drawPolygon(new int[]{XLeft,XRight,XRight,XLeft},new int[]{YTop,YTop,YBot,YBot},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+1,XRight+1,XRight+1,XLeft+1},new int[]{YTop+1,YTop+1,YBot+1,YBot+1},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+2,XRight+2,XRight+2,XLeft+2},new int[]{YTop+2,YTop+2,YBot+2,YBot+2},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+3,XRight+3,XRight+3,XLeft+3},new int[]{YTop+3,YTop+3,YBot+3,YBot+3},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+4,XRight+4,XRight+4,XLeft+4},new int[]{YTop+4,YTop+4,YBot+4,YBot+4},4);
-			g.setColor(pointColor);
-			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
-			g.setColor(Color.BLACK);
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+20);
-			g.drawImage(tenVpImg, XLeft+20, YTop+40, 60, 60, null);
-			cardXCoords.add(new int[]{XLeft+5,XRight+4});
-			cardYCoords.add(new int[]{YTop+5,YBot+4});
-
-			//One $
-			cardIndex = 3;
-			g.setColor(Color.BLACK);
-			XLeft = cardWd*(cardIndex) + cardSp*(cardIndex);
-			XRight = cardWd*(cardIndex+1) + cardSp*(cardIndex);
-			YTop = 0;
-			YBot = cardHt;
-			g.drawPolygon(new int[]{XLeft,XRight,XRight,XLeft},new int[]{YTop,YTop,YBot,YBot},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+1,XRight+1,XRight+1,XLeft+1},new int[]{YTop+1,YTop+1,YBot+1,YBot+1},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+2,XRight+2,XRight+2,XLeft+2},new int[]{YTop+2,YTop+2,YBot+2,YBot+2},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+3,XRight+3,XRight+3,XLeft+3},new int[]{YTop+3,YTop+3,YBot+3,YBot+3},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+4,XRight+4,XRight+4,XLeft+4},new int[]{YTop+4,YTop+4,YBot+4,YBot+4},4);
-			g.setColor(moneyColor);
-			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
-			g.setColor(Color.BLACK);
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+50);
-			cardXCoords.add(new int[]{XLeft+5,XRight+4});
-			cardYCoords.add(new int[]{YTop+5,YBot+4});
-
-			//Two $
-			cardIndex = 4;
-			g.setColor(Color.BLACK);
-			XLeft = cardWd*(cardIndex) + cardSp*(cardIndex);
-			XRight = cardWd*(cardIndex+1) + cardSp*(cardIndex);
-			YTop = 0;
-			YBot = cardHt;
-			g.drawPolygon(new int[]{XLeft,XRight,XRight,XLeft},new int[]{YTop,YTop,YBot,YBot},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+1,XRight+1,XRight+1,XLeft+1},new int[]{YTop+1,YTop+1,YBot+1,YBot+1},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+2,XRight+2,XRight+2,XLeft+2},new int[]{YTop+2,YTop+2,YBot+2,YBot+2},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+3,XRight+3,XRight+3,XLeft+3},new int[]{YTop+3,YTop+3,YBot+3,YBot+3},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+4,XRight+4,XRight+4,XLeft+4},new int[]{YTop+4,YTop+4,YBot+4,YBot+4},4);
-			g.setColor(moneyColor);
-			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
-			g.setColor(Color.BLACK);
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+50);
-			cardXCoords.add(new int[]{XLeft+5,XRight+4});
-			cardYCoords.add(new int[]{YTop+5,YBot+4});
-
-			//Three $
-			cardIndex = 5;
-			g.setColor(Color.BLACK);
-			XLeft = cardWd*(cardIndex) + cardSp*(cardIndex);
-			XRight = cardWd*(cardIndex+1) + cardSp*(cardIndex);
-			YTop = 0;
-			YBot = cardHt;
-			g.drawPolygon(new int[]{XLeft,XRight,XRight,XLeft},new int[]{YTop,YTop,YBot,YBot},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+1,XRight+1,XRight+1,XLeft+1},new int[]{YTop+1,YTop+1,YBot+1,YBot+1},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+2,XRight+2,XRight+2,XLeft+2},new int[]{YTop+2,YTop+2,YBot+2,YBot+2},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+3,XRight+3,XRight+3,XLeft+3},new int[]{YTop+3,YTop+3,YBot+3,YBot+3},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+4,XRight+4,XRight+4,XLeft+4},new int[]{YTop+4,YTop+4,YBot+4,YBot+4},4);
-			g.setColor(moneyColor);
-			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
-			g.setColor(Color.BLACK);
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+50);
-			cardXCoords.add(new int[]{XLeft+5,XRight+4});
-			cardYCoords.add(new int[]{YTop+5,YBot+4});
-
-			//Four $
-			cardIndex = 6;
-			g.setColor(Color.BLACK);
-			XLeft = cardWd*(cardIndex) + cardSp*(cardIndex);
-			XRight = cardWd*(cardIndex+1) + cardSp*(cardIndex);
-			YTop = 0;
-			YBot = cardHt;
-			g.drawPolygon(new int[]{XLeft,XRight,XRight,XLeft},new int[]{YTop,YTop,YBot,YBot},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+1,XRight+1,XRight+1,XLeft+1},new int[]{YTop+1,YTop+1,YBot+1,YBot+1},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+2,XRight+2,XRight+2,XLeft+2},new int[]{YTop+2,YTop+2,YBot+2,YBot+2},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+3,XRight+3,XRight+3,XLeft+3},new int[]{YTop+3,YTop+3,YBot+3,YBot+3},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+4,XRight+4,XRight+4,XLeft+4},new int[]{YTop+4,YTop+4,YBot+4,YBot+4},4);
-			g.setColor(moneyColor);
-			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
-			g.setColor(Color.BLACK);
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+50);
-			cardXCoords.add(new int[]{XLeft+5,XRight+4});
-			cardYCoords.add(new int[]{YTop+5,YBot+4});
-
-			//10 Gameplay Cards
-
-			cardIndex = 7;
-			g.setColor(Color.BLACK);
-			XLeft = cardWd*(cardIndex-7) + cardSp*(cardIndex-7);
-			XRight = cardWd*(cardIndex-6) + cardSp*(cardIndex-7);
-			YTop = cardHt+cardSp;
-			YBot = cardHt*2+cardSp;
-			g.drawPolygon(new int[]{XLeft,XRight,XRight,XLeft},new int[]{YTop,YTop,YBot,YBot},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+1,XRight+1,XRight+1,XLeft+1},new int[]{YTop+1,YTop+1,YBot+1,YBot+1},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+2,XRight+2,XRight+2,XLeft+2},new int[]{YTop+2,YTop+2,YBot+2,YBot+2},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+3,XRight+3,XRight+3,XLeft+3},new int[]{YTop+3,YTop+3,YBot+3,YBot+3},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+4,XRight+4,XRight+4,XLeft+4},new int[]{YTop+4,YTop+4,YBot+4,YBot+4},4);
-			g.setColor(cardColor(crds.get(cardIndex).get(cardIndex).getType()));
-			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
-			g.setColor(Color.BLACK);
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+50);
-			cardXCoords.add(new int[]{XLeft+5,XRight+4});
-			cardYCoords.add(new int[]{YTop+5,YBot+4});
-
-			cardIndex = 8;
-			g.setColor(Color.BLACK);
-			XLeft = cardWd*(cardIndex-7) + cardSp*(cardIndex-7);
-			XRight = cardWd*(cardIndex-6) + cardSp*(cardIndex-7);
-			YTop = cardHt+cardSp;
-			YBot = cardHt*2+cardSp;
-			g.drawPolygon(new int[]{XLeft,XRight,XRight,XLeft},new int[]{YTop,YTop,YBot,YBot},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+1,XRight+1,XRight+1,XLeft+1},new int[]{YTop+1,YTop+1,YBot+1,YBot+1},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+2,XRight+2,XRight+2,XLeft+2},new int[]{YTop+2,YTop+2,YBot+2,YBot+2},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+3,XRight+3,XRight+3,XLeft+3},new int[]{YTop+3,YTop+3,YBot+3,YBot+3},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+4,XRight+4,XRight+4,XLeft+4},new int[]{YTop+4,YTop+4,YBot+4,YBot+4},4);
-			g.setColor(cardColor(crds.get(cardIndex).get(cardIndex).getType()));
-			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
-			g.setColor(Color.BLACK);
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+50);
-			cardXCoords.add(new int[]{XLeft+5,XRight+4});
-			cardYCoords.add(new int[]{YTop+5,YBot+4});
-
-			cardIndex = 9;
-			g.setColor(Color.BLACK);
-			XLeft = cardWd*(cardIndex-7) + cardSp*(cardIndex-7);
-			XRight = cardWd*(cardIndex-6) + cardSp*(cardIndex-7);
-			YTop = cardHt+cardSp;
-			YBot = cardHt*2+cardSp;
-			g.drawPolygon(new int[]{XLeft,XRight,XRight,XLeft},new int[]{YTop,YTop,YBot,YBot},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+1,XRight+1,XRight+1,XLeft+1},new int[]{YTop+1,YTop+1,YBot+1,YBot+1},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+2,XRight+2,XRight+2,XLeft+2},new int[]{YTop+2,YTop+2,YBot+2,YBot+2},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+3,XRight+3,XRight+3,XLeft+3},new int[]{YTop+3,YTop+3,YBot+3,YBot+3},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+4,XRight+4,XRight+4,XLeft+4},new int[]{YTop+4,YTop+4,YBot+4,YBot+4},4);
-			g.setColor(cardColor(crds.get(cardIndex).get(cardIndex).getType()));
-			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
-			g.setColor(Color.BLACK);
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+50);
-			cardXCoords.add(new int[]{XLeft+5,XRight+4});
-			cardYCoords.add(new int[]{YTop+5,YBot+4});
-
-			cardIndex = 10;
-			g.setColor(Color.BLACK);
-			XLeft = cardWd*(cardIndex-7) + cardSp*(cardIndex-7);
-			XRight = cardWd*(cardIndex-6) + cardSp*(cardIndex-7);
-			YTop = cardHt+cardSp;
-			YBot = cardHt*2+cardSp;
-			g.drawPolygon(new int[]{XLeft,XRight,XRight,XLeft},new int[]{YTop,YTop,YBot,YBot},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+1,XRight+1,XRight+1,XLeft+1},new int[]{YTop+1,YTop+1,YBot+1,YBot+1},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+2,XRight+2,XRight+2,XLeft+2},new int[]{YTop+2,YTop+2,YBot+2,YBot+2},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+3,XRight+3,XRight+3,XLeft+3},new int[]{YTop+3,YTop+3,YBot+3,YBot+3},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+4,XRight+4,XRight+4,XLeft+4},new int[]{YTop+4,YTop+4,YBot+4,YBot+4},4);
-			g.setColor(cardColor(crds.get(cardIndex).get(cardIndex).getType()));
-			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
-			g.setColor(Color.BLACK);
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+50);
-			cardXCoords.add(new int[]{XLeft+5,XRight+4});
-			cardYCoords.add(new int[]{YTop+5,YBot+4});
-
-			cardIndex = 11;
-			g.setColor(Color.BLACK);
-			XLeft = cardWd*(cardIndex-7) + cardSp*(cardIndex-7);
-			XRight = cardWd*(cardIndex-6) + cardSp*(cardIndex-7);
-			YTop = cardHt+cardSp;
-			YBot = cardHt*2+cardSp;
-			g.drawPolygon(new int[]{XLeft,XRight,XRight,XLeft},new int[]{YTop,YTop,YBot,YBot},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+1,XRight+1,XRight+1,XLeft+1},new int[]{YTop+1,YTop+1,YBot+1,YBot+1},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+2,XRight+2,XRight+2,XLeft+2},new int[]{YTop+2,YTop+2,YBot+2,YBot+2},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+3,XRight+3,XRight+3,XLeft+3},new int[]{YTop+3,YTop+3,YBot+3,YBot+3},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+4,XRight+4,XRight+4,XLeft+4},new int[]{YTop+4,YTop+4,YBot+4,YBot+4},4);
-			g.setColor(cardColor(crds.get(cardIndex).get(cardIndex).getType()));
-			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
-			g.setColor(Color.BLACK);
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+50);
-			cardXCoords.add(new int[]{XLeft+5,XRight+4});
-			cardYCoords.add(new int[]{YTop+5,YBot+4});
-
-			cardIndex = 12;
-			g.setColor(Color.BLACK);
-			XLeft = cardWd*(cardIndex-12) + cardSp*(cardIndex-12);
-			XRight = cardWd*(cardIndex-11) + cardSp*(cardIndex-12);
-			YTop = cardHt*2+cardSp*2;
-			YBot = cardHt*3+cardSp*2;
-			g.drawPolygon(new int[]{XLeft,XRight,XRight,XLeft},new int[]{YTop,YTop,YBot,YBot},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+1,XRight+1,XRight+1,XLeft+1},new int[]{YTop+1,YTop+1,YBot+1,YBot+1},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+2,XRight+2,XRight+2,XLeft+2},new int[]{YTop+2,YTop+2,YBot+2,YBot+2},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+3,XRight+3,XRight+3,XLeft+3},new int[]{YTop+3,YTop+3,YBot+3,YBot+3},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+4,XRight+4,XRight+4,XLeft+4},new int[]{YTop+4,YTop+4,YBot+4,YBot+4},4);
-			g.setColor(cardColor(crds.get(cardIndex).get(cardIndex).getType()));
-			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
-			g.setColor(Color.BLACK);
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+50);
-			cardXCoords.add(new int[]{XLeft+5,XRight+4});
-			cardYCoords.add(new int[]{YTop+5,YBot+4});
-
-			cardIndex = 13;
-			g.setColor(Color.BLACK);
-			XLeft = cardWd*(cardIndex-12) + cardSp*(cardIndex-12);
-			XRight = cardWd*(cardIndex-11) + cardSp*(cardIndex-12);
-			YTop = cardHt*2+cardSp*2;
-			YBot = cardHt*3+cardSp*2;
-			g.drawPolygon(new int[]{XLeft,XRight,XRight,XLeft},new int[]{YTop,YTop,YBot,YBot},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+1,XRight+1,XRight+1,XLeft+1},new int[]{YTop+1,YTop+1,YBot+1,YBot+1},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+2,XRight+2,XRight+2,XLeft+2},new int[]{YTop+2,YTop+2,YBot+2,YBot+2},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+3,XRight+3,XRight+3,XLeft+3},new int[]{YTop+3,YTop+3,YBot+3,YBot+3},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+4,XRight+4,XRight+4,XLeft+4},new int[]{YTop+4,YTop+4,YBot+4,YBot+4},4);
-			g.setColor(cardColor(crds.get(cardIndex).get(cardIndex).getType()));
-			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
-			g.setColor(Color.BLACK);
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+50);
-			cardXCoords.add(new int[]{XLeft+5,XRight+4});
-			cardYCoords.add(new int[]{YTop+5,YBot+4});
-
-			cardIndex = 14;
-			g.setColor(Color.BLACK);
-			XLeft = cardWd*(cardIndex-12) + cardSp*(cardIndex-12);
-			XRight = cardWd*(cardIndex-11) + cardSp*(cardIndex-12);
-			YTop = cardHt*2+cardSp*2;
-			YBot = cardHt*3+cardSp*2;
-			g.drawPolygon(new int[]{XLeft,XRight,XRight,XLeft},new int[]{YTop,YTop,YBot,YBot},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+1,XRight+1,XRight+1,XLeft+1},new int[]{YTop+1,YTop+1,YBot+1,YBot+1},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+2,XRight+2,XRight+2,XLeft+2},new int[]{YTop+2,YTop+2,YBot+2,YBot+2},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+3,XRight+3,XRight+3,XLeft+3},new int[]{YTop+3,YTop+3,YBot+3,YBot+3},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+4,XRight+4,XRight+4,XLeft+4},new int[]{YTop+4,YTop+4,YBot+4,YBot+4},4);
-			g.setColor(cardColor(crds.get(cardIndex).get(cardIndex).getType()));
-			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
-			g.setColor(Color.BLACK);
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+50);
-			cardXCoords.add(new int[]{XLeft+5,XRight+4});
-			cardYCoords.add(new int[]{YTop+5,YBot+4});
-
-			cardIndex = 15;
-			g.setColor(Color.BLACK);
-			XLeft = cardWd*(cardIndex-12) + cardSp*(cardIndex-12);
-			XRight = cardWd*(cardIndex-11) + cardSp*(cardIndex-12);
-			YTop = cardHt*2+cardSp*2;
-			YBot = cardHt*3+cardSp*2;
-			g.drawPolygon(new int[]{XLeft,XRight,XRight,XLeft},new int[]{YTop,YTop,YBot,YBot},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+1,XRight+1,XRight+1,XLeft+1},new int[]{YTop+1,YTop+1,YBot+1,YBot+1},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+2,XRight+2,XRight+2,XLeft+2},new int[]{YTop+2,YTop+2,YBot+2,YBot+2},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+3,XRight+3,XRight+3,XLeft+3},new int[]{YTop+3,YTop+3,YBot+3,YBot+3},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+4,XRight+4,XRight+4,XLeft+4},new int[]{YTop+4,YTop+4,YBot+4,YBot+4},4);
-			g.setColor(cardColor(crds.get(cardIndex).get(cardIndex).getType()));
-			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
-			g.setColor(Color.BLACK);
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+50);
-			cardXCoords.add(new int[]{XLeft+5,XRight+4});
-			cardYCoords.add(new int[]{YTop+5,YBot+4});
-
-			cardIndex = 16;
-			g.setColor(Color.BLACK);
-			XLeft = cardWd*(cardIndex-12) + cardSp*(cardIndex-12);
-			XRight = cardWd*(cardIndex-11) + cardSp*(cardIndex-12);
-			YTop = cardHt*2+cardSp*2;
-			YBot = cardHt*3+cardSp*2;
-			g.drawPolygon(new int[]{XLeft,XRight,XRight,XLeft},new int[]{YTop,YTop,YBot,YBot},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+1,XRight+1,XRight+1,XLeft+1},new int[]{YTop+1,YTop+1,YBot+1,YBot+1},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+2,XRight+2,XRight+2,XLeft+2},new int[]{YTop+2,YTop+2,YBot+2,YBot+2},4);
-			g.setColor(Color.WHITE);
-			g.drawPolygon(new int[]{XLeft+3,XRight+3,XRight+3,XLeft+3},new int[]{YTop+3,YTop+3,YBot+3,YBot+3},4);
-			g.setColor(Color.BLACK);
-			g.drawPolygon(new int[]{XLeft+4,XRight+4,XRight+4,XLeft+4},new int[]{YTop+4,YTop+4,YBot+4,YBot+4},4);
-			g.setColor(cardColor(crds.get(cardIndex).get(cardIndex).getType()));
-			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
-			g.setColor(Color.BLACK);
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+50);
-			cardXCoords.add(new int[]{XLeft+5,XRight+4});
-			cardYCoords.add(new int[]{YTop+5,YBot+4});
+			int cardIndex = 0, XLeft = 0, XRight = 0, YTop = 0, YBot = 0, row = 0, xMult = 0;
+			
+			for(ArrayList<Card> a: crds){
+				g.setColor(Color.BLACK);
+				if(cardIndex <= 6){
+					row = 0;
+					xMult = cardIndex;
+				}else if(cardIndex > 11){
+					row = 2;
+					xMult = cardIndex - 12;
+				}else{
+					row = 1;
+					xMult = cardIndex - 7;
+				}
+				
+				XLeft = cardWd*(xMult) + cardSp*(xMult);
+				XRight = cardWd*(xMult+1) + cardSp*(xMult);
+				YTop = cardHt*row+cardSp*row;
+				YBot = cardHt*(row+1)+cardSp*row;
+				addCard(XLeft, XRight, YTop, YBot, cardIndex, g);
+				cardIndex++;
+			}
 
 			//Selected Card Window
 			g.setColor(Color.BLACK);
@@ -718,6 +355,32 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			}
 
 
+		}
+		
+		private void addCard(int XLeft, int XRight, int YTop, int YBot, int cardIndex, Graphics g){
+			g.drawPolygon(new int[]{XLeft,XRight,XRight,XLeft},new int[]{YTop,YTop,YBot,YBot},4);
+			g.setColor(Color.WHITE);
+			g.drawPolygon(new int[]{XLeft+1,XRight+1,XRight+1,XLeft+1},new int[]{YTop+1,YTop+1,YBot+1,YBot+1},4);
+			g.setColor(Color.BLACK);
+			g.drawPolygon(new int[]{XLeft+2,XRight+2,XRight+2,XLeft+2},new int[]{YTop+2,YTop+2,YBot+2,YBot+2},4);
+			g.setColor(Color.WHITE);
+			g.drawPolygon(new int[]{XLeft+3,XRight+3,XRight+3,XLeft+3},new int[]{YTop+3,YTop+3,YBot+3,YBot+3},4);
+			g.setColor(Color.BLACK);
+			g.drawPolygon(new int[]{XLeft+4,XRight+4,XRight+4,XLeft+4},new int[]{YTop+4,YTop+4,YBot+4,YBot+4},4);
+			g.setColor(cardColor(crds.get(cardIndex).get(cardIndex).getType()));
+			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
+			g.setColor(Color.BLACK);
+			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+20);
+			
+			try {
+				g.drawImage(ImageIO.read(new File(crds.get(cardIndex).get(0).getImg())), XLeft+20, YTop+40, 60, 60, null);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			cardXCoords.add(new int[]{XLeft+5,XRight+4});
+			cardYCoords.add(new int[]{YTop+5,YBot+4});
+			
 		}
 
 	}

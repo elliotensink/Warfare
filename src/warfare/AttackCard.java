@@ -22,17 +22,18 @@ public class AttackCard extends Card{
     
     /* Values associated with each effect */    
     ArrayList<Integer> vals = new ArrayList<Integer>();
-    
+        
     /************************************************************
      * Constructor for objects of type AttackCard.
      * 
      * @param name of card, cost of card, description of card
      ***********************************************************/
-	public AttackCard(String name, int cost, String description, int[] effect, String type){
-		super(name, cost, description, type);
+	public AttackCard(String name, int cost, String description, int[] effect, String type, String img){
+		super(name, cost, description, type, img);
+		img = "nuke.jpg";
 	    decode(effect);
 	}
-	
+
 	/************************************************************
      * Constructor for objects of type AttackCard.
      ***********************************************************/
@@ -55,6 +56,7 @@ public class AttackCard extends Card{
 		clone.setType(c.getType());		
 		clone.setEffect(((AttackCard)c).getEffect());
 		clone.setVals(((AttackCard)c).getVals());
+		clone.setImg(c.getImg());
 		
 		return clone;
 	}

@@ -15,21 +15,30 @@ public class Card {
 	private int cost;
 	
 	/* Description of the card */
-	private String description;
+	private String description, img;
 	
 	/************************************************************
      * Constructor for objects of type Card with attributes.
      * 
      * @param name of card, cost of card, description of card
      ***********************************************************/
-	public Card(String name, int cost, String description, String type)
+	public Card(String name, int cost, String description, String type, String img)
 	{
 		this.name = name;
 		this.cost = cost;
 		this.type = type;
+		this.img = img;
 		this.description = description;
 	}
 	
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
+	}
+
 	/************************************************************
      * Constructor for objects of type Card.
      ***********************************************************/
@@ -53,6 +62,8 @@ public class Card {
 		newC.setCost(c.getCost());
 		newC.setDescription(c.getDescription());
 		newC.setType(c.getType());
+		newC.setImg(c.getImg());
+
 		return newC;
 	}
 	

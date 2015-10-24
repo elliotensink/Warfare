@@ -13,8 +13,8 @@ public class DefenseCard extends Card{
      * 
      * @param name of card, cost of card, description of card
      ***********************************************************/
-	public DefenseCard(String name, int cost, String description, String type){
-		super(name, cost, description, type);
+	public DefenseCard(String name, int cost, String description, String type, String img){
+		super(name, cost, description, type, img);
 	}
 	
 	/************************************************************
@@ -37,6 +37,7 @@ public class DefenseCard extends Card{
 		clone.setDescription(c.getDescription());
 		clone.setName(c.getName());
 		clone.setType(c.getType());	
+		clone.setImg(c.getImg());
 		
 		return clone;
 	}
