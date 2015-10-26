@@ -95,19 +95,19 @@ public class Game {
 		allCards.add(moneyCard4Stack);
 		
 			// Adding action cards
-		ActionCard actionCard1 = new ActionCard("Target Practice", 2, "des", 2, 0, 2, 0, "action", "TargetPractice.png");
+		ActionCard actionCard1 = new ActionCard("Target Practice", 3, "+1 Cards;+1 Action", 1, 1, 0, 0, "action", "TargetPractice.png");
 		ArrayList<Card> actionCard1Stack = fillCardStack(actionCard1, 50);
 		allCards.add(actionCard1Stack);
-		ActionCard actionCard2 = new ActionCard("Medic", 4, "des", 2, 2, 0, 2, "action", "redCross.png");
+		ActionCard actionCard2 = new ActionCard("Medic", 4, "+3 Cards", 0, 3, 0, 0, "action", "redCross.png");
 		ArrayList<Card> actionCard2Stack = fillCardStack(actionCard2, 40);
 		allCards.add(actionCard2Stack);
-		ActionCard actionCard3 = new ActionCard("Refuel", 6, "des", 2, 2, 2, 0, "action", "Refuel.jpg");
+		ActionCard actionCard3 = new ActionCard("Refuel", 5, "+1 Card;+1 Action;+1 Purchase;+1 $", 1, 1, 1, 1, "action", "Refuel.jpg");
 		ArrayList<Card> actionCard3Stack = fillCardStack(actionCard3, 30);
 		allCards.add(actionCard3Stack);
-		ActionCard actionCard4 = new ActionCard("BaseCamp", 10, "des", 2, 2, 2, 4, "action", "BaseCamp.jpg");
+		ActionCard actionCard4 = new ActionCard("BaseCamp", 8, "+2 Cards;+2 Purchases;+4 $", 2, 0, 2, 4, "action", "BaseCamp.jpg");
 		ArrayList<Card> actionCard4Stack = fillCardStack(actionCard4, 20);
 		allCards.add(actionCard4Stack);
-		ActionCard actionCard5 = new ActionCard("AirDrop", 12, "des", 4, 0, 4, 4, "action", "AirDrop.jpg");
+		ActionCard actionCard5 = new ActionCard("AirDrop", 10, "+3 Cards;+2 Actions;+2 Purchases;+4 $", 3, 2, 2, 4, "action", "AirDrop.jpg");
 		ArrayList<Card> actionCard5Stack = fillCardStack(actionCard5, 20);
 		allCards.add(actionCard5Stack);
 		

@@ -367,6 +367,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			}
 
 			//Selected Card Window
+			g.setFont(new Font("arial", Font.BOLD, 15));
 			g.setColor(Color.BLACK);
 			g.drawString("Selected Card: ", cardWd*6 + cardSp, cardHt+cardSp+10);
 			g.drawPolygon(new int[]{(cardWd*6+cardSp),(cardWd*8+cardSp),(cardWd*8+cardSp),(cardWd*6+cardSp)},
@@ -377,9 +378,31 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				g.fillPolygon(new int[]{(cardWd*6+cardSp)+1,(cardWd*8+cardSp)-1,(cardWd*8+cardSp)-1,(cardWd*6+cardSp+1)},
 						new int[]{(cardHt+cardSp*2)+1,(cardHt+cardSp*2)+1,(cardHt*3+cardSp*2)-1,(cardHt*3+cardSp*2)-1}, 4);
 				g.setColor(Color.BLACK);
-				g.drawString(selectedCard.getName(),(cardWd*6+cardSp*2),(cardHt+cardSp*4));
-				g.drawString(""+selectedCard.getCost(),(cardWd*6+cardSp*2),(cardHt+cardSp*5));
-				g.drawString(selectedCard.getDescription(),(cardWd*6+cardSp*2),(cardHt+cardSp*6));
+				Graphics2D g2 = (Graphics2D) g;
+				g2.setStroke(new BasicStroke(2));
+				g2.drawLine(cardWd*6+cardSp,cardHt+cardSp*2+10,cardWd*8+cardSp,cardHt+cardSp*2+10);
+				g2.drawLine(cardWd*6+cardSp,cardHt+cardSp*2+40,cardWd*8+cardSp,cardHt+cardSp*2+40);
+				g.setFont(new Font("arial", Font.BOLD, 20));
+				g.drawString(selectedCard.getName(),(cardWd*6+cardSp*2),(cardHt+cardSp*2+35));
+				g.setFont(new Font("arial", Font.PLAIN, 15));
+				g.drawString("Cost: "+selectedCard.getCost(),(cardWd*6+cardSp*2),(cardHt+cardSp*2+55));
+				String[] des =  selectedCard.getDescription().split(";");
+				int HtCount = 10;
+				g.setFont(new Font("arial", Font.PLAIN, 10));
+				for(String s:des)
+				{
+					g.drawString(s,(cardWd*6+cardSp*2),(cardHt+cardSp*5+HtCount));
+					HtCount += 10;
+				}
+				try 
+				{
+					g.drawImage(ImageIO.read(new File(selectedCard.getImg())), cardWd*6+cardSp+40, 
+							cardHt+cardSp*5+50, 120, 120, null);
+				} 
+				catch (Exception e) 
+				{
+					e.printStackTrace();
+				}
 			}
 
 
@@ -402,8 +425,12 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			g2.setStroke(new BasicStroke(2));
 			g2.drawLine(XLeft+5,YTop+10,XRight+3,YTop+10);
 			g2.drawLine(XLeft+5,YTop+35,XRight+3,YTop+35);
-			g.setFont(new Font("arial", Font.BOLD, 15));
-			g.drawString(crds.get(cardIndex).get(cardIndex).getName(), XLeft+20,YTop+30);
+			String nm = crds.get(cardIndex).get(cardIndex).getName();
+			if(nm.length() <= 8)
+				g.setFont(new Font("arial", Font.BOLD, 15));
+			else
+				g.setFont(new Font("arial", Font.BOLD, 10));
+			g.drawString(nm, XLeft+20,YTop+30);
 			
 			try {
 				g.drawImage(ImageIO.read(new File(crds.get(cardIndex).get(0).getImg())), XLeft+25, YTop+50, 60, 60, null);
