@@ -58,6 +58,8 @@ public class Game {
 		System.out.println("Game Cards: ");
 		showBoard();
 		currentPlayer = 0;
+		actions = 1;
+		purchases = 1;
 		
 		
 	}
@@ -249,7 +251,7 @@ public class Game {
 				break;
 			case 2:
 				// Purchase card
-				purchases = purchaseChoice(p, purchases);;
+				purchases = purchaseChoice(p, purchases);
 				break;
 			case 3:
 				// End Turn
@@ -325,20 +327,20 @@ public class Game {
 		
 		if(purchaseChoice <= referenceDeck.size())
 		{
-			Card cardChoice = purchaseCard(purchaseChoice);
-			while(cardChoice == null)
+			//Card cardChoice = purchaseCard(purchaseChoice);
+			//while(cardChoice == null)
 			{
 				System.out.println("User money: " + p.getCurrentMoney());
 				System.out.println("Enter card choice: ");
 				purchaseChoice = checkInput(1, referenceDeck.size());
 				if(purchaseChoice >= referenceDeck.size())
 				{
-					cardChoice = purchaseCard(purchaseChoice);
+					//cardChoice = purchaseCard(purchaseChoice);
 				}
 				else
 					return purchases;
 			}
-			players[currentPlayer].addPurchase(cardChoice);
+			//players[currentPlayer].addPurchase(cardChoice);
 			
 		}
 		return purchases-1;
@@ -350,16 +352,18 @@ public class Game {
 	 * @param card number
 	 * @return card purchased
 	 ***********************************************************/
-	private Card purchaseCard(int cardNum){
+	public Boolean purchaseCard(int cardNum){
 		Player p = players[currentPlayer];
-		int cost = allCards.get(cardNum-1).get(0).getCost();
+		int cost = allCards.get(cardNum).get(0).getCost();
 		if(cost > p.getCurrentMoney())
 		{
 			System.out.println("Sorry, you're broke, choose another card.");
-			return null;
+			return false;
 		}
 		p.setCurrentMoney(p.getCurrentMoney()-cost);
-		return allCards.get(cardNum-1).remove(0);
+		players[currentPlayer].addPurchase(allCards.get(cardNum).remove(0));
+		purchases--;
+		return true;
 	}
 	
 	/************************************************************

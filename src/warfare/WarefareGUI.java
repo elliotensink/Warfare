@@ -19,6 +19,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	private ArrayList<String> names;
 
 	private int numPlayers;
+	
+	private Player current;
 
 	private JButton playBUT;
 	private JButton purchaseBUT;
@@ -102,12 +104,12 @@ public class WarefareGUI extends JFrame implements ActionListener{
 
 		//nameLAB.setText("Player Cards:");
 
-		hand = new JButton[game.getPlayers()[game.getCurrentPlayer()].getHand().size()];
-		for(int i=0; i<game.getPlayers()[game.getCurrentPlayer()].getHand().size(); i++){
-			hand[i] = new JButton(game.getPlayers()[game.getCurrentPlayer()].getHand().get(i).getName());
+		/*hand = new JButton[current.getHand().size()];
+		for(int i=0; i<current.getHand().size(); i++){
+			hand[i] = new JButton(current.getHand().get(i).getName());
 			handPAN.add(hand[i]);
 			hand[i].addActionListener(this);
-		}
+		}*/
 
 		playBUT.addActionListener(this);
 		purchaseBUT.addActionListener(this);
@@ -148,7 +150,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				names.add(nameFLDs[i].getText());
 			}
 			setupInfo();
-			nameLAB.setText(names.get(game.getCurrentPlayer()) + ": " + game.actions + " actions, " + game.purchases + " purchases.");
 			nameFrame.setVisible(false);
 			frame.setVisible(true);
 		}
@@ -158,7 +159,16 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		}
 
 		if(e.getSource() == purchaseBUT){
-			// Purchase a card
+			if(gameBoard.isSelected()){
+				System.out.println(current.getCurrentMoney());
+				if(!game.purchaseCard(gameBoard.getSelectedIndex())){
+					JOptionPane.showMessageDialog(frame, "Sorry, your'e broke! :(", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				checkTurn();
+				setupInfo();
+				System.out.println("\n\n\nDiscard:" + current.getDiscard());
+			}else
+				JOptionPane.showMessageDialog(frame, "Please select a card.", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 
 		if(e.getSource() == endTurnBUT){
@@ -184,13 +194,24 @@ public class WarefareGUI extends JFrame implements ActionListener{
 
 	private void runGame(){
 		while(!game.gameFinished){
-			game.playerTurn();
+			//game.playerTurn();
 			game.checkGameStatus();
 		}
 		game.endGame();
 	}
+	
+	private void checkTurn(){
+		if(game.purchases == 0 & game.actions == 0){
+			game.nextPlayer();
+			current = game.getPlayers()[game.getCurrentPlayer()];
+		}
+	}
 
 	private void setupInfo(){
+		current = game.getPlayers()[game.getCurrentPlayer()];
+		infoPAN.removeAll();
+		handPAN.removeAll();
+		
 		for(int i=0; i<numPlayers; i++){
 			playInfo[i] = new JPanel();
 			infoName[i] = new JLabel();
@@ -202,6 +223,15 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			playInfo[i].add(infoName[i]);
 			playInfo[i].add(infoPlayer[i]);
 			infoPAN.add(playInfo[i]);
+		}
+		
+		nameLAB.setText(names.get(game.getCurrentPlayer()) + ": " + game.actions + " actions, " + game.purchases + " purchases.");
+		
+		hand = new JButton[current.getHand().size()];
+		for(int i=0; i<current.getHand().size(); i++){
+			hand[i] = new JButton(current.getHand().get(i).getName());
+			handPAN.add(hand[i]);
+			hand[i].addActionListener(this);
 		}
 	}
 
@@ -245,16 +275,19 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		private ArrayList<ArrayList<Card>> crds;
 		private ArrayList<int[]> cardXCoords = new ArrayList<int[]>();
 		private ArrayList<int[]> cardYCoords = new ArrayList<int[]>();
+		private int selectedIndex;
 
 		private final int cardWd = 100;
 		private final int cardHt = 120;
 		private final int cardSp = 20;
 
+		private Boolean selected;
 		private Card selectedCard;
 
 		public gameCanvas(ArrayList<ArrayList<Card>> crds)
 		{
 			this.crds = crds;
+			selected = false;
 			selectedCard = null;
 		}
 
@@ -290,6 +323,22 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		public void setSelectedCard(Card c)
 		{
 			selectedCard = c;
+		}
+		
+		public int getSelectedIndex(){
+			return selectedIndex;
+		}
+		
+		public void setSelectedIndex(int i){
+			selectedIndex = i;
+		}
+		
+		public Boolean isSelected(){
+			return selected;
+		}
+		
+		public void setSelected(Boolean b){
+			selected = b;
 		}
 
 		public void paintComponent(Graphics g)
@@ -387,6 +436,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				if((clickX >= x && clickX <= x + 120) && (clickY >= y && clickY <= y + 160))
 				{
 					gameBoard.setSelectedCard(game.referenceDeck.get(i));
+					gameBoard.setSelectedIndex(i);
+					gameBoard.setSelected(true);
 					break;
 				}
 			}
