@@ -629,6 +629,11 @@ public class WarefareGUI extends JFrame implements ActionListener{
 						cardInfo.setText(game.referenceDeck.get(i).getName());
 						break;
 					}
+					else
+					{
+						cardInfo.setText("");
+						break;
+					}
 				}
 			}
 			else if(event.getSource() == playerBoard)
