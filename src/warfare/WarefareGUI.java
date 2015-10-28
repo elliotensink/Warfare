@@ -110,7 +110,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		gameBoard.addMouseMotionListener(cl);
 		
 		playerBoard = new playerBoardCanvas();
-		playerBoard.setPreferredSize(new Dimension(600,1500));
+		//playerBoard.setPreferredSize(new Dimension(600,1500));
 		playerBoard.addMouseListener(cl);
 		playerBoard.addMouseMotionListener(cl);
 		
@@ -525,9 +525,10 @@ public class WarefareGUI extends JFrame implements ActionListener{
 
 			for(Card c: playerHand)
 			{
+				row = cardIndex / 7;
 				g.setColor(Color.BLACK);
-				xMult = cardIndex;
-				row = Math.floorDiv(cardIndex,8);
+				xMult = cardIndex % 7;
+				//row = Math.floorDiv(cardIndex,8);
 				XLeft = cardWd*(xMult) + cardSp*(xMult);
 				XRight = cardWd*(xMult+1) + cardSp*(xMult);
 				YTop = cardHt*row+cardSp*row;
@@ -535,8 +536,11 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				addCard(XLeft, XRight, YTop, YBot, cardIndex, g);
 				cardIndex++;
 			}
-
-
+			
+			playerBoard.setPreferredSize(new Dimension(600,cardHt*(row+1)+cardSp*row));
+			playerBoardPan.repaint();
+			playerBoardPan.revalidate();
+			
 		}
 
 
