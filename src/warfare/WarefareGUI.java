@@ -41,7 +41,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	private JLabel cardInfo;
 
 	private JPanel gameBoardPan;
-	private JPanel playerBoardPan;
+	private JScrollPane playerBoardPan;
 	private JPanel playerPAN;
 	private JPanel infoPAN;
 	private JPanel handPAN;
@@ -68,7 +68,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		helpBUT = new JButton("Help");
 		showBoardBUT = new JButton("Show Gameboard");
 		gameBoardPan = new JPanel();
-		playerBoardPan = new JPanel();
+		playerBoardPan = new JScrollPane();
 		playerPAN = new JPanel();
 		infoPAN = new JPanel();
 		handPAN = new JPanel();
@@ -93,7 +93,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		game = new Game(numPlayers);
 		frame = new JFrame("Warefare");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(1100, 600);
+		frame.setSize(1100, 650);
 
 		cl = new CanvasListener();
 
@@ -101,23 +101,29 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		framePAN.setLayout(new BorderLayout());
 		infoPAN.setLayout(new BoxLayout(infoPAN, BoxLayout.Y_AXIS));
 		menuPAN.setLayout(new BoxLayout(menuPAN, BoxLayout.Y_AXIS));
+		
+	
 
 		gameBoard = new gameCanvas(game.allCards);
 		gameBoard.setPreferredSize(new Dimension(850,410));
 		gameBoard.addMouseListener(cl);
 		gameBoard.addMouseMotionListener(cl);
-		gameBoardPan.add(gameBoard);
-		gameBoardPan.setBackground(new Color(237,227,183));
-		gameBoardPan.setBorder(BorderFactory.createBevelBorder(NORMAL, Color.BLACK, Color.GRAY));
-
+		
 		playerBoard = new playerBoardCanvas();
-		playerBoard.setPreferredSize(new Dimension(850,120));
+		playerBoard.setPreferredSize(new Dimension(600,1500));
 		playerBoard.addMouseListener(cl);
 		playerBoard.addMouseMotionListener(cl);
-		playerBoardPan.add(playerBoard);
-		playerBoardPan.setBackground(new Color(237,227,183));
-		playerBoardPan.setBorder(BorderFactory.createBevelBorder(NORMAL, Color.BLACK, Color.GRAY));
 		
+		playerBoardPan.setPreferredSize(new Dimension(850,150));
+		playerBoardPan.setBackground(new Color(237,227,183));
+		playerBoardPan.setViewportView(playerBoard);
+		
+		gameBoardPan.add(gameBoard);
+		gameBoardPan.add(new JLabel("Current Player: "));
+		gameBoardPan.add(nameLAB);
+		gameBoardPan.add(playerBoardPan);
+		gameBoardPan.setBackground(new Color(237,227,183));
+		gameBoardPan.setBorder(BorderFactory.createBevelBorder(NORMAL, Color.BLACK, Color.GRAY));
 
 		cardInfo = new JLabel("");
 
@@ -149,7 +155,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		//playerPAN.add(handPAN);
 		framePAN.add(gameBoardPan, BorderLayout.CENTER);
 		//framePAN.add(playerPAN, BorderLayout.SOUTH);
-		framePAN.add(playerBoardPan,BorderLayout.SOUTH);
+		//framePAN.add(playerBoardPan,BorderLayout.SOUTH);
 		framePAN.add(infoPAN, BorderLayout.WEST);
 		framePAN.add(menuPAN, BorderLayout.EAST);
 
