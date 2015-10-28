@@ -193,7 +193,9 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		}
 
 		if(e.getSource() == endTurnBUT){
-			// End turn
+			game.purchases = 0;
+			game.actions = 0;
+			checkTurn();
 		}
 
 		if(e.getSource() == helpBUT){
@@ -224,9 +226,9 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	private void checkTurn(){
 		if(game.purchases == 0 & game.actions == 0){
 			game.nextPlayer();
-			current = game.getPlayers()[game.getCurrentPlayer()];
-			playerBoard.setPlayerHand(game.getPlayers()[game.getCurrentPlayer()].getHand());
-			playerBoard.repaint();
+			game.purchases = 1;
+			game.actions = 1;
+			setupInfo();
 		}
 	}
 
