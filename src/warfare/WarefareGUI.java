@@ -68,7 +68,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		helpBUT = new JButton("Help");
 		showBoardBUT = new JButton("Show Gameboard");
 		gameBoardPan = new JPanel();
-		playerBoardPan = new JScrollPane();
+		
 		playerPAN = new JPanel();
 		infoPAN = new JPanel();
 		handPAN = new JPanel();
@@ -114,9 +114,10 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		playerBoard.addMouseListener(cl);
 		playerBoard.addMouseMotionListener(cl);
 		
+		playerBoardPan = new JScrollPane(playerBoard);
 		playerBoardPan.setPreferredSize(new Dimension(850,150));
 		playerBoardPan.setBackground(new Color(237,227,183));
-		playerBoardPan.setViewportView(playerBoard);
+		//playerBoardPan.setViewportView(playerBoard);
 		
 		gameBoardPan.add(gameBoard);
 		gameBoardPan.add(new JLabel("Current Player: "));
@@ -266,6 +267,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			handPAN.add(hand[i]);
 			hand[i].addActionListener(this);
 		}
+		playerBoard.paint(playerBoard.getGraphics());
 	}
 
 	private void getNames(){
@@ -371,6 +373,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 
 		public void paintComponent(Graphics g)
 		{
+			super.paintComponent(g);
 			int cardIndex = 0, XLeft = 0, XRight = 0, YTop = 0, YBot = 0, row = 0, xMult = 0;
 
 			for(ArrayList<Card> a: crds){
@@ -432,7 +435,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 					e.printStackTrace();
 				}
 			}
-
+			this.validate();
+			this.repaint();
 
 		}
 
