@@ -349,8 +349,8 @@ public class Game {
 	/************************************************************
 	 * Simulate the purchase of a card.
 	 * 
-	 * @param card number
-	 * @return card purchased
+	 * @param card index
+	 * @return true if purchase is successful
 	 ***********************************************************/
 	public Boolean purchaseCard(int cardNum){
 		Player p = players[currentPlayer];

@@ -186,7 +186,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 					JOptionPane.showMessageDialog(frame, "Sorry, your'e broke! :(", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				checkTurn();
-				setupInfo();
 				System.out.println("\n\n\nDiscard:" + current.getDiscard());
 			}else
 				JOptionPane.showMessageDialog(frame, "Please select a card.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -199,14 +198,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		}
 
 		if(e.getSource() == helpBUT){
-			// Display help
+			helpScreen();
 		}
-
-		//		for(JButton b: board){
-		//			if(e.getSource() == b){
-		//				// Purchasing chosen card
-		//			}
-		//		}
 
 		for(JButton b: hand){
 			if(e.getSource() == b){
@@ -215,6 +208,15 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		}
 	}
 
+	private void helpScreen(){
+		String help;
+		help = "1. \n";
+		help += "2. \n";
+		help += "3. \n";
+		help += "...";
+		JOptionPane.showMessageDialog(nameFrame, help);
+	}
+	
 	private void runGame(){
 		while(!game.gameFinished){
 			//game.playerTurn();
