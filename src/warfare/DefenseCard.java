@@ -11,7 +11,11 @@ public class DefenseCard extends Card{
 	/************************************************************
      * Constructor for objects of type DefenseCard.
      * 
-     * @param name of card, cost of card, description of card
+     * @param name of card
+     * @param cost of card
+     * @param description of card
+     * @param type of card
+     * @param image file
      ***********************************************************/
 	public DefenseCard(String name, int cost, String description, String type, String img){
 		super(name, cost, description, type, img);

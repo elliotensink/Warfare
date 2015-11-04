@@ -14,8 +14,12 @@ public class PointCard extends Card{
 	/************************************************************
      * Constructor for objects of type PointCard with input.
      * 
-     * @param name of card, cost of card, description of card,
-     * 			point value
+     * @param name of card
+     * @param cost of card
+     * @param description of card
+     * @param point amount
+     * @param type of card
+     * @param image file
      ***********************************************************/
 	public PointCard(String name, int cost, String description, int point, String type, String img)
 	{

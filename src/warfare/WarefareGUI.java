@@ -4,12 +4,15 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.text.*;
 import java.util.*;
 
+/****************************************************************
+ * GUI for simulation of Warfare card game.
+ * 
+ * @author Cameron Novotny, Elliot Ensink, Curtis Holden
+ * @version 
+ ***************************************************************/
 public class WarefareGUI extends JFrame implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
@@ -26,9 +29,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	private JButton purchaseBUT;
 	private JButton endTurnBUT;
 	private JButton helpBUT;
-	private JButton showBoardBUT;
 	private JButton continueBUT;
-	private JButton[] board;
 	private JButton[] hand;
 
 	private gameCanvas gameBoard;
@@ -60,13 +61,14 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	private Color attackColor;
 	private Color defenseColor;
 
-
+	/************************************************************
+	 * Constructor for objects of type WarefareGUI.
+	 ***********************************************************/
 	public WarefareGUI(){
 		playBUT = new JButton("Play Action");
 		purchaseBUT = new JButton("Purchase Card");
 		endTurnBUT = new JButton("End Turn");
 		helpBUT = new JButton("Help");
-		showBoardBUT = new JButton("Show Gameboard");
 		gameBoardPan = new JPanel();
 		
 		playerPAN = new JPanel();
@@ -84,7 +86,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 
 		names = new ArrayList<String>();
 		getNames();
-
 
 		playInfo = new JPanel[numPlayers];
 		infoName = new JLabel[numPlayers];
@@ -110,14 +111,12 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		gameBoard.addMouseMotionListener(cl);
 		
 		playerBoard = new playerBoardCanvas();
-		//playerBoard.setPreferredSize(new Dimension(600,1500));
 		playerBoard.addMouseListener(cl);
 		playerBoard.addMouseMotionListener(cl);
 		
 		playerBoardPan = new JScrollPane(playerBoard);
 		playerBoardPan.setPreferredSize(new Dimension(850,150));
 		playerBoardPan.setBackground(new Color(237,227,183));
-		//playerBoardPan.setViewportView(playerBoard);
 		
 		gameBoardPan.add(gameBoard);
 		gameBoardPan.add(new JLabel("Current Player: "));
@@ -128,51 +127,35 @@ public class WarefareGUI extends JFrame implements ActionListener{
 
 		cardInfo = new JLabel("");
 
-
-		//nameLAB.setText("Player Cards:");
-
-		/*hand = new JButton[current.getHand().size()];
-		for(int i=0; i<current.getHand().size(); i++){
-			hand[i] = new JButton(current.getHand().get(i).getName());
-			handPAN.add(hand[i]);
-			hand[i].addActionListener(this);
-		}*/
-
 		playBUT.addActionListener(this);
 		purchaseBUT.addActionListener(this);
 		endTurnBUT.addActionListener(this);
 		helpBUT.addActionListener(this);
 
-		/* Don't think we'll actually need the play button or the purchase button
-		 *  since the player can just select a card to buy/play it, but I threw 
-		 *  them in just in case...
-		 */
 		menuPAN.add(playBUT);;
 		menuPAN.add(purchaseBUT);
 		menuPAN.add(endTurnBUT);
 		menuPAN.add(helpBUT);
 		menuPAN.add(cardInfo);
-		//playerPAN.add(nameLAB);
-		//playerPAN.add(handPAN);
 		framePAN.add(gameBoardPan, BorderLayout.CENTER);
-		//framePAN.add(playerPAN, BorderLayout.SOUTH);
-		//framePAN.add(playerBoardPan,BorderLayout.SOUTH);
 		framePAN.add(infoPAN, BorderLayout.WEST);
 		framePAN.add(menuPAN, BorderLayout.EAST);
 
 		frame.add(framePAN);
 		frame.setResizable(false);
-		//frame.setExtendedState(frame.getExtendedState()|JFrame.MAXIMIZED_BOTH);
 
-		/* This method will have to be edited a lot, as of now it
-		 * basically just runs the text based version from here.
-		 */
 		runGame();
 	}
 
+	/************************************************************
+	 * Respond to button clicks.
+	 * 
+	 * @param e the button that was selected
+	 ***********************************************************/
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
+		// 'Continue' button
 		if(e.getSource() == continueBUT){
 			for(int i=0; i<numPlayers; i++){
 				names.add(nameFLDs[i].getText());
@@ -182,10 +165,12 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			frame.setVisible(true);
 		}
 
+		// 'Play Card' button
 		if(e.getSource() == playBUT){
 			// Play action
 		}
 
+		// 'Purchase Card' button
 		if(e.getSource() == purchaseBUT){
 			if(gameBoard.isSelected()){
 				System.out.println(current.getCurrentMoney());
@@ -198,23 +183,22 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				JOptionPane.showMessageDialog(frame, "Please select a card.", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 
+		// 'End Turn' button
 		if(e.getSource() == endTurnBUT){
 			game.purchases = 0;
 			game.actions = 0;
 			checkTurn();
 		}
 
+		// 'Help' button
 		if(e.getSource() == helpBUT){
 			helpScreen();
 		}
-
-		for(JButton b: hand){
-			if(e.getSource() == b){
-				// Play Card
-			}
-		}
 	}
 
+	/************************************************************
+	 * Generate and display help screen. 
+	 ***********************************************************/
 	private void helpScreen(){
 		String help;
 		help = "1. \n";
@@ -224,6 +208,9 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		JOptionPane.showMessageDialog(nameFrame, help);
 	}
 	
+	/************************************************************
+	 * Run the game. 
+	 ***********************************************************/
 	private void runGame(){
 		while(!game.gameFinished){
 			//game.playerTurn();
@@ -232,6 +219,9 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		game.endGame();
 	}
 
+	/************************************************************
+	 * Check if player turn is over.
+	 ***********************************************************/
 	private void checkTurn(){
 		if(game.purchases == 0 & game.actions == 0){
 			game.nextPlayer();
@@ -241,6 +231,9 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		}
 	}
 
+	/************************************************************
+	 * Setup and display player info and cards.
+	 ***********************************************************/
 	private void setupInfo(){
 		current = game.getPlayers()[game.getCurrentPlayer()];
 		infoPAN.removeAll();
@@ -270,6 +263,9 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		playerBoard.paint(playerBoard.getGraphics());
 	}
 
+	/************************************************************
+	 * Get player names from user.
+	 ***********************************************************/
 	private void getNames(){
 		nameFrame = new JFrame();
 		JLabel nameLAB = new JLabel("Player Names:");
@@ -299,6 +295,9 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		nameFrame.pack();
 	}
 
+	/************************************************************
+	 * Class to display and handle selection of game board.
+	 ***********************************************************/
 	private class gameCanvas extends JPanel 
 	{
 		private static final long serialVersionUID = 1L;
@@ -314,6 +313,11 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		private Boolean selected;
 		private Card selectedCard;
 
+		/************************************************************
+		 * Constructor of objects of type gameCanvas.
+		 * 
+		 * @param cards to be displayed
+		 ***********************************************************/
 		public gameCanvas(ArrayList<ArrayList<Card>> crds)
 		{
 			this.crds = crds;
@@ -321,6 +325,12 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			selectedCard = null;
 		}
 
+		/************************************************************
+		 * Setting background color of cards.
+		 * 
+		 * @param card type
+		 * @return background color
+		 ***********************************************************/
 		private Color cardColor(String type)
 		{
 			switch(type)
@@ -340,42 +350,83 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			}
 		}
 
+		/************************************************************
+		 * Get X coordinates.
+		 * 
+		 * @return X coordinates of cards
+		 ***********************************************************/
 		public ArrayList<int[]> getCardXCoords()
 		{
 			return cardXCoords;
 		}
 
+		/************************************************************
+		 * Get Y coordinates.
+		 * 
+		 * @return Y coordinates of cards
+		 ***********************************************************/
 		public ArrayList<int[]> getCardYCoords()
 		{
 			return cardYCoords;
 		}
 
+		/************************************************************
+		 * Set selected card.
+		 * 
+		 * @param selected card
+		 ***********************************************************/
 		public void setSelectedCard(Card c)
 		{
 			selectedCard = c;
 		}
 
+		/************************************************************
+		 * Get index of selected card.
+		 * 
+		 * @return index of selected card
+		 ***********************************************************/
 		public int getSelectedIndex(){
 			return selectedIndex;
 		}
 
+		/************************************************************
+		 * Set index of selected card.
+		 * 
+		 * @param index of selected card
+		 ***********************************************************/
 		public void setSelectedIndex(int i){
 			selectedIndex = i;
 		}
 
+		/************************************************************
+		 * Check if a card is selected.
+		 * 
+		 * @return true if card is selected, false if not
+		 ***********************************************************/
 		public Boolean isSelected(){
 			return selected;
 		}
 
+		/************************************************************
+		 * Set if a card is selected.
+		 * 
+		 * @param true if card is selected, false if not
+		 ***********************************************************/
 		public void setSelected(Boolean b){
 			selected = b;
 		}
 
+		/************************************************************
+		 * Setting up and displaying cards.
+		 * 
+		 * @param container in which cards are to be displayed
+		 ***********************************************************/
 		public void paintComponent(Graphics g)
 		{
 			super.paintComponent(g);
 			int cardIndex = 0, XLeft = 0, XRight = 0, YTop = 0, YBot = 0, row = 0, xMult = 0;
 
+			// Setting up card edge coordinates
 			for(ArrayList<Card> a: crds){
 				g.setColor(Color.BLACK);
 				if(cardIndex <= 6){
@@ -440,6 +491,16 @@ public class WarefareGUI extends JFrame implements ActionListener{
 
 		}
 
+		/************************************************************
+		 * Add card to container.
+		 * 
+		 * @param X coordinate of left edge of card
+		 * @param X coordinate of right edge of card
+		 * @param Y coordinate of top edge of card
+		 * @param Y coordinate of bottom edge of card
+		 * @param index of card
+		 * @param container in which card is displayed
+		 ***********************************************************/
 		private void addCard(int XLeft, int XRight, int YTop, int YBot, int cardIndex, Graphics g){
 			g.drawPolygon(new int[]{XLeft,XRight,XRight,XLeft},new int[]{YTop,YTop,YBot,YBot},4);
 			g.setColor(Color.WHITE);
@@ -477,6 +538,9 @@ public class WarefareGUI extends JFrame implements ActionListener{
 
 	}
 
+	/************************************************************
+	 * Class to display and handle selection of player cards.
+	 ***********************************************************/
 	private class playerBoardCanvas extends JPanel
 	{
 		private static final long serialVersionUID = 1L;
@@ -489,17 +553,30 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		private final int cardHt = 120;
 		private final int cardSp = 20;
 
-
+		/************************************************************
+		 * Constructor for objects of type playerBoardCanvas.
+		 ***********************************************************/
 		public playerBoardCanvas()
 		{
 
 		}
 
+		/************************************************************
+		 * Set player hand.
+		 * 
+		 * @param players hand
+		 ***********************************************************/
 		public void setPlayerHand(ArrayList<Card> playerHand)
 		{
 			this.playerHand = playerHand;
 		}
 
+		/************************************************************
+		 * Setting background color of cards.
+		 * 
+		 * @param card type
+		 * @return background color
+		 ***********************************************************/
 		private Color cardColor(String type)
 		{
 			switch(type)
@@ -519,10 +596,16 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			}
 		}
 
+		/************************************************************
+		 * Setting up and displaying cards.
+		 * 
+		 * @param container in which cards are to be displayed
+		 ***********************************************************/
 		public void paintComponent(Graphics g)
 		{
 			int cardIndex = 0, XLeft = 0, XRight = 0, YTop = 0, YBot = 0, row = 0, xMult = 0;
 
+			// Setting up card edge coordinates
 			for(Card c: playerHand)
 			{
 				row = cardIndex / 7;
@@ -543,8 +626,16 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			
 		}
 
-
-
+		/************************************************************
+		 * Add card to container.
+		 * 
+		 * @param X coordinate of left edge of card
+		 * @param X coordinate of right edge of card
+		 * @param Y coordinate of top edge of card
+		 * @param Y coordinate of bottom edge of card
+		 * @param index of card
+		 * @param container in which card is displayed
+		 ***********************************************************/
 		private void addCard(int XLeft, int XRight, int YTop, int YBot, int cardIndex, Graphics g){
 			g.drawPolygon(new int[]{XLeft,XRight,XRight,XLeft},new int[]{YTop,YTop,YBot,YBot},4);
 			g.setColor(cardColor(playerHand.get(cardIndex).getType()));
@@ -577,11 +668,20 @@ public class WarefareGUI extends JFrame implements ActionListener{
 
 	}
 
+	/************************************************************
+	 * Class to handle user interaction within canvas.
+	 ***********************************************************/
 	private class CanvasListener implements MouseListener, MouseMotionListener
 	{
 
+		/************************************************************
+		 * Respond to user interaction within canvas.
+		 * 
+		 * @param mouse event (moved or clicked)
+		 ***********************************************************/
 		public void mouseClicked(MouseEvent event) 
 		{
+			// User clicked within the game board
 			if(event.getSource() == gameBoard)
 			{
 				Point point = event.getPoint();
@@ -629,6 +729,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		{
 
 		}
+		
+		// User moved mouse
 		public void mouseMoved(MouseEvent event) 
 		{
 			if(event.getSource() == gameBoard)
@@ -654,6 +756,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 					}
 				}
 			}
+			
+			// User clicked within the player board
 			else if(event.getSource() == playerBoard)
 			{
 				//System.out.println("HEY WORLD!!!!");
@@ -661,8 +765,9 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		}
 	}
 
-
-
+	/************************************************************
+	 * Main function to initiate game.
+	 ***********************************************************/
 	public static void main(String[] args){
 		new WarefareGUI();
 	}

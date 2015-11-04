@@ -26,7 +26,12 @@ public class AttackCard extends Card{
     /************************************************************
      * Constructor for objects of type AttackCard.
      * 
-     * @param name of card, cost of card, description of card
+     * @param name of card
+     * @param cost of card
+     * @param description of card
+     * @param effect of card
+     * @param type of card
+     * @param image file
      ***********************************************************/
 	public AttackCard(String name, int cost, String description, int[] effect, String type, String img){
 		super(name, cost, description, type, img);
