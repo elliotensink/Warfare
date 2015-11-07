@@ -15,9 +15,14 @@ public class ActionCard extends Card{
 	/************************************************************
      * Constructor for objects of type ActionCard with attributes.
      * 
-     * @param name of card, cost of card, description of card,
-     * 			number of cards, number of actions, purchase amt,
-     * 			amount of money
+     * @param name of card
+     * @param cost of card
+     * @param description of card
+     * @param number of cards to add
+     * @param number of actions to add
+     * @param amount of money to add
+     * @param type of card
+     * @param image file
      ***********************************************************/
 	public ActionCard(String name, int cost, String description, int cards, int actions, int purchase, int money, String type, String img)
 	{

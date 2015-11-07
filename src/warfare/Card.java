@@ -20,7 +20,11 @@ public class Card {
 	/************************************************************
      * Constructor for objects of type Card with attributes.
      * 
-     * @param name of card, cost of card, description of card
+     * @param name of card
+     * @param cost of card
+     * @param description of card
+     * @param type of card
+     * @param image file
      ***********************************************************/
 	public Card(String name, int cost, String description, String type, String img)
 	{
@@ -29,14 +33,6 @@ public class Card {
 		this.type = type;
 		this.img = img;
 		this.description = description;
-	}
-	
-	public String getImg() {
-		return img;
-	}
-
-	public void setImg(String img) {
-		this.img = img;
 	}
 
 	/************************************************************
@@ -143,6 +139,24 @@ public class Card {
      ***********************************************************/
 	public void setType(String type){
 		this.type = type;
+	}
+	
+	/************************************************************
+     * Get image file.
+     * 
+     * @return image file
+     ***********************************************************/
+	public String getImg() {
+		return img;
+	}
+
+	/************************************************************
+     * Set image file.
+     * 
+     * @param image file
+     ***********************************************************/
+	public void setImg(String img) {
+		this.img = img;
 	}
 	
 	/************************************************************

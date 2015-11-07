@@ -14,8 +14,12 @@ public class MoneyCard extends Card{
 	/************************************************************
      * Constructor for objects of type MoneyCard with input.
      * 
-     * @param name of card, cost of card, description of card,
-     * 			value of card
+     * @param name of card
+     * @param cost of card
+     * @param description of card
+     * @param money amount
+     * @param type of card
+     * @param image file
      ***********************************************************/
 	public MoneyCard(String name, int cost, String description, int value, String type, String img)
 	{
