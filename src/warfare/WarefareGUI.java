@@ -144,6 +144,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		menuPAN.add(endTurnBUT);
 		menuPAN.add(helpBUT);
 		menuPAN.add(cardInfo);
+		menuPAN.add(gameMessage);
 
 		framePAN.add(gameBoardPan, BorderLayout.CENTER);
 		framePAN.add(infoPAN, BorderLayout.WEST);
