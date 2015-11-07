@@ -19,6 +19,9 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	private ArrayList<String> names;
 
 	private int numPlayers;
+	private int selectedCardIndex;
+	
+	private boolean playingAction;
 
 	private Player current;
 
@@ -26,10 +29,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	private JButton purchaseBUT;
 	private JButton endTurnBUT;
 	private JButton helpBUT;
-	private JButton showBoardBUT;
 	private JButton continueBUT;
-	private JButton[] board;
-	private JButton[] hand;
 
 	private gameCanvas gameBoard;
 	private playerBoardCanvas playerBoard;
@@ -39,12 +39,12 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	private JLabel infoName[];
 	private JLabel infoPlayer[];
 	private JLabel cardInfo;
+	private JLabel gameMessage;
 
 	private JPanel gameBoardPan;
 	private JScrollPane playerBoardPan;
 	private JPanel playerPAN;
 	private JPanel infoPAN;
-	private JPanel handPAN;
 	private JPanel framePAN;
 	private JPanel menuPAN;
 	private JPanel playInfo[];
@@ -61,17 +61,16 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	private Color defenseColor;
 
 
-	public WarefareGUI(){
+	public WarefareGUI()
+	{
 		playBUT = new JButton("Play Action");
 		purchaseBUT = new JButton("Purchase Card");
 		endTurnBUT = new JButton("End Turn");
 		helpBUT = new JButton("Help");
-		showBoardBUT = new JButton("Show Gameboard");
 		gameBoardPan = new JPanel();
 		
 		playerPAN = new JPanel();
 		infoPAN = new JPanel();
-		handPAN = new JPanel();
 		framePAN = new JPanel();
 		menuPAN = new JPanel();
 		nameLAB = new JLabel();
@@ -126,7 +125,11 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		gameBoardPan.setBackground(new Color(237,227,183));
 		gameBoardPan.setBorder(BorderFactory.createBevelBorder(NORMAL, Color.BLACK, Color.GRAY));
 
+		selectedCardIndex = 0;
+		playingAction = false;
 		cardInfo = new JLabel("");
+		
+		gameMessage = new JLabel("");
 
 
 		//nameLAB.setText("Player Cards:");
@@ -152,6 +155,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		menuPAN.add(endTurnBUT);
 		menuPAN.add(helpBUT);
 		menuPAN.add(cardInfo);
+		menuPAN.add(gameMessage);
 		//playerPAN.add(nameLAB);
 		//playerPAN.add(handPAN);
 		framePAN.add(gameBoardPan, BorderLayout.CENTER);
@@ -173,8 +177,10 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		if(e.getSource() == continueBUT){
-			for(int i=0; i<numPlayers; i++){
+		if(e.getSource() == continueBUT)
+		{
+			for(int i=0; i<numPlayers; i++)
+			{
 				names.add(nameFLDs[i].getText());
 			}
 			setupInfo();
@@ -182,40 +188,49 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			frame.setVisible(true);
 		}
 
-		if(e.getSource() == playBUT){
+		if(e.getSource() == playBUT)
+		{
 			// Play action
+			playingAction = !playingAction;
+			if(playingAction)
+				gameMessage.setText("Choose Player Card");
+			else
+				gameMessage.setText("");
+			
 		}
 
-		if(e.getSource() == purchaseBUT){
-			if(gameBoard.isSelected()){
+		if(e.getSource() == purchaseBUT)
+		{
+			if(gameBoard.isSelected())
+			{
+				gameMessage.setText("");
 				System.out.println(current.getCurrentMoney());
-				if(!game.purchaseCard(gameBoard.getSelectedIndex())){
-					JOptionPane.showMessageDialog(frame, "Sorry, your'e broke! :(", "Error", JOptionPane.ERROR_MESSAGE);
+				if(!game.purchaseCard(gameBoard.getSelectedIndex()))
+				{
+					gameMessage.setText("Not enough $");
 				}
+				game.purchaseCard(selectedCardIndex);
 				checkTurn();
 				System.out.println("\n\n\nDiscard:" + current.getDiscard());
-			}else
-				JOptionPane.showMessageDialog(frame, "Please select a card.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			else
+				gameMessage.setText("Please select a card");
 		}
 
-		if(e.getSource() == endTurnBUT){
+		if(e.getSource() == endTurnBUT)
+		{
 			game.purchases = 0;
 			game.actions = 0;
 			checkTurn();
 		}
-
-		if(e.getSource() == helpBUT){
+		if(e.getSource() == helpBUT)
+		{
 			helpScreen();
-		}
-
-		for(JButton b: hand){
-			if(e.getSource() == b){
-				// Play Card
-			}
 		}
 	}
 
-	private void helpScreen(){
+	private void helpScreen()
+	{
 		String help;
 		help = "1. \n";
 		help += "2. \n";
@@ -224,17 +239,27 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		JOptionPane.showMessageDialog(nameFrame, help);
 	}
 	
-	private void runGame(){
-		while(!game.gameFinished){
-			//game.playerTurn();
+	private void runGame()
+	{
+		current = game.getPlayers()[game.getCurrentPlayer()];
+		game.purchases = 1;
+		game.actions = 1;
+		while(!game.gameFinished)
+		{
+			checkTurn();
 			game.checkGameStatus();
 		}
 		game.endGame();
 	}
 
-	private void checkTurn(){
-		if(game.purchases == 0 & game.actions == 0){
+	private void checkTurn()
+	{
+		if(game.purchases == 0 & game.actions == 0)
+		{
+			current.setCurrentMoney(0);
+			current.discard();
 			game.nextPlayer();
+			current = game.getPlayers()[game.getCurrentPlayer()];
 			game.purchases = 1;
 			game.actions = 1;
 			setupInfo();
@@ -242,17 +267,15 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	}
 
 	private void setupInfo(){
-		current = game.getPlayers()[game.getCurrentPlayer()];
 		infoPAN.removeAll();
-		handPAN.removeAll();
-
-		for(int i=0; i<numPlayers; i++){
+		for(int i=0; i<numPlayers; i++)
+		{
 			playInfo[i] = new JPanel();
 			infoName[i] = new JLabel();
 			infoPlayer[i] = new JLabel();
 			infoName[i].setText(names.get(i));
 			infoPlayer[i].setText("<html>$"+game.getPlayers()[i].getCurrentMoney()+ "<BR>"+
-					game.getPlayers()[i].getPoints()+" points<html>");
+					game.getPlayers()[i].calcPoints()+" points<html>");
 			playInfo[i].add(infoName[i]);
 			playInfo[i].add(infoPlayer[i]);
 			infoPAN.add(playInfo[i]);
@@ -260,13 +283,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 
 		nameLAB.setText(names.get(game.getCurrentPlayer()) + ": " + game.actions + " actions, " + game.purchases + " purchases.");
 
-		hand = new JButton[current.getHand().size()];
 		playerBoard.setPlayerHand(current.getHand());
-		for(int i=0; i<current.getHand().size(); i++){
-			hand[i] = new JButton(current.getHand().get(i).getName());
-			handPAN.add(hand[i]);
-			hand[i].addActionListener(this);
-		}
 		playerBoard.paint(playerBoard.getGraphics());
 	}
 
@@ -464,15 +481,16 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				g.setFont(new Font("arial", Font.BOLD, 10));
 			g.drawString(nm, XLeft+20,YTop+30);
 
-			try {
+			try 
+			{
 				g.drawImage(ImageIO.read(new File(crds.get(cardIndex).get(0).getImg())), XLeft+25, YTop+50, 60, 60, null);
-			} catch (Exception e) {
+			} 
+			catch (Exception e) 
+			{
 				e.printStackTrace();
 			}
-
 			cardXCoords.add(new int[]{XLeft+5,XRight+4});
 			cardYCoords.add(new int[]{YTop+5,YBot+4});
-
 		}
 
 	}
@@ -481,8 +499,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	{
 		private static final long serialVersionUID = 1L;
 		private ArrayList<Card> playerHand;
-		private ArrayList<int[]> cardXCoords = new ArrayList<int[]>();
-		private ArrayList<int[]> cardYCoords = new ArrayList<int[]>();
+		private ArrayList<int[]> playerCardXCoords = new ArrayList<int[]>();
+		private ArrayList<int[]> playerCardYCoords = new ArrayList<int[]>();
 
 
 		private final int cardWd = 100;
@@ -517,6 +535,16 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			default:
 				return Color.WHITE;
 			}
+		}
+		
+		public ArrayList<int[]> getPlayerCardXCoords()
+		{
+			return playerCardXCoords;
+		}
+
+		public ArrayList<int[]> getPlayerCardYCoords()
+		{
+			return playerCardYCoords;
 		}
 
 		public void paintComponent(Graphics g)
@@ -570,8 +598,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				e.printStackTrace();
 			}
 
-			cardXCoords.add(new int[]{XLeft+5,XRight+4});
-			cardYCoords.add(new int[]{YTop+5,YBot+4});
+			playerCardXCoords.add(new int[]{XLeft+5,XRight+4});
+			playerCardYCoords.add(new int[]{YTop+5,YBot+4});
 
 		}
 
@@ -596,17 +624,40 @@ public class WarefareGUI extends JFrame implements ActionListener{
 					y = gameBoard.getCardYCoords().get(i)[0];
 					if((clickX >= x && clickX <= x + 120) && (clickY >= y && clickY <= y + 160))
 					{
+						selectedCardIndex = i;
 						gameBoard.setSelectedCard(game.referenceDeck.get(i));
-						gameBoard.setSelectedIndex(i);
+						gameBoard.setSelectedIndex(selectedCardIndex);
 						gameBoard.setSelected(true);
 						break;
 					}
 				}
+				System.out.println(selectedCardIndex);
 				gameBoardPan.repaint();
 			}
 			else if(event.getSource() == playerBoard)
 			{
-				
+				if(playingAction)
+				{
+				Point point = event.getPoint();
+				int clickX = point.x;
+				int clickY = point.y;
+				int x = 0;
+				int y = 0;
+				for(int i = 0; i < current.getHand().size(); i++)
+				{
+					x = playerBoard.getPlayerCardXCoords().get(i)[0];
+					y = playerBoard.getPlayerCardYCoords().get(i)[0];
+					if((clickX >= x && clickX <= x + 120) && (clickY >= y && clickY <= y + 160))
+					{
+						if(game.playAction(current, i))
+							break;
+						else
+							gameMessage.setText("Not Playable");
+					}
+				}
+				setupInfo();
+				playerBoardPan.repaint();
+				}
 			}
 		}
 		public void mouseEntered(MouseEvent event)
@@ -631,33 +682,32 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		}
 		public void mouseMoved(MouseEvent event) 
 		{
-			if(event.getSource() == gameBoard)
-			{
-				Point point = event.getPoint();
-				int clickX = point.x;
-				int clickY = point.y;
-				int x = 0;
-				int y = 0;
-				for(int i = 0; i < game.referenceDeck.size(); i++)
-				{
-					x = gameBoard.getCardXCoords().get(i)[0];
-					y = gameBoard.getCardYCoords().get(i)[0];
-					if((clickX >= x && clickX <= x + 120) && (clickY >= y && clickY <= y + 160))
-					{
-						cardInfo.setText(game.referenceDeck.get(i).getName());
-						break;
-					}
-					else
-					{
-						cardInfo.setText("");
-						break;
-					}
-				}
-			}
-			else if(event.getSource() == playerBoard)
-			{
-				//System.out.println("HEY WORLD!!!!");
-			}
+//			if(event.getSource() == gameBoard)
+//			{
+//				Point point = event.getPoint();
+//				int clickX = point.x;
+//				int clickY = point.y;
+//				int x = 0;
+//				int y = 0;
+//				for(int j = 0; j < game.referenceDeck.size(); j++)
+//				{
+//					x = gameBoard.getCardXCoords().get(j)[0];
+//					y = gameBoard.getCardYCoords().get(j)[0];
+//					if((clickX >= x && clickX <= x + 120) && (clickY >= y && clickY <= y + 160))
+//					{
+//						cardInfo.setText(game.referenceDeck.get(j).getName());
+//						break;
+//					}
+//					else
+//					{
+//						cardInfo.setText("");
+//					}
+//				}
+//			}
+//			else if(event.getSource() == playerBoard)
+//			{
+//				//System.out.println("HEY WORLD!!!!");
+//			}
 		}
 	}
 

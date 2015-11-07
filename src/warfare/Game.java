@@ -112,22 +112,23 @@ public class Game {
 		allCards.add(actionCard5Stack);
 		
 			// Adding attack cards
-		AttackCard attackCard1 = new AttackCard("Attack1", 2, "des", new int[]{0, 0, 1, 0, 1}, "attack", "nuclear-md.png");
+			//Need to write descriptions for attack cards, I'm not sure how they work yet...-EE
+		AttackCard attackCard1 = new AttackCard("Recon", 2, "attacks...", new int[]{0, 0, 1, 0, 1}, "attack", "Recon.jpg");
 		ArrayList<Card> attackCard1Stack = fillCardStack(attackCard1, 50);
 		allCards.add(attackCard1Stack);
-		AttackCard attackCard2 = new AttackCard("Attack2", 4, "des", new int[]{0, 0, 1, 1, 1}, "attack", "nuclear-md.png");
+		AttackCard attackCard2 = new AttackCard("Air Strike", 4, "attacks...", new int[]{0, 0, 1, 1, 1}, "attack", "AirStrike.jpg");
 		ArrayList<Card> attackCard2Stack = fillCardStack(attackCard2, 40);
 		allCards.add(attackCard2Stack);
-		AttackCard attackCard3 = new AttackCard("Naval Fleet", 6, "des", new int[]{0, 0, 2, 1, 0, 1, 1}, "attack", "nuclear-md.png");
+		AttackCard attackCard3 = new AttackCard("Naval Fleet", 6, "attacks...", new int[]{0, 0, 2, 1, 0, 1, 1}, "attack", "Navy-Fleet.jpg");
 		ArrayList<Card> attackCard3Stack = fillCardStack(attackCard3, 30);
 		allCards.add(attackCard3Stack);
-		AttackCard attackCard4 = new AttackCard("Attack4", 10, "des", new int[]{0, 0, 1, 0, 2}, "attack", "nuclear-md.png");
+		AttackCard attackCard4 = new AttackCard("Tank", 10, "attacks...", new int[]{0, 0, 1, 0, 2}, "attack", "Tank.jpg");
 		ArrayList<Card> attackCard4Stack = fillCardStack(attackCard4, 20);
 		allCards.add(attackCard4Stack);
 		System.out.println("\n\n\n"+pointCard1.getImg());
 		
 			// Adding defense cards
-		DefenseCard defenseCard1 = new DefenseCard("Bunker", 2, "des", "defense", "Bunker.png");
+		DefenseCard defenseCard1 = new DefenseCard("Bunker", 2, "Defense...", "defense", "Bunker.png");
 		ArrayList<Card> defenseCard1Stack = fillCardStack(defenseCard1, 50);
 		allCards.add(defenseCard1Stack);
 		
@@ -321,7 +322,8 @@ public class Game {
 		System.out.println("Enter card choice: ");
 		int purchaseChoice = checkInput(1, referenceDeck.size()+1);
 		
-		if(purchaseChoice == p.getHand().size()+1){
+		if(purchaseChoice == p.getHand().size()+1)
+		{
 			return purchases;
 		}
 		
@@ -352,18 +354,40 @@ public class Game {
 	 * @param card index
 	 * @return true if purchase is successful
 	 ***********************************************************/
-	public Boolean purchaseCard(int cardNum){
+	public Boolean purchaseCard(int cardNum)
+	{
 		Player p = players[currentPlayer];
 		int cost = allCards.get(cardNum).get(0).getCost();
 		if(cost > p.getCurrentMoney())
 		{
-			System.out.println("Sorry, you're broke, choose another card.");
+			//System.out.println("Sorry, you're broke, choose another card.");
 			return false;
 		}
 		p.setCurrentMoney(p.getCurrentMoney()-cost);
 		players[currentPlayer].addPurchase(allCards.get(cardNum).remove(0));
 		purchases--;
 		return true;
+	}
+	
+	public Boolean playAction(Player p,int cardNum)
+	{
+		if(pAction(p,cardNum))
+		{
+			if(p.getCard(cardNum) instanceof ActionCard)
+			{	
+				int add[] = action(cardNum);
+				actions += add[0];
+				purchases += add[1];
+			}
+			else
+			{
+				attack(cardNum);
+			}
+			actions--;
+			return true;
+		}
+		else
+			return false;
 	}
 	
 	/************************************************************
@@ -543,7 +567,7 @@ public class Game {
 	 * @return number of actions and purchases to be added
 	 ***********************************************************/
 	public int[] action(int selection){
-		ActionCard ac = (ActionCard) players[currentPlayer].getCard(selection-1);
+		ActionCard ac = (ActionCard) players[currentPlayer].getCard(selection);
 		int action[] = ac.getActionFunction();
 		players[currentPlayer].drawCards(action[0]);
 		players[currentPlayer].addMoney(action[3]);

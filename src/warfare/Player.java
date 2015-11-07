@@ -81,8 +81,20 @@ public class Player {
 	public int calcPoints()
 	{
 		int points = 0;
-		deck.addAll(discard);
+		//deck.addAll(discard);
 		for(Card crd: deck){
+			if(crd instanceof PointCard)
+			{
+				points += ((PointCard)crd).getPoint();
+			}
+		}
+		for(Card crd: hand){
+			if(crd instanceof PointCard)
+			{
+				points += ((PointCard)crd).getPoint();
+			}
+		}
+		for(Card crd: discard){
 			if(crd instanceof PointCard)
 			{
 				points += ((PointCard)crd).getPoint();
