@@ -113,7 +113,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		gameBoard.addMouseListener(cl);
 		gameBoard.addMouseMotionListener(cl);
 
-		playerBoard = new playerBoardCanvas();
+		playerBoard = new playerBoardCanvas(gameBoard);
 		playerBoard.addMouseListener(cl);
 		playerBoard.addMouseMotionListener(cl);
 
@@ -411,6 +411,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			public void setSelectedCard(Card c)
 			{
 				selectedCard = c;
+				paintSelectedCard(this.getGraphics());
 			}
 
 			/************************************************************
@@ -482,6 +483,50 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				}
 
 				//Selected Card Window
+//				g.setFont(new Font("arial", Font.BOLD, 15));
+//				g.setColor(Color.BLACK);
+//				g.drawString("Selected Card: ", cardWd*6 + cardSp, cardHt+cardSp+10);
+//				g.drawPolygon(new int[]{(cardWd*6+cardSp),(cardWd*8+cardSp),(cardWd*8+cardSp),(cardWd*6+cardSp)},
+//						new int[]{(cardHt+cardSp*2),(cardHt+cardSp*2),(cardHt*3+cardSp*2),(cardHt*3+cardSp*2)}, 4);
+//				if(selectedCard != null)		
+//				{
+//					g.setColor(cardColor(selectedCard.getType()));
+//					g.fillPolygon(new int[]{(cardWd*6+cardSp)+1,(cardWd*8+cardSp)-1,(cardWd*8+cardSp)-1,(cardWd*6+cardSp+1)},
+//							new int[]{(cardHt+cardSp*2)+1,(cardHt+cardSp*2)+1,(cardHt*3+cardSp*2)-1,(cardHt*3+cardSp*2)-1}, 4);
+//					g.setColor(Color.BLACK);
+//					Graphics2D g2 = (Graphics2D) g;
+//					g2.setStroke(new BasicStroke(2));
+//					g2.drawLine(cardWd*6+cardSp,cardHt+cardSp*2+10,cardWd*8+cardSp,cardHt+cardSp*2+10);
+//					g2.drawLine(cardWd*6+cardSp,cardHt+cardSp*2+40,cardWd*8+cardSp,cardHt+cardSp*2+40);
+//					g.setFont(new Font("arial", Font.BOLD, 20));
+//					g.drawString(selectedCard.getName(),(cardWd*6+cardSp*2),(cardHt+cardSp*2+35));
+//					g.setFont(new Font("arial", Font.PLAIN, 15));
+//					g.drawString("Cost: $"+selectedCard.getCost()+" mill",(cardWd*6+cardSp*2),(cardHt+cardSp*2+55));
+//					String[] des =  selectedCard.getDescription().split(";");
+//					int HtCount = 10;
+//					g.setFont(new Font("arial", Font.PLAIN, 10));
+//					for(String s:des)
+//					{
+//						g.drawString(s,(cardWd*6+cardSp*2),(cardHt+cardSp*5+HtCount));
+//						HtCount += 10;
+//					}
+//					try 
+//					{
+//						g.drawImage(ImageIO.read(new File(selectedCard.getImg())), cardWd*6+cardSp+40, 
+//								cardHt+cardSp*5+50, 120, 120, null);
+//					} 
+//					catch (Exception e) 
+//					{
+//						e.printStackTrace();
+//					}
+//				}
+//				this.validate();
+//				this.repaint();
+				paintSelectedCard(g);
+
+			}
+			
+			public void paintSelectedCard(Graphics g){
 				g.setFont(new Font("arial", Font.BOLD, 15));
 				g.setColor(Color.BLACK);
 				g.drawString("Selected Card: ", cardWd*6 + cardSp, cardHt+cardSp+10);
@@ -500,7 +545,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 					g.setFont(new Font("arial", Font.BOLD, 20));
 					g.drawString(selectedCard.getName(),(cardWd*6+cardSp*2),(cardHt+cardSp*2+35));
 					g.setFont(new Font("arial", Font.PLAIN, 15));
-					g.drawString("Cost: "+selectedCard.getCost(),(cardWd*6+cardSp*2),(cardHt+cardSp*2+55));
+					g.drawString("Cost: $"+selectedCard.getCost()+" mill",(cardWd*6+cardSp*2),(cardHt+cardSp*2+55));
 					String[] des =  selectedCard.getDescription().split(";");
 					int HtCount = 10;
 					g.setFont(new Font("arial", Font.PLAIN, 10));
@@ -521,7 +566,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				}
 				this.validate();
 				this.repaint();
-
 			}
 
 			/************************************************************
@@ -581,6 +625,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			private ArrayList<Card> playerHand;
 			private ArrayList<int[]> playerCardXCoords = new ArrayList<int[]>();
 			private ArrayList<int[]> playerCardYCoords = new ArrayList<int[]>();
+			private gameCanvas gameBoard;
 
 
 			private final int cardWd = 100;
@@ -590,9 +635,9 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			/************************************************************
 			 * Constructor for objects of type playerBoardCanvas.
 			 ***********************************************************/
-			public playerBoardCanvas()
+			public playerBoardCanvas(gameCanvas gamboard)
 			{
-
+				this.gameBoard = gameBoard;
 			}
 
 			/************************************************************
@@ -773,6 +818,23 @@ public class WarefareGUI extends JFrame implements ActionListener{
 						}
 						setupInfo();
 						playerBoardPan.repaint();
+					}
+					else{
+
+						Point point = event.getPoint();
+						int clickX = point.x;
+						int clickY = point.y;
+						int x = 0;
+						int y = 0;
+						for(int i = 0; i < current.getHand().size(); i++)
+						{
+							x = playerBoard.getPlayerCardXCoords().get(i)[0];
+							y = playerBoard.getPlayerCardYCoords().get(i)[0];
+							if((clickX >= x && clickX <= x + 120) && (clickY >= y && clickY <= y + 160))
+							{
+								gameBoard.setSelectedCard(current.getHand().get(i));
+							}
+						}
 					}
 				}
 			}

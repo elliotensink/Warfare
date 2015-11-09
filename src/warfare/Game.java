@@ -81,16 +81,16 @@ public class Game {
 		allCards.add(pointCard10Stack);
 
 			// Adding money cards
-		MoneyCard moneyCard1 = new MoneyCard("One $",2,"Worth 1 $",1,"money", "Money.png");
+		MoneyCard moneyCard1 = new MoneyCard("One $",2,"Worth $1 mill",1,"money", "Money.png");
 		ArrayList<Card> moneyCard1Stack = fillCardStack(moneyCard1,50);
 		allCards.add(moneyCard1Stack);
-		MoneyCard moneyCard2 = new MoneyCard("Two $",3,"Worth 2 $",3,"money", "MoneyTwo.png");
+		MoneyCard moneyCard2 = new MoneyCard("Two $",3,"Worth $2 mill",3,"money", "MoneyTwo.png");
 		ArrayList<Card> moneyCard2Stack = fillCardStack(moneyCard2,40);
 		allCards.add(moneyCard2Stack);
-		MoneyCard moneyCard3 = new MoneyCard("Three $",6,"Worth 3 $",6,"money", "MoneyThree.png");
+		MoneyCard moneyCard3 = new MoneyCard("Three $",6,"Worth $3 mill",6,"money", "MoneyThree.png");
 		ArrayList<Card> moneyCard3Stack = fillCardStack(moneyCard3,30);
 		allCards.add(moneyCard3Stack);
-		MoneyCard moneyCard4 = new MoneyCard("Four $",8,"Worth 4 $",8,"money", "MoneyFour.png");
+		MoneyCard moneyCard4 = new MoneyCard("Four $",8,"Worth $4 mill",8,"money", "MoneyFour.png");
 		ArrayList<Card> moneyCard4Stack = fillCardStack(moneyCard4,20);
 		allCards.add(moneyCard4Stack);
 		
@@ -128,7 +128,7 @@ public class Game {
 		System.out.println("\n\n\n"+pointCard1.getImg());
 		
 			// Adding defense cards
-		DefenseCard defenseCard1 = new DefenseCard("Bunker", 2, "Defense...", "defense", "Bunker.png");
+		DefenseCard defenseCard1 = new DefenseCard("Bunker", 2, "Blocks oncoming attacks.", "defense", "Bunker.png");
 		ArrayList<Card> defenseCard1Stack = fillCardStack(defenseCard1, 50);
 		allCards.add(defenseCard1Stack);
 		
