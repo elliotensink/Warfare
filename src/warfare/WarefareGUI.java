@@ -152,6 +152,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 
 		frame.add(framePAN);
 		frame.setResizable(false);
+		playBUT.setEnabled(false);
+		purchaseBUT.setEnabled(false);
 
 		runGame();
 	}
@@ -179,39 +181,33 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		// 'Play Card' button
 		if(e.getSource() == playBUT){
 			// Play action
-			playingAction = !playingAction;
-			if(playingAction)
-				gameMessage.setText("Choose Player Card");
-			else
-				gameMessage.setText("");
+//			playingAction = !playingAction;
+//			if(playingAction)
+//				gameMessage.setText("Choose Player Card");
+//			else
+//				gameMessage.setText("");
+			if(game.pAction(current, selectedCardIndex)){
+				game.actionChoice(current, selectedCardIndex);
+				setupInfo();
+			}else{
+				gameMessage.setText("This is not a playable card.");
+			}
 
 		}
 		//'Purchase Card' button
-		if(e.getSource() == purchaseBUT)
-		{
-			if(gameBoard.isSelected())
-			{
-				gameMessage.setText("");
-				if(e.getSource() == purchaseBUT){
-					if(gameBoard.isSelected()){
-						System.out.println(current.getCurrentMoney());
-						if(!game.purchaseCard(gameBoard.getSelectedIndex()))
-						{
-							gameMessage.setText("Not enough $");
-						}
-						game.purchaseCard(selectedCardIndex);
-						checkTurn();
-						System.out.println("\n\n\nDiscard:" + current.getDiscard());
-					}
-					else
-						gameMessage.setText("Please select a card");
-				}
+		if(e.getSource() == purchaseBUT){
+			System.out.println(current.getCurrentMoney());
+			if(!game.checkPurchasable(gameBoard.getSelectedIndex())){
+				gameMessage.setText("Unable to purchase card.");
+			}else{
+				game.purchaseCard(selectedCardIndex);
+				checkTurn();
+				System.out.println("\n\n\nDiscard:" + current.getDiscard());
+				setupInfo();
 			}
 		}
 
-
 		//'End Turn' button
-
 		if(e.getSource() == endTurnBUT)
 		{
 			game.purchases = 0;
@@ -249,7 +245,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			game.actions = 1;
 			while(!game.gameFinished)
 			{
-				checkTurn();
 				game.checkGameStatus();
 			}
 			game.endGame();
@@ -260,7 +255,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		 ***********************************************************/
 		private void checkTurn()
 		{
-			if(game.purchases == 0 & game.actions == 0)
+			if(game.purchases == 0 && game.actions == 0)
 			{
 				current.setCurrentMoney(0);
 				current.discard();
@@ -268,6 +263,9 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				current = game.getPlayers()[game.getCurrentPlayer()];
 				game.purchases = 1;
 				game.actions = 1;
+				gameBoard.setSelectedCard(null);
+				playBUT.setEnabled(false);
+				purchaseBUT.setEnabled(false);
 				setupInfo();
 			}
 		}
@@ -789,6 +787,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 							gameBoard.setSelectedCard(game.referenceDeck.get(i));
 							gameBoard.setSelectedIndex(selectedCardIndex);
 							gameBoard.setSelected(true);
+							playBUT.setEnabled(false);
+							purchaseBUT.setEnabled(true);
 							break;
 						}
 					}
@@ -797,29 +797,29 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				}
 				else if(event.getSource() == playerBoard)
 				{
-					if(playingAction)
-					{
-						Point point = event.getPoint();
-						int clickX = point.x;
-						int clickY = point.y;
-						int x = 0;
-						int y = 0;
-						for(int i = 0; i < current.getHand().size(); i++)
-						{
-							x = playerBoard.getPlayerCardXCoords().get(i)[0];
-							y = playerBoard.getPlayerCardYCoords().get(i)[0];
-							if((clickX >= x && clickX <= x + 120) && (clickY >= y && clickY <= y + 160))
-							{
-								if(game.playAction(current, i))
-									break;
-								else
-									gameMessage.setText("Not Playable");
-							}
-						}
-						setupInfo();
-						playerBoardPan.repaint();
-					}
-					else{
+//					if(playingAction)
+//					{
+//						Point point = event.getPoint();
+//						int clickX = point.x;
+//						int clickY = point.y;
+//						int x = 0;
+//						int y = 0;
+//						for(int i = 0; i < current.getHand().size(); i++)
+//						{
+//							x = playerBoard.getPlayerCardXCoords().get(i)[0];
+//							y = playerBoard.getPlayerCardYCoords().get(i)[0];
+//							if((clickX >= x && clickX <= x + 120) && (clickY >= y && clickY <= y + 160))
+//							{
+//								if(game.playAction(current, i))
+//									break;
+//								else
+//									gameMessage.setText("Not Playable");
+//							}
+//						}
+//						setupInfo();
+//						playerBoardPan.repaint();
+//					}
+//					else{
 
 						Point point = event.getPoint();
 						int clickX = point.x;
@@ -832,10 +832,14 @@ public class WarefareGUI extends JFrame implements ActionListener{
 							y = playerBoard.getPlayerCardYCoords().get(i)[0];
 							if((clickX >= x && clickX <= x + 120) && (clickY >= y && clickY <= y + 160))
 							{
+								selectedCardIndex = i;
 								gameBoard.setSelectedCard(current.getHand().get(i));
+								gameBoard.setSelectedIndex(selectedCardIndex);
+								playBUT.setEnabled(true);
+								purchaseBUT.setEnabled(false);
 							}
 						}
-					}
+//					}
 				}
 			}
 			public void mouseEntered(MouseEvent event)

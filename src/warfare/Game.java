@@ -160,7 +160,7 @@ public class Game {
 	private void run(){
 		while(!gameFinished)
 		{
-			playerTurn();
+			//playerTurn();
 			checkGameStatus();
 		}
 		endGame();
@@ -219,61 +219,61 @@ public class Game {
 	/************************************************************
 	 * Simulate one turn for current player.
 	 ***********************************************************/
-	public void playerTurn()
-	{
-		Player p = players[currentPlayer];
-		System.out.println("******************************************************");
-		System.out.println("Current Player: " + (currentPlayer+1));
-
-		actions = 1; 
-		purchases = 1; 
-		int choice = 0;
-
-		ArrayList<Card> pDeck = p.getHand();
-		while(actions > 0 || purchases > 0)
-		{
-			System.out.println("Player Cards: ");
-			displayCards(pDeck);
-			System.out.println("User money: " + p.getCurrentMoney());
-			System.out.println("Actions: " + actions);
-			System.out.println("Purchase: " + purchases);
-			System.out.println("____________________");
-			System.out.println("Player Options");
-			displayOptions();
-			choice = checkInput(1, 5);
-			
-			switch(choice)
-			{
-			case 1:
-				// Play action
-				int[] temp = actionChoice(p, actions, purchases);
-				actions = temp[0];
-				purchases = temp[1];
-				break;
-			case 2:
-				// Purchase card
-				purchases = purchaseChoice(p, purchases);
-				break;
-			case 3:
-				// End Turn
-				System.out.println("*EndTurn*");
-				actions = 0;
-				purchases = 0;
-				break;
-			case 4:
-				// help
-				System.out.println("*Help*");
-				break;
-			default:
-				// Show gameboard
-				System.out.println("*ShowGameboard*");
-				break;
-			}
-		}
-		p.setCurrentMoney(0);
-		p.discard();
-		nextPlayer();
-	}
+//	public void playerTurn()
+//	{
+//		Player p = players[currentPlayer];
+//		System.out.println("******************************************************");
+//		System.out.println("Current Player: " + (currentPlayer+1));
+//
+//		actions = 1; 
+//		purchases = 1; 
+//		int choice = 0;
+//
+//		ArrayList<Card> pDeck = p.getHand();
+//		while(actions > 0 || purchases > 0)
+//		{
+//			System.out.println("Player Cards: ");
+//			displayCards(pDeck);
+//			System.out.println("User money: " + p.getCurrentMoney());
+//			System.out.println("Actions: " + actions);
+//			System.out.println("Purchase: " + purchases);
+//			System.out.println("____________________");
+//			System.out.println("Player Options");
+//			displayOptions();
+//			choice = checkInput(1, 5);
+//			
+//			switch(choice)
+//			{
+//			case 1:
+//				// Play action
+//				int[] temp = actionChoice(p, actions, purchases);
+//				actions = temp[0];
+//				purchases = temp[1];
+//				break;
+//			case 2:
+//				// Purchase card
+//				purchases = purchaseChoice(p, purchases);
+//				break;
+//			case 3:
+//				// End Turn
+//				System.out.println("*EndTurn*");
+//				actions = 0;
+//				purchases = 0;
+//				break;
+//			case 4:
+//				// help
+//				System.out.println("*Help*");
+//				break;
+//			default:
+//				// Show gameboard
+//				System.out.println("*ShowGameboard*");
+//				break;
+//			}
+//		}
+//		p.setCurrentMoney(0);
+//		p.discard();
+//		nextPlayer();
+//	}
 
 	/************************************************************
 	 * Carry out user action choice.
@@ -283,19 +283,19 @@ public class Game {
 	 * @param number of purchases currently
 	 * @return new number of actions and purchases
 	 ***********************************************************/
-	private int[] actionChoice(Player p, int actions, int purchases){
+	public void actionChoice(Player p, int c){
 		System.out.println("*PlayAction*");
 		System.out.println("Choose which card to play: ");
 		displayCards(p.getHand());
 		System.out.println("(" + (p.getHand().size()+1) + ") Back to Menu");
-		int c = checkInput(1, p.getHand().size()+1);
+		//int c = checkInput(1, p.getHand().size()+1);
 		
-		if(c == p.getHand().size()+1){
-			return new int[]{actions, purchases};
-		}
+//		if(c == p.getHand().size()+1){
+//			return ;
+//		}
 		
 		if(pAction(p, c)){
-			if(p.getCard(c-1) instanceof ActionCard){
+			if(p.getCard(c) instanceof ActionCard){
 				int add[] = action(c);
 				actions += add[0];
 				purchases += add[1];
@@ -305,7 +305,7 @@ public class Game {
 			actions--;
 		}
 		
-		return new int[]{actions, purchases};
+		//return new int[]{actions, purchases};
 	}
 		
 	/************************************************************
@@ -358,37 +358,43 @@ public class Game {
 	{
 		Player p = players[currentPlayer];
 		int cost = allCards.get(cardNum).get(0).getCost();
-		if(cost > p.getCurrentMoney())
-		{
-			//System.out.println("Sorry, you're broke, choose another card.");
-			return false;
-		}
 		p.setCurrentMoney(p.getCurrentMoney()-cost);
 		players[currentPlayer].addPurchase(allCards.get(cardNum).remove(0));
 		purchases--;
 		return true;
 	}
 	
-	public Boolean playAction(Player p,int cardNum)
-	{
-		if(pAction(p,cardNum))
+	public boolean checkPurchasable(int cardNum){
+		Player p = players[currentPlayer];
+		int cost = allCards.get(cardNum).get(0).getCost();
+		if(cost > p.getCurrentMoney() || purchases == 0)
 		{
-			if(p.getCard(cardNum) instanceof ActionCard)
-			{	
-				int add[] = action(cardNum);
-				actions += add[0];
-				purchases += add[1];
-			}
-			else
-			{
-				attack(cardNum);
-			}
-			actions--;
-			return true;
-		}
-		else
+			//System.out.println("Sorry, you're broke, choose another card.");
 			return false;
+		}
+		return true;
 	}
+	
+//	public Boolean playAction(Player p,int cardNum)
+//	{
+//		if(pAction(p,cardNum))
+//		{
+//			if(p.getCard(cardNum) instanceof ActionCard)
+//			{	
+//				int add[] = action(cardNum);
+//				actions += add[0];
+//				purchases += add[1];
+//			}
+//			else
+//			{
+//				attack(cardNum);
+//			}
+//			actions--;
+//			return true;
+//		}
+//		else
+//			return false;
+//	}
 	
 	/************************************************************
 	 * Check if card is playable.
@@ -396,10 +402,10 @@ public class Game {
 	 * @param current player
 	 * @return true if playable, false if not
 	 ***********************************************************/
-	private boolean pAction(Player p, int c) {
+	public boolean pAction(Player p, int c) {
 		
 		displayCards(p.getHand());
-		if (p.getHand().get(c-1) instanceof ActionCard || p.getHand().get(c-1) instanceof AttackCard) {
+		if (p.getHand().get(c) instanceof ActionCard || p.getHand().get(c) instanceof AttackCard) {
 			
 			return true;
 		}
@@ -497,7 +503,7 @@ public class Game {
 	 * @param selected card index
 	 ***********************************************************/
 	private void attack(int selection){
-		AttackCard ac = (AttackCard) players[currentPlayer].getCard(selection-1);
+		AttackCard ac = (AttackCard) players[currentPlayer].getCard(selection);
 		for(int i=0; i < players.length; i++){
 			if(i != currentPlayer){
 				if(!defense(players[i])){
