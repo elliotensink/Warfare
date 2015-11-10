@@ -166,7 +166,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-
 		// 'Continue' button
 		if(e.getSource() == continueBUT){
 			for(int i=0; i<numPlayers; i++){
@@ -177,23 +176,19 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			frame.setVisible(true);
 		}
 
-
 		// 'Play Card' button
 		if(e.getSource() == playBUT){
-			// Play action
-//			playingAction = !playingAction;
-//			if(playingAction)
-//				gameMessage.setText("Choose Player Card");
-//			else
-//				gameMessage.setText("");
 			if(game.pAction(current, selectedCardIndex)){
 				game.actionChoice(current, selectedCardIndex);
+				current.discardOne(selectedCardIndex);
+				gameMessage.setText("");
 				setupInfo();
 			}else{
 				gameMessage.setText("This is not a playable card.");
 			}
 
 		}
+		
 		//'Purchase Card' button
 		if(e.getSource() == purchaseBUT){
 			System.out.println(current.getCurrentMoney());
@@ -203,6 +198,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				game.purchaseCard(selectedCardIndex);
 				checkTurn();
 				System.out.println("\n\n\nDiscard:" + current.getDiscard());
+				gameMessage.setText("");
 				setupInfo();
 			}
 		}
@@ -214,6 +210,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			game.actions = 0;
 			checkTurn();
 		}
+		
 		//'Help' button
 		if(e.getSource() == helpBUT)
 		{
@@ -266,6 +263,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				gameBoard.setSelectedCard(null);
 				playBUT.setEnabled(false);
 				purchaseBUT.setEnabled(false);
+				gameMessage.setText("");
 				setupInfo();
 			}
 		}
@@ -480,46 +478,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 					cardIndex++;
 				}
 
-				//Selected Card Window
-//				g.setFont(new Font("arial", Font.BOLD, 15));
-//				g.setColor(Color.BLACK);
-//				g.drawString("Selected Card: ", cardWd*6 + cardSp, cardHt+cardSp+10);
-//				g.drawPolygon(new int[]{(cardWd*6+cardSp),(cardWd*8+cardSp),(cardWd*8+cardSp),(cardWd*6+cardSp)},
-//						new int[]{(cardHt+cardSp*2),(cardHt+cardSp*2),(cardHt*3+cardSp*2),(cardHt*3+cardSp*2)}, 4);
-//				if(selectedCard != null)		
-//				{
-//					g.setColor(cardColor(selectedCard.getType()));
-//					g.fillPolygon(new int[]{(cardWd*6+cardSp)+1,(cardWd*8+cardSp)-1,(cardWd*8+cardSp)-1,(cardWd*6+cardSp+1)},
-//							new int[]{(cardHt+cardSp*2)+1,(cardHt+cardSp*2)+1,(cardHt*3+cardSp*2)-1,(cardHt*3+cardSp*2)-1}, 4);
-//					g.setColor(Color.BLACK);
-//					Graphics2D g2 = (Graphics2D) g;
-//					g2.setStroke(new BasicStroke(2));
-//					g2.drawLine(cardWd*6+cardSp,cardHt+cardSp*2+10,cardWd*8+cardSp,cardHt+cardSp*2+10);
-//					g2.drawLine(cardWd*6+cardSp,cardHt+cardSp*2+40,cardWd*8+cardSp,cardHt+cardSp*2+40);
-//					g.setFont(new Font("arial", Font.BOLD, 20));
-//					g.drawString(selectedCard.getName(),(cardWd*6+cardSp*2),(cardHt+cardSp*2+35));
-//					g.setFont(new Font("arial", Font.PLAIN, 15));
-//					g.drawString("Cost: $"+selectedCard.getCost()+" mill",(cardWd*6+cardSp*2),(cardHt+cardSp*2+55));
-//					String[] des =  selectedCard.getDescription().split(";");
-//					int HtCount = 10;
-//					g.setFont(new Font("arial", Font.PLAIN, 10));
-//					for(String s:des)
-//					{
-//						g.drawString(s,(cardWd*6+cardSp*2),(cardHt+cardSp*5+HtCount));
-//						HtCount += 10;
-//					}
-//					try 
-//					{
-//						g.drawImage(ImageIO.read(new File(selectedCard.getImg())), cardWd*6+cardSp+40, 
-//								cardHt+cardSp*5+50, 120, 120, null);
-//					} 
-//					catch (Exception e) 
-//					{
-//						e.printStackTrace();
-//					}
-//				}
-//				this.validate();
-//				this.repaint();
 				paintSelectedCard(g);
 
 			}
@@ -797,30 +755,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				}
 				else if(event.getSource() == playerBoard)
 				{
-//					if(playingAction)
-//					{
-//						Point point = event.getPoint();
-//						int clickX = point.x;
-//						int clickY = point.y;
-//						int x = 0;
-//						int y = 0;
-//						for(int i = 0; i < current.getHand().size(); i++)
-//						{
-//							x = playerBoard.getPlayerCardXCoords().get(i)[0];
-//							y = playerBoard.getPlayerCardYCoords().get(i)[0];
-//							if((clickX >= x && clickX <= x + 120) && (clickY >= y && clickY <= y + 160))
-//							{
-//								if(game.playAction(current, i))
-//									break;
-//								else
-//									gameMessage.setText("Not Playable");
-//							}
-//						}
-//						setupInfo();
-//						playerBoardPan.repaint();
-//					}
-//					else{
-
 						Point point = event.getPoint();
 						int clickX = point.x;
 						int clickY = point.y;
@@ -866,32 +800,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			// User moved mouse
 			public void mouseMoved(MouseEvent event) 
 			{
-				//			if(event.getSource() == gameBoard)
-				//			{
-				//				Point point = event.getPoint();
-				//				int clickX = point.x;
-				//				int clickY = point.y;
-				//				int x = 0;
-				//				int y = 0;
-				//				for(int j = 0; j < game.referenceDeck.size(); j++)
-				//				{
-				//					x = gameBoard.getCardXCoords().get(j)[0];
-				//					y = gameBoard.getCardYCoords().get(j)[0];
-				//					if((clickX >= x && clickX <= x + 120) && (clickY >= y && clickY <= y + 160))
-				//					{
-				//						cardInfo.setText(game.referenceDeck.get(j).getName());
-				//						break;
-				//					}
-				//					else
-				//					{
-				//						cardInfo.setText("");
-				//					}
-				//				}
-				//			}
-				//			else if(event.getSource() == playerBoard)
-				//			{
-				//				//System.out.println("HEY WORLD!!!!");
-				//			}
 
 			}
 		}
