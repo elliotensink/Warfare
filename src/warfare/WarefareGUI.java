@@ -633,7 +633,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			/************************************************************
 			 * Constructor for objects of type playerBoardCanvas.
 			 ***********************************************************/
-			public playerBoardCanvas(gameCanvas gamboard)
+			public playerBoardCanvas(gameCanvas gameBoard)
 			{
 				this.gameBoard = gameBoard;
 			}
