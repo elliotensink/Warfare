@@ -163,8 +163,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		frame.setResizable(false);
 		playBUT.setEnabled(false);
 		purchaseBUT.setEnabled(false);
-
-		runGame();
 	}
 
 	/************************************************************
@@ -193,7 +191,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				gameMessage.setText("");
 				setupInfo();
 			}else{
-				gameMessage.setText("This is not a playable card.");
+				gameMessage.setText("Not Playable");
 			}
 
 		}
@@ -203,7 +201,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			System.out.println(current.getCurrentMoney());
 			
 			if(!game.checkPurchasable(gameBoard.getSelectedIndex())){
-				gameMessage.setText("Unable to purchase card.");
+				gameMessage.setText("Not Enough $$");
 			}else{
 				game.purchaseCard(selectedCardIndex);
 				checkTurn();
@@ -232,10 +230,10 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		 ***********************************************************/
 		private void helpScreen(){
 			String help;
-			help = "1. \n";
-			help += "2. \n";
-			help += "3. \n";
-			help += "...";
+			help = "Click cards to select them\n"
+					+ "Use buttons to purchase or play cards\n"
+					+ "Game is over when all high value point cards\n"
+					+ "have been purchased";
 			JOptionPane.showMessageDialog(nameFrame, help);
 		}
 
@@ -243,16 +241,25 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		/************************************************************
 		 * Run the game. 
 		 ***********************************************************/
-		private void runGame(){
+		public void runGame(){
 			current = game.getPlayers()[game.getCurrentPlayer()];
 			game.purchases = 1;
 			game.actions = 1;
 			
-			while(!game.gameFinished){
+			while(!game.gameFinished)
+			{
 				game.checkGameStatus();
 			}
 			
 			game.endGame();
+			String results = "GAME OVER!\nPoints:\n";
+			for(int i = 0;i < game.getPlayers().length; i++)
+			{
+				results = results + names.get(i) + ": " + game.getPlayers()[i].getPoints() + "\n";
+			}
+			JFrame endGameFrame = new JFrame();
+			endGameFrame.setVisible(false);
+			JOptionPane.showMessageDialog(endGameFrame, results);
 		}
 
 		/************************************************************
@@ -804,7 +811,10 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		/************************************************************
 		 * Main function to initiate game.
 		 ***********************************************************/
-		public static void main(String[] args){
-			new WarefareGUI();
+		public static void main(String[] args)
+		{
+			System.out.println("HEY!");
+			WarefareGUI GUI = new WarefareGUI();
+			GUI.runGame();
 		}
 	}

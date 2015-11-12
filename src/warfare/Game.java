@@ -84,13 +84,13 @@ public class Game {
 		MoneyCard moneyCard1 = new MoneyCard("One $",2,"Worth $1 mill",1,"money", "Money.png");
 		ArrayList<Card> moneyCard1Stack = fillCardStack(moneyCard1,50);
 		allCards.add(moneyCard1Stack);
-		MoneyCard moneyCard2 = new MoneyCard("Two $",3,"Worth $2 mill",3,"money", "MoneyTwo.png");
+		MoneyCard moneyCard2 = new MoneyCard("Two $",3,"Worth $2 mill",2,"money", "MoneyTwo.png");
 		ArrayList<Card> moneyCard2Stack = fillCardStack(moneyCard2,40);
 		allCards.add(moneyCard2Stack);
-		MoneyCard moneyCard3 = new MoneyCard("Three $",6,"Worth $3 mill",6,"money", "MoneyThree.png");
+		MoneyCard moneyCard3 = new MoneyCard("Three $",6,"Worth $3 mill",3,"money", "MoneyThree.png");
 		ArrayList<Card> moneyCard3Stack = fillCardStack(moneyCard3,30);
 		allCards.add(moneyCard3Stack);
-		MoneyCard moneyCard4 = new MoneyCard("Four $",8,"Worth $4 mill",8,"money", "MoneyFour.png");
+		MoneyCard moneyCard4 = new MoneyCard("Four $",8,"Worth $4 mill",4,"money", "MoneyFour.png");
 		ArrayList<Card> moneyCard4Stack = fillCardStack(moneyCard4,20);
 		allCards.add(moneyCard4Stack);
 		
@@ -98,7 +98,7 @@ public class Game {
 		ActionCard actionCard1 = new ActionCard("Target Practice", 3, "+1 Cards;+1 Action", 1, 1, 0, 0, "action", "TargetPractice.png");
 		ArrayList<Card> actionCard1Stack = fillCardStack(actionCard1, 50);
 		allCards.add(actionCard1Stack);
-		ActionCard actionCard2 = new ActionCard("Medic", 4, "+3 Cards", 0, 3, 0, 0, "action", "redCross.png");
+		ActionCard actionCard2 = new ActionCard("Medic", 4, "+3 Cards", 3, 0, 0, 0, "action", "redCross.png");
 		ArrayList<Card> actionCard2Stack = fillCardStack(actionCard2, 40);
 		allCards.add(actionCard2Stack);
 		ActionCard actionCard3 = new ActionCard("Refuel", 5, "+1 Card;+1 Action;+1 Purchase;+1 $", 1, 1, 1, 1, "action", "Refuel.jpg");
@@ -454,8 +454,16 @@ public class Game {
 	 ***********************************************************/
 	public void checkGameStatus()
 	{
-		if(allCards.get(2).size()==0)
-			gameFinished = true;//Game over
+		//if(allCards.get(2).size()==0)
+			//gameFinished = true;//Game over
+		for(int i = 0;i<players.length;i++)
+		{
+			if(players[i].getPoints() > 10)
+			{
+				gameFinished = true;
+				break;
+			}
+		}
 	}
 	
 	/************************************************************
@@ -675,33 +683,33 @@ public class Game {
 	/************************************************************
 	 * Main function for running program.
 	 ***********************************************************/
-	public static void main(String[] args)
-	{
-//						System.out.println("************************************** Running Tests **************************************");
-//						JUnitCore junit = new JUnitCore();
-//						Result result = junit.run(WarfareTest.class);
-//						for (Failure failure : result.getFailures()) 
-//						{
-//							System.out.println(failure.toString());
-//						}
-//						if(result.wasSuccessful())
-//						{
-//							System.out.println("********************************** All Tests Successful **********************************");
-//						}
-		int num = 0;
-		Scanner s = new Scanner(System.in);
-		System.out.println("How many players in the game?");
-		try{
-			num = s.nextInt();
-		}catch(Exception e){
-			System.out.println("Invalid Entry");
-			s.close();
-			return;
-		}
-			
-
-		Game g = new Game(num);
-		g.run();
-		s.close();
-	}
+//	public static void main(String[] args)
+//	{
+////						System.out.println("************************************** Running Tests **************************************");
+////						JUnitCore junit = new JUnitCore();
+////						Result result = junit.run(WarfareTest.class);
+////						for (Failure failure : result.getFailures()) 
+////						{
+////							System.out.println(failure.toString());
+////						}
+////						if(result.wasSuccessful())
+////						{
+////							System.out.println("********************************** All Tests Successful **********************************");
+////						}
+//		int num = 0;
+//		Scanner s = new Scanner(System.in);
+//		System.out.println("How many players in the game?");
+//		try{
+//			num = s.nextInt();
+//		}catch(Exception e){
+//			System.out.println("Invalid Entry");
+//			s.close();
+//			return;
+//		}
+//			
+//
+//		Game g = new Game(num);
+//		g.run();
+//		s.close();
+//	}
 }

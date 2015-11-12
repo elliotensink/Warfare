@@ -100,6 +100,7 @@ public class Player {
 				points += ((PointCard)crd).getPoint();
 			}
 		}
+		setPoints(points);
 		return points;
 	}
 	
