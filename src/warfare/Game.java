@@ -16,6 +16,7 @@ public class Game {
 
 	Random rand = new Random(69);
 	
+	
 	/* Current player (position in array) and total number of players */
 	private int currentPlayer, numPlayers;
 
@@ -35,6 +36,24 @@ public class Game {
 	boolean gameFinished;
 	
 	int actions, purchases;
+	
+	
+	Game()
+	{
+		scan = new Scanner(System.in);
+		this.numPlayers = 2;
+		players = new Player[numPlayers];
+		for(int i = 0;i<numPlayers;i++)
+			players[i] = new Player();
+		allCards = new ArrayList<ArrayList<Card>>();
+		gameFinished = false;
+		currentPlayer = 0;
+		actions = 1;
+		purchases = 1;
+		
+		
+	}
+	
 
 	/************************************************************
 	 * Constructor for objects of type Game.
@@ -56,7 +75,6 @@ public class Game {
 		System.out.println("Setting up Players...");
 		setIntialPlayerCards();
 		System.out.println("Game Cards: ");
-		showBoard();
 		currentPlayer = 0;
 		actions = 1;
 		purchases = 1;
@@ -67,7 +85,7 @@ public class Game {
 	/************************************************************
 	 * Generate stack of cards to start game.
 	 ***********************************************************/
-	private void createDeck(){
+	public void createDeck(){
 
 			// Adding point cards
 		PointCard pointCard1 = new PointCard("One VP",2,"Worth 1 Victory Point",1,"point", "OneVP.png");
@@ -171,7 +189,7 @@ public class Game {
 	 * 
 	 * @param card to add, number of cards to add
 	 ***********************************************************/
-	private ArrayList<Card> fillCardStack(Card c,int n)
+	public ArrayList<Card> fillCardStack(Card c,int n)
 	{
 		ArrayList<Card> cardStack = new ArrayList<Card>();
 		for(int i = 0;i<n;i++)
@@ -182,25 +200,12 @@ public class Game {
 		return cardStack;
 	}
 
-	/************************************************************
-	 * Print cards to user.
-	 ***********************************************************/
-	private void showBoard()
-	{
-		int count = 1;
-		for(Card c: referenceDeck)
-		{
-			System.out.println("(" + count + ") " + "Name: " + c.getName() + " Cost: " + c.getCost() + 
-					" Number of Cards: " + allCards.get(count-1).size());
-			count++;
-		}
-		System.out.println("(" + count + ") " + "Back to Menu");
-	}
+
 
 	/************************************************************
 	 * Deal initial cards to players.
 	 ***********************************************************/
-	private void setIntialPlayerCards()
+	public void setIntialPlayerCards()
 	{
 		for(Player p : players)
 		{
@@ -216,64 +221,7 @@ public class Game {
 		}
 	}
 
-	/************************************************************
-	 * Simulate one turn for current player.
-	 ***********************************************************/
-//	public void playerTurn()
-//	{
-//		Player p = players[currentPlayer];
-//		System.out.println("******************************************************");
-//		System.out.println("Current Player: " + (currentPlayer+1));
-//
-//		actions = 1; 
-//		purchases = 1; 
-//		int choice = 0;
-//
-//		ArrayList<Card> pDeck = p.getHand();
-//		while(actions > 0 || purchases > 0)
-//		{
-//			System.out.println("Player Cards: ");
-//			displayCards(pDeck);
-//			System.out.println("User money: " + p.getCurrentMoney());
-//			System.out.println("Actions: " + actions);
-//			System.out.println("Purchase: " + purchases);
-//			System.out.println("____________________");
-//			System.out.println("Player Options");
-//			displayOptions();
-//			choice = checkInput(1, 5);
-//			
-//			switch(choice)
-//			{
-//			case 1:
-//				// Play action
-//				int[] temp = actionChoice(p, actions, purchases);
-//				actions = temp[0];
-//				purchases = temp[1];
-//				break;
-//			case 2:
-//				// Purchase card
-//				purchases = purchaseChoice(p, purchases);
-//				break;
-//			case 3:
-//				// End Turn
-//				System.out.println("*EndTurn*");
-//				actions = 0;
-//				purchases = 0;
-//				break;
-//			case 4:
-//				// help
-//				System.out.println("*Help*");
-//				break;
-//			default:
-//				// Show gameboard
-//				System.out.println("*ShowGameboard*");
-//				break;
-//			}
-//		}
-//		p.setCurrentMoney(0);
-//		p.discard();
-//		nextPlayer();
-//	}
+
 
 	/************************************************************
 	 * Carry out user action choice.
@@ -288,12 +236,6 @@ public class Game {
 		System.out.println("Choose which card to play: ");
 		displayCards(p.getHand());
 		System.out.println("(" + (p.getHand().size()+1) + ") Back to Menu");
-		//int c = checkInput(1, p.getHand().size()+1);
-		
-//		if(c == p.getHand().size()+1){
-//			return ;
-//		}
-		
 		if(pAction(p, c)){
 			if(p.getCard(c) instanceof ActionCard){
 				int add[] = action(c);
@@ -304,97 +246,39 @@ public class Game {
 			}
 			actions--;
 		}
-		
-		//return new int[]{actions, purchases};
 	}
 		
-	/************************************************************
-	 * Carry out user purchase choice.
-	 * 
-	 * @param current player
-	 * @param number of purchases currently
-	 * @return new number of purchases
-	 ***********************************************************/
-	private int purchaseChoice(Player p, int purchases){
-		System.out.println("*PurchaseCard*");
-		System.out.println("User money: " + p.getCurrentMoney());
-		showBoard();
-		System.out.println("Enter card choice: ");
-		int purchaseChoice = checkInput(1, referenceDeck.size()+1);
-		
-		if(purchaseChoice == p.getHand().size()+1)
-		{
-			return purchases;
-		}
-		
-		if(purchaseChoice <= referenceDeck.size())
-		{
-			//Card cardChoice = purchaseCard(purchaseChoice);
-			//while(cardChoice == null)
-			{
-				System.out.println("User money: " + p.getCurrentMoney());
-				System.out.println("Enter card choice: ");
-				purchaseChoice = checkInput(1, referenceDeck.size());
-				if(purchaseChoice >= referenceDeck.size())
-				{
-					//cardChoice = purchaseCard(purchaseChoice);
-				}
-				else
-					return purchases;
-			}
-			//players[currentPlayer].addPurchase(cardChoice);
-			
-		}
-		return purchases-1;
-	}
+
 
 	/************************************************************
 	 * Simulate the purchase of a card.
 	 * 
 	 * @param card index
-	 * @return true if purchase is successful
 	 ***********************************************************/
-	public Boolean purchaseCard(int cardNum)
+	public void purchaseCard(int cardNum)
 	{
 		Player p = players[currentPlayer];
 		int cost = allCards.get(cardNum).get(0).getCost();
 		p.setCurrentMoney(p.getCurrentMoney()-cost);
 		players[currentPlayer].addPurchase(allCards.get(cardNum).remove(0));
 		purchases--;
-		return true;
 	}
 	
+	/************************************************************
+	 * Checks if card is purchaseable
+	 * 
+	 * @param card index
+	 * @return true if purchaseable, false otherwise
+	 ***********************************************************/
 	public boolean checkPurchasable(int cardNum){
 		Player p = players[currentPlayer];
 		int cost = allCards.get(cardNum).get(0).getCost();
 		if(cost > p.getCurrentMoney() || purchases == 0)
 		{
-			//System.out.println("Sorry, you're broke, choose another card.");
 			return false;
 		}
 		return true;
 	}
-	
-//	public Boolean playAction(Player p,int cardNum)
-//	{
-//		if(pAction(p,cardNum))
-//		{
-//			if(p.getCard(cardNum) instanceof ActionCard)
-//			{	
-//				int add[] = action(cardNum);
-//				actions += add[0];
-//				purchases += add[1];
-//			}
-//			else
-//			{
-//				attack(cardNum);
-//			}
-//			actions--;
-//			return true;
-//		}
-//		else
-//			return false;
-//	}
 	
 	/************************************************************
 	 * Check if card is playable.
@@ -440,14 +324,7 @@ public class Game {
 	/************************************************************
 	 * Print game options to user.
 	 ***********************************************************/
-	private void displayOptions()
-	{
-		System.out.println("(1) Play Action");
-		System.out.println("(2) Purchase Card");
-		System.out.println("(3) End Turn");
-		System.out.println("(4) Help");
-		System.out.println("(5) Show Gameboard");
-	}
+
 
 	/************************************************************
 	 * Determine if game is over or not.
@@ -493,7 +370,7 @@ public class Game {
 	 * @param player to be checked
 	 * @return true if player has defense card, false if not
 	 ***********************************************************/
-	private boolean defense(Player p){
+	public boolean defense(Player p){
 		
 		for(int i=0; i<p.getHand().size(); i++){
 			if(p.getHand().get(i) instanceof DefenseCard){
@@ -533,7 +410,7 @@ public class Game {
 			switch(e){
 				case DISCARD:
 					for(int j=0; j<c.vals.get(i); j++){
-						p.discardOne(rand.nextInt() % p.getHand().size());
+						p.discardOne(rand.nextInt(p.getHand().size()));
 					}
 					break;
 				case STEAL:
