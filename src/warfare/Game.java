@@ -454,16 +454,16 @@ public class Game {
 	 ***********************************************************/
 	public void checkGameStatus()
 	{
-		//if(allCards.get(2).size()==0)
-			//gameFinished = true;//Game over
-		for(int i = 0;i<players.length;i++)
-		{
-			if(players[i].getPoints() > 10)
-			{
-				gameFinished = true;
-				break;
-			}
-		}
+		if(allCards.get(2).size()==0)
+			gameFinished = true;//Game over
+//		for(int i = 0;i<players.length;i++)
+//		{
+//			if(players[i].getPoints() > 10)
+//			{
+//				gameFinished = true;
+//				break;
+//			}
+//		}
 	}
 	
 	/************************************************************
