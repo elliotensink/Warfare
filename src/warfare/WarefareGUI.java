@@ -28,6 +28,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 
 	/*  */
 //	private boolean playingAction;
+	private boolean comPlayer;
 
 	/* Current player */
 	private Player current;
@@ -83,6 +84,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	 * Constructor for objects of type WarefareGUI.
 	 ***********************************************************/
 	public WarefareGUI(){
+		comPlayer = false;
 		playBUT = new JButton("Play Action");
 		purchaseBUT = new JButton("Purchase Card");
 		endTurnBUT = new JButton("End Turn");
@@ -174,10 +176,11 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e){
 
 		// 'Continue' button
-		if(e.getSource() == continueBUT){
+		if(e.getSource() == continueBUT){			
 			for(int i=0; i<numPlayers; i++){
 				names.add(nameFLDs[i].getText());
 			}
+			
 			setupInfo();
 			nameFrame.setVisible(false);
 			frame.setVisible(true);
@@ -216,6 +219,9 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			game.purchases = 0;
 			game.actions = 0;
 			checkTurn();
+			if(comPlayer){
+				compTurn();
+			}
 		}
 		
 		//'Help' button
@@ -223,7 +229,18 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			helpScreen();
 		}
 	}
-
+	
+		/************************************************************
+		 * Carry out computer players turn.
+		 ***********************************************************/
+		private void compTurn(){
+			
+			// Computer strategy logic
+			
+			game.purchases = 0;
+			game.actions = 0;
+			checkTurn();
+		}
 
 		/************************************************************
 		 * Generate and display help screen. 
@@ -314,20 +331,31 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			JPanel namePAN = new JPanel();
 			continueBUT = new JButton("Continue");
 
-			String[] numOpts = {"2", "3", "4"};
+			String[] numOpts = {"1", "2", "3", "4"};
 			String s = (String)JOptionPane.showInputDialog(nameFrame, "How many Players?",
-					"Number of players", JOptionPane.PLAIN_MESSAGE, null, numOpts, "2");
+					"Number of players", JOptionPane.PLAIN_MESSAGE, null, numOpts, "1");
 			numPlayers = Integer.parseInt(s);
+			if(numPlayers == 1){
+				numPlayers = 2;
+				comPlayer = true;
+			}
 			namePAN.setLayout(new BoxLayout(namePAN, BoxLayout.Y_AXIS));
 			namePAN.add(nameLAB);
-
-			nameFLDs = new JTextField[numPlayers];
 			
-			for(int i=0; i<numPlayers; i++){
-				nameFLDs[i] = new JTextField("Player "+(i+1), 30);
-				namePAN.add(nameFLDs[i]);
+			if(comPlayer){
+				nameFLDs = new JTextField[numPlayers];
+				nameFLDs[0] = new JTextField("Player 1", 30);
+				nameFLDs[1] = new JTextField("Computer", 30);
+				namePAN.add(nameFLDs[0]);
+			}else{
+				nameFLDs = new JTextField[numPlayers];
+			
+				for(int i=0; i<numPlayers; i++){
+					nameFLDs[i] = new JTextField("Player "+(i+1), 30);
+					namePAN.add(nameFLDs[i]);
+				}
 			}
-
+			
 			namePAN.add(continueBUT);
 
 			continueBUT.addActionListener(this);
