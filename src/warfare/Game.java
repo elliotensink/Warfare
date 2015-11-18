@@ -245,6 +245,7 @@ public class Game {
 				attack(c);
 			}
 			actions--;
+			System.out.println(p.getCard(c) + "Card Played!");
 		}
 	}
 		
@@ -262,6 +263,7 @@ public class Game {
 		p.setCurrentMoney(p.getCurrentMoney()-cost);
 		players[currentPlayer].addPurchase(allCards.get(cardNum).remove(0));
 		purchases--;
+		System.out.println(allCards.get(cardNum).get(0)+" Card Purchased!");
 	}
 	
 	/************************************************************

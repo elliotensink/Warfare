@@ -17,6 +17,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 
+	Random rand = new Random();
+	
 	/* Game variable to run game */
 	private Game game;
 
@@ -230,16 +232,137 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		}
 	}
 	
+		// As of now the computer plays like this (not sure if it works perfectly):
+		//		1. Plays all playable cards it can starting with the action cards so it can get more actions
+		//		   and play more cards if possible. If there are more than one action or attack cards it picks
+		//		   a random one of that type.
+		//		2. Randomly picks a card type out of the 5 possibilities (numbered 0-4) and purchases the 
+		//		   most expensive card of that type that it can and continues in that manner until it either
+		//		   runs out of money or purchases.
+		//		3. Ends the turn.
+	
 		/************************************************************
 		 * Carry out computer players turn.
 		 ***********************************************************/
 		private void compTurn(){
+			ArrayList <Card> aCards = new ArrayList <Card>();
+			ArrayList <Integer> aIndex = new ArrayList <Integer>();
 			
-			// Computer strategy logic
+			// Find all playable cards
+			for(int i=0; i<current.getHand().size(); i++){
+				Card c = current.getCard(i);
+				if(c instanceof ActionCard || c instanceof AttackCard){
+					aCards.add(c);
+					aIndex.add(i);
+				}
+			}
 			
+			// Play playable cards
+			if(aCards.size() != 0){
+				compPlay(aCards, aIndex);
+			}
+			
+			// Purchase cards
+			if(current.getCurrentMoney() > 1){
+				compPurchase();
+			}
+			
+			// Next player
 			game.purchases = 0;
 			game.actions = 0;
 			checkTurn();
+		}
+		
+		/************************************************************
+		 * Carry out computer purchases.
+		 ***********************************************************/
+		private void compPurchase(){
+			
+			// Purchase cards until purchase not possible
+			while(game.purchases != 0 && current.getCurrentMoney() > 1){
+				
+				// Random card type
+				int type = rand.nextInt(5);
+				int min, max;
+				
+				// Set range of chosen card type
+				switch(type){
+					// Point card
+					case 0: 
+						min = 0;
+						max = 2;
+						break;
+					// Money card
+					case 1:
+						min = 3;
+						max = 6;
+						break;
+					// Action card
+					case 2:
+						min = 7;
+						max = 11;
+						break;
+					// Attack card
+					case 3:
+						min = 12;
+						max = 15;
+						break;
+					// Defense card
+					case 4:
+						min = 16;
+						max = 16;
+						break;
+					default:
+						min = max = 0;
+				}
+				
+				// Find most expensive card that can be bought
+				while(max >= min && !game.checkPurchasable(max)){
+					max--;
+				}
+				
+				// Purchase card
+				if(game.checkPurchasable(max)){
+					game.purchaseCard(max);
+				}
+			}
+		}
+		
+		/************************************************************
+		 * Play computers playable cards.
+		 * 
+		 * @param players current playable cards
+		 * @param index of each playable card
+		 ***********************************************************/
+		private void compPlay(ArrayList <Card> aCards, ArrayList <Integer> aIndex){
+			ArrayList <Integer> actionIndex = new ArrayList <Integer>();
+			ArrayList <Integer> attackIndex = new ArrayList <Integer>();
+			
+			// Separate action and attack cards
+			for(int i=0; i<aCards.size(); i++){
+				Card c = aCards.get(i);
+				if(c instanceof ActionCard){
+					actionIndex.add(aIndex.get(i));
+				}else{
+					attackIndex.add(aIndex.get(i));
+				}
+			}
+			
+			// Play all action and attack cards in hand (action first)
+			// that you can
+			while(game.actions != 0 && actionIndex.size() + attackIndex.size() != 0){
+				if(actionIndex.size() != 0){
+					
+					// If there are more than one it picks a random one to play
+					selectedCardIndex = actionIndex.remove(rand.nextInt(actionIndex.size()));
+					game.actionChoice(current, selectedCardIndex);
+					current.discardOne(selectedCardIndex);
+				}else{
+					selectedCardIndex = attackIndex.remove(rand.nextInt(attackIndex.size()));
+					game.actionChoice(current, selectedCardIndex);
+					current.discardOne(selectedCardIndex);
+				}
+			}
 		}
 
 		/************************************************************
