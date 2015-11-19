@@ -82,7 +82,6 @@ public class PointCard extends Card{
      ***********************************************************/
 	public String toString(){
 		String str = super.toString();
-		str += point + " Point(s), File: " + this.getImg();
 		return str;
 	}
 }

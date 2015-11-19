@@ -99,16 +99,16 @@ public class Game {
 		allCards.add(pointCard10Stack);
 
 			// Adding money cards
-		MoneyCard moneyCard1 = new MoneyCard("One $",2,"Worth $1 mill",1,"money", "Money.png");
+		MoneyCard moneyCard1 = new MoneyCard("$1 mill",2,"Worth $1 mill",1,"money", "Money.png");
 		ArrayList<Card> moneyCard1Stack = fillCardStack(moneyCard1,50);
 		allCards.add(moneyCard1Stack);
-		MoneyCard moneyCard2 = new MoneyCard("Two $",3,"Worth $2 mill",2,"money", "MoneyTwo.png");
+		MoneyCard moneyCard2 = new MoneyCard("$2 mill",3,"Worth $2 mill",2,"money", "MoneyTwo.png");
 		ArrayList<Card> moneyCard2Stack = fillCardStack(moneyCard2,40);
 		allCards.add(moneyCard2Stack);
-		MoneyCard moneyCard3 = new MoneyCard("Three $",6,"Worth $3 mill",3,"money", "MoneyThree.png");
+		MoneyCard moneyCard3 = new MoneyCard("$3 mill",6,"Worth $3 mill",3,"money", "MoneyThree.png");
 		ArrayList<Card> moneyCard3Stack = fillCardStack(moneyCard3,30);
 		allCards.add(moneyCard3Stack);
-		MoneyCard moneyCard4 = new MoneyCard("Four $",8,"Worth $4 mill",4,"money", "MoneyFour.png");
+		MoneyCard moneyCard4 = new MoneyCard("$4 mill",8,"Worth $4 mill",4,"money", "MoneyFour.png");
 		ArrayList<Card> moneyCard4Stack = fillCardStack(moneyCard4,20);
 		allCards.add(moneyCard4Stack);
 		
@@ -119,13 +119,13 @@ public class Game {
 		ActionCard actionCard2 = new ActionCard("Medic", 4, "+3 Cards", 3, 0, 0, 0, "action", "redCross.png");
 		ArrayList<Card> actionCard2Stack = fillCardStack(actionCard2, 40);
 		allCards.add(actionCard2Stack);
-		ActionCard actionCard3 = new ActionCard("Refuel", 5, "+1 Card;+1 Action;+1 Purchase;+1 $", 1, 1, 1, 1, "action", "Refuel.jpg");
+		ActionCard actionCard3 = new ActionCard("Refuel", 5, "+1 Card;+1 Action;+1 Purchase;+$1 mill", 1, 1, 1, 1, "action", "Refuel.jpg");
 		ArrayList<Card> actionCard3Stack = fillCardStack(actionCard3, 30);
 		allCards.add(actionCard3Stack);
-		ActionCard actionCard4 = new ActionCard("BaseCamp", 8, "+2 Cards;+2 Purchases;+4 $", 2, 0, 2, 4, "action", "BaseCamp.jpg");
+		ActionCard actionCard4 = new ActionCard("BaseCamp", 8, "+2 Cards;+2 Purchases;+$4 mill", 2, 0, 2, 4, "action", "BaseCamp.jpg");
 		ArrayList<Card> actionCard4Stack = fillCardStack(actionCard4, 20);
 		allCards.add(actionCard4Stack);
-		ActionCard actionCard5 = new ActionCard("AirDrop", 10, "+3 Cards;+2 Actions;+2 Purchases;+4 $", 3, 2, 2, 4, "action", "AirDrop.jpg");
+		ActionCard actionCard5 = new ActionCard("AirDrop", 10, "+3 Cards;+2 Actions;+2 Purchases;+$4 mill", 3, 2, 2, 4, "action", "AirDrop.jpg");
 		ArrayList<Card> actionCard5Stack = fillCardStack(actionCard5, 20);
 		allCards.add(actionCard5Stack);
 		
@@ -324,11 +324,6 @@ public class Game {
 	}
 
 	/************************************************************
-	 * Print game options to user.
-	 ***********************************************************/
-
-
-	/************************************************************
 	 * Determine if game is over or not.
 	 ***********************************************************/
 	public void checkGameStatus()
@@ -467,6 +462,10 @@ public class Game {
 		int ret[] = {action[1], action[2]};
 		
 		return ret;		
+	}
+	
+	public Card getCard(int index){
+		return allCards.get(index).get(0);
 	}
 
 	/************************************************************

@@ -245,27 +245,28 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		 * Carry out computer players turn.
 		 ***********************************************************/
 		private void compTurn(){
-			ArrayList <Card> aCards = new ArrayList <Card>();
-			ArrayList <Integer> aIndex = new ArrayList <Integer>();
+			String message = "";
+			Boolean playable = false;
 			
 			// Find all playable cards
 			for(int i=0; i<current.getHand().size(); i++){
 				Card c = current.getCard(i);
 				if(c instanceof ActionCard || c instanceof AttackCard){
-					aCards.add(c);
-					aIndex.add(i);
+					playable = true;
 				}
 			}
 			
 			// Play playable cards
-			if(aCards.size() != 0){
-				compPlay(aCards, aIndex);
+			if(playable){
+				message += compPlay();
 			}
 			
 			// Purchase cards
 			if(current.getCurrentMoney() > 1){
-				compPurchase();
+				message += compPurchase();
 			}
+			
+			JOptionPane.showConfirmDialog(this, message, "Computers Turn", numPlayers);
 			
 			// Next player
 			game.purchases = 0;
@@ -276,8 +277,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		/************************************************************
 		 * Carry out computer purchases.
 		 ***********************************************************/
-		private void compPurchase(){
-			
+		private String compPurchase(){
+			String message = "Purchases:\n";
 			// Purchase cards until purchase not possible
 			while(game.purchases != 0 && current.getCurrentMoney() > 1){
 				
@@ -324,8 +325,10 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				// Purchase card
 				if(game.checkPurchasable(max)){
 					game.purchaseCard(max);
+					message += "  - " + game.getCard(max) + " card.\n";
 				}
 			}
+			return message;
 		}
 		
 		/************************************************************
@@ -334,35 +337,44 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		 * @param players current playable cards
 		 * @param index of each playable card
 		 ***********************************************************/
-		private void compPlay(ArrayList <Card> aCards, ArrayList <Integer> aIndex){
+		private String compPlay(){
 			ArrayList <Integer> actionIndex = new ArrayList <Integer>();
 			ArrayList <Integer> attackIndex = new ArrayList <Integer>();
-			
-			// Separate action and attack cards
-			for(int i=0; i<aCards.size(); i++){
-				Card c = aCards.get(i);
-				if(c instanceof ActionCard){
-					actionIndex.add(aIndex.get(i));
-				}else{
-					attackIndex.add(aIndex.get(i));
-				}
-			}
+			String message = "Plays:\n";
+			actionIndex.add(0);
+			attackIndex.add(0);
 			
 			// Play all action and attack cards in hand (action first)
 			// that you can
 			while(game.actions != 0 && actionIndex.size() + attackIndex.size() != 0){
+				actionIndex.clear();
+				attackIndex.clear();
+				
+				for(int i=0; i<current.getHand().size(); i++){
+					Card c = current.getCard(i);
+					if(c instanceof ActionCard){
+						actionIndex.add(i);
+					}else if(c instanceof AttackCard){
+						attackIndex.add(i);
+					}
+				}
+				
 				if(actionIndex.size() != 0){
-					
+					int index = rand.nextInt(actionIndex.size());
 					// If there are more than one it picks a random one to play
-					selectedCardIndex = actionIndex.remove(rand.nextInt(actionIndex.size()));
+					selectedCardIndex = actionIndex.get(index);
 					game.actionChoice(current, selectedCardIndex);
+					message += "  - " + current.getCard(selectedCardIndex) + " card.\n";
 					current.discardOne(selectedCardIndex);
-				}else{
-					selectedCardIndex = attackIndex.remove(rand.nextInt(attackIndex.size()));
+				}else if(attackIndex.size() != 0){
+					int index = rand.nextInt(attackIndex.size());
+					selectedCardIndex = attackIndex.get(index);
 					game.actionChoice(current, selectedCardIndex);
+					message += "  - " + current.getCard(selectedCardIndex) + " card.\n";
 					current.discardOne(selectedCardIndex);
 				}
 			}
+			return message;
 		}
 
 		/************************************************************
