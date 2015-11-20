@@ -2,10 +2,6 @@ package warfare;
 
 import java.util.*;
 
-import org.junit.runner.JUnitCore;
-import org.junit.runner.Result;
-import org.junit.runner.notification.Failure;
-
 /****************************************************************
  * Class for simulation of Warfare card game.
  * 
@@ -14,8 +10,8 @@ import org.junit.runner.notification.Failure;
  ***************************************************************/
 public class Game {
 
+	/* Random variable */
 	Random rand = new Random(69);
-	
 	
 	/* Current player (position in array) and total number of players */
 	private int currentPlayer, numPlayers;
@@ -29,18 +25,16 @@ public class Game {
 	/* Array list containing one copy of each unique card */
 	ArrayList<Card> referenceDeck;
 
-	/* Scanner for user input */
-	private Scanner scan;
-
 	/* Boolean value to determine when game is over */
 	boolean gameFinished;
 	
+	/* Number of actions and purchases current player has */
 	int actions, purchases;
 	
-	
-	Game()
-	{
-		scan = new Scanner(System.in);
+	/************************************************************
+	 * Constructor for objects of type Game.
+	 ***********************************************************/
+	Game(){
 		this.numPlayers = 2;
 		players = new Player[numPlayers];
 		for(int i = 0;i<numPlayers;i++)
@@ -50,19 +44,14 @@ public class Game {
 		currentPlayer = 0;
 		actions = 1;
 		purchases = 1;
-		
-		
 	}
 	
-
 	/************************************************************
 	 * Constructor for objects of type Game.
 	 * 
 	 * @param number of players
 	 ***********************************************************/
-	Game(int numPlayers)
-	{
-		scan = new Scanner(System.in);
+	Game(int numPlayers){
 		this.numPlayers = numPlayers;
 		players = new Player[numPlayers];
 		for(int i = 0;i<numPlayers;i++)
@@ -70,11 +59,7 @@ public class Game {
 		allCards = new ArrayList<ArrayList<Card>>();
 		gameFinished = false;
 		createDeck();
-		System.out.println("Intial Cards: ");
-		//showBoard();
-		System.out.println("Setting up Players...");
 		setIntialPlayerCards();
-		System.out.println("Game Cards: ");
 		currentPlayer = 0;
 		actions = 1;
 		purchases = 1;
@@ -143,7 +128,6 @@ public class Game {
 		AttackCard attackCard4 = new AttackCard("Tank", 10, "attacks...", new int[]{0, 0, 1, 0, 2}, "attack", "Tank.jpg");
 		ArrayList<Card> attackCard4Stack = fillCardStack(attackCard4, 20);
 		allCards.add(attackCard4Stack);
-		System.out.println("\n\n\n"+pointCard1.getImg());
 		
 			// Adding defense cards
 		DefenseCard defenseCard1 = new DefenseCard("Bunker", 2, "Blocks oncoming attacks.", "defense", "Bunker.png");
@@ -168,20 +152,6 @@ public class Game {
 		referenceDeck.add(attackCard3);
 		referenceDeck.add(attackCard4);
 		referenceDeck.add(defenseCard1);
-		
-	}
-	
-	
-	/************************************************************
-	 * Run game.
-	 ***********************************************************/
-	private void run(){
-		while(!gameFinished)
-		{
-			//playerTurn();
-			checkGameStatus();
-		}
-		endGame();
 	}
 
 	/************************************************************
@@ -189,26 +159,19 @@ public class Game {
 	 * 
 	 * @param card to add, number of cards to add
 	 ***********************************************************/
-	public ArrayList<Card> fillCardStack(Card c,int n)
-	{
+	public ArrayList<Card> fillCardStack(Card c,int n){
 		ArrayList<Card> cardStack = new ArrayList<Card>();
-		for(int i = 0;i<n;i++)
-		{
+		for(int i = 0;i<n;i++){
 			cardStack.add(c.cardClone(c));
 		}
-
 		return cardStack;
 	}
-
-
 
 	/************************************************************
 	 * Deal initial cards to players.
 	 ***********************************************************/
-	public void setIntialPlayerCards()
-	{
-		for(Player p : players)
-		{
+	public void setIntialPlayerCards(){
+		for(Player p : players){
 			ArrayList<Card> pDeck = new ArrayList<Card>();
 			for(int i = 0;i<3;i++)
 				pDeck.add(allCards.get(0).remove(0));
@@ -221,8 +184,6 @@ public class Game {
 		}
 	}
 
-
-
 	/************************************************************
 	 * Carry out user action choice.
 	 * 
@@ -232,32 +193,24 @@ public class Game {
 	 * @return new number of actions and purchases
 	 ***********************************************************/
 	public void actionChoice(Player p, int c){
-		System.out.println("*PlayAction*");
-		System.out.println("Choose which card to play: ");
-		displayCards(p.getHand());
-		System.out.println("(" + (p.getHand().size()+1) + ") Back to Menu");
 		if(pAction(p, c)){
 			if(p.getCard(c) instanceof ActionCard){
 				int add[] = action(c);
 				actions += add[0];
 				purchases += add[1];
-			}else{
+			}else
 				attack(c);
-			}
 			actions--;
 			System.out.println(p.getCard(c) + "Card Played!");
 		}
 	}
-		
-
 
 	/************************************************************
 	 * Simulate the purchase of a card.
 	 * 
 	 * @param card index
 	 ***********************************************************/
-	public void purchaseCard(int cardNum)
-	{
+	public void purchaseCard(int cardNum){
 		Player p = players[currentPlayer];
 		int cost = allCards.get(cardNum).get(0).getCost();
 		p.setCurrentMoney(p.getCurrentMoney()-cost);
@@ -275,8 +228,7 @@ public class Game {
 	public boolean checkPurchasable(int cardNum){
 		Player p = players[currentPlayer];
 		int cost = allCards.get(cardNum).get(0).getCost();
-		if(cost > p.getCurrentMoney() || purchases == 0)
-		{
+		if(cost > p.getCurrentMoney() || purchases == 0){
 			return false;
 		}
 		return true;
@@ -289,71 +241,38 @@ public class Game {
 	 * @return true if playable, false if not
 	 ***********************************************************/
 	public boolean pAction(Player p, int c) {
-		
-		displayCards(p.getHand());
 		if (p.getHand().get(c) instanceof ActionCard || p.getHand().get(c) instanceof AttackCard) {
-			
 			return true;
 		}
-		
-		System.out.println("That is not a playabe card please select a playable card");
 		return false;
 	}
 
 	/************************************************************
 	 * Move to next player.
 	 ***********************************************************/
-	void nextPlayer()
-	{
+	void nextPlayer(){
 		currentPlayer++;
 		currentPlayer = currentPlayer%numPlayers;//Make sure the currentPlayer stays within the the appropriate range (0 -> numPlayers)
 	}
 
 	/************************************************************
-	 * Print cards to user.
-	 * 
-	 * @param cards to be printed
-	 ***********************************************************/
-	private void displayCards(ArrayList<Card> cards){
-		int count = 1;
-		for(Card c : cards)
-		{
-			System.out.println("(" + count + ") " + c);
-			count++;
-		}
-	}
-
-	/************************************************************
 	 * Determine if game is over or not.
 	 ***********************************************************/
-	public void checkGameStatus()
-	{
+	public void checkGameStatus(){
 		if(allCards.get(2).size()==0)
 			gameFinished = true;//Game over
-//		for(int i = 0;i<players.length;i++)
-//		{
-//			if(players[i].getPoints() > 10)
-//			{
-//				gameFinished = true;
-//				break;
-//			}
-//		}
 	}
 	
 	/************************************************************
 	 * Determine if game is over or not.
 	 ***********************************************************/
-	public int endGame()
-	{
+	public int endGame(){
 		int maxScore = 0;
 		int playerScore = 0;
 		int winningPlayer = 0;
 		int index = 1;
-		for(Player p: players)
-		{
-
+		for(Player p: players){
 			playerScore = p.calcPoints();
-			System.out.println("Player: " + index + " Score: " + playerScore);
 			if(playerScore > maxScore)
 				winningPlayer = index;
 			index++;
@@ -368,14 +287,12 @@ public class Game {
 	 * @return true if player has defense card, false if not
 	 ***********************************************************/
 	public boolean defense(Player p){
-		
 		for(int i=0; i<p.getHand().size(); i++){
 			if(p.getHand().get(i) instanceof DefenseCard){
 				System.out.println("BLOCKED!");
 				return true;
 			}
 		}
-		
 		return false;
 	}
 	
@@ -426,30 +343,6 @@ public class Game {
 	}
 	
 	/************************************************************
-	 * Validate user entry.
-	 * 
-	 * @param minimum integer value allowed
-	 * @param maximum integer value allowed
-	 * @return valid user entry
-	 ***********************************************************/
-	private int checkInput(int min, int max){
-		int res = 0;
-		
-		try{
-			res = scan.nextInt();
-			if(res < min || res > max){
-				System.out.println("Please enter a valid integer between " + min + " and " + max);
-				checkInput(min, max);
-			}
-			
-		}catch(Exception e){
-			System.out.println("Please enter a valid integer between " + min + " and " + max);
-			//checkInput(min, max);
-		}
-		return res;
-	}
-	
-	/************************************************************
 	 * Carry out an ActionCard.
 	 * 
 	 * @return number of actions and purchases to be added
@@ -464,6 +357,11 @@ public class Game {
 		return ret;		
 	}
 	
+	/************************************************************
+	 * Get specific card.
+	 * 
+	 * @return desired card
+	 ***********************************************************/
 	public Card getCard(int index){
 		return allCards.get(index).get(0);
 	}
@@ -473,7 +371,7 @@ public class Game {
 	 * 
 	 * @return current player
 	 ***********************************************************/
-	public int getCurrentPlayer() {
+	public int getCurrentPlayer(){
 		return currentPlayer;
 	}
 
@@ -482,7 +380,7 @@ public class Game {
 	 * 
 	 * @param current player
 	 ***********************************************************/
-	public void setCurrentPlayer(int currentPlayer) {
+	public void setCurrentPlayer(int currentPlayer){
 		this.currentPlayer = currentPlayer;
 	}
 
@@ -491,7 +389,7 @@ public class Game {
 	 * 
 	 * @return number of player
 	 ***********************************************************/
-	public int getNumPlayers() {
+	public int getNumPlayers(){
 		return numPlayers;
 	}
 
@@ -500,7 +398,7 @@ public class Game {
 	 * 
 	 * @param number of player
 	 ***********************************************************/
-	public void setNumPlayers(int numPlayers) {
+	public void setNumPlayers(int numPlayers){
 		this.numPlayers = numPlayers;
 	}
 
@@ -509,7 +407,7 @@ public class Game {
 	 * 
 	 * @return array of players
 	 ***********************************************************/
-	public Player[] getPlayers() {
+	public Player[] getPlayers(){
 		return players;
 	}
 
@@ -518,7 +416,7 @@ public class Game {
 	 * 
 	 * @param array of players
 	 ***********************************************************/
-	public void setPlayers(Player[] players) {
+	public void setPlayers(Player[] players){
 		this.players = players;
 	}
 
@@ -527,7 +425,7 @@ public class Game {
 	 * 
 	 * @return true if finished, false if not
 	 ***********************************************************/
-	public boolean isGameFinished() {
+	public boolean isGameFinished(){
 		return gameFinished;
 	}
 
@@ -536,7 +434,7 @@ public class Game {
 	 * 
 	 * @param true if finished, false if not
 	 ***********************************************************/
-	public void setGameFinished(boolean gameFinished) {
+	public void setGameFinished(boolean gameFinished){
 		this.gameFinished = gameFinished;
 	}
 
@@ -545,7 +443,7 @@ public class Game {
 	 * 
 	 * @param number of actions
 	 ***********************************************************/
-	public void setActions(int actions) {
+	public void setActions(int actions){
 		this.actions = actions;
 	}
 
@@ -554,40 +452,7 @@ public class Game {
 	 * 
 	 * @param number of purchases
 	 ***********************************************************/
-	public void setPurchases(int purchases) {
+	public void setPurchases(int purchases){
 		this.purchases = purchases;
 	}
-
-	/************************************************************
-	 * Main function for running program.
-	 ***********************************************************/
-//	public static void main(String[] args)
-//	{
-////						System.out.println("************************************** Running Tests **************************************");
-////						JUnitCore junit = new JUnitCore();
-////						Result result = junit.run(WarfareTest.class);
-////						for (Failure failure : result.getFailures()) 
-////						{
-////							System.out.println(failure.toString());
-////						}
-////						if(result.wasSuccessful())
-////						{
-////							System.out.println("********************************** All Tests Successful **********************************");
-////						}
-//		int num = 0;
-//		Scanner s = new Scanner(System.in);
-//		System.out.println("How many players in the game?");
-//		try{
-//			num = s.nextInt();
-//		}catch(Exception e){
-//			System.out.println("Invalid Entry");
-//			s.close();
-//			return;
-//		}
-//			
-//
-//		Game g = new Game(num);
-//		g.run();
-//		s.close();
-//	}
 }

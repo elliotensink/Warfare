@@ -28,8 +28,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	/* Number of players and index of selected card */
 	private int numPlayers, selectedCardIndex;
 
-	/*  */
-//	private boolean playingAction;
+	/* Is there a computer player */
 	private boolean comPlayer;
 
 	/* Current player */
@@ -126,7 +125,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		gameBoard.addMouseListener(cl);
 		gameBoard.addMouseMotionListener(cl);
 
-		playerBoard = new playerBoardCanvas(gameBoard);
+		playerBoard = new playerBoardCanvas();
 		playerBoard.addMouseListener(cl);
 		playerBoard.addMouseMotionListener(cl);
 
@@ -202,15 +201,12 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		}
 		
 		//'Purchase Card' button
-		if(e.getSource() == purchaseBUT){
-			System.out.println(current.getCurrentMoney());
-			
+		if(e.getSource() == purchaseBUT){			
 			if(!game.checkPurchasable(gameBoard.getSelectedIndex())){
 				gameMessage.setText("Not Enough $$");
 			}else{
 				game.purchaseCard(selectedCardIndex);
 				checkTurn();
-				System.out.println("\n\n\nDiscard:" + current.getDiscard());
 				gameMessage.setText("");
 				setupInfo();
 			}
@@ -512,8 +508,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			private final int cardWd = 100;
 			private final int cardHt = 120;
 			private final int cardSp = 20;
-
-			private Boolean selected;
 			private Card selectedCard;
 
 			/************************************************************
@@ -523,7 +517,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			 ***********************************************************/
 			public gameCanvas(ArrayList<ArrayList<Card>> crds){
 				this.crds = crds;
-				selected = false;
 				selectedCard = null;
 			}
 
@@ -597,24 +590,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			 ***********************************************************/
 			public void setSelectedIndex(int i){
 				selectedIndex = i;
-			}
-
-			/************************************************************
-			 * Check if a card is selected.
-			 * 
-			 * @return true if card is selected, false if not
-			 ***********************************************************/
-			public Boolean isSelected(){
-				return selected;
-			}
-
-			/************************************************************
-			 * Set if a card is selected.
-			 * 
-			 * @param true if card is selected, false if not
-			 ***********************************************************/
-			public void setSelected(Boolean b){
-				selected = b;
 			}
 
 			/************************************************************
@@ -752,9 +727,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			private ArrayList<Card> playerHand;
 			private ArrayList<int[]> playerCardXCoords = new ArrayList<int[]>();
 			private ArrayList<int[]> playerCardYCoords = new ArrayList<int[]>();
-			private gameCanvas gameBoard;
-
-
 			private final int cardWd = 100;
 			private final int cardHt = 120;
 			private final int cardSp = 20;
@@ -763,9 +735,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			 * Constructor for objects of type playerBoardCanvas.
 			 ***********************************************************/
 
-			public playerBoardCanvas(gameCanvas gameBoard)
-			{
-				this.gameBoard = gameBoard;
+			public playerBoardCanvas(){
 			}
 
 			/************************************************************
@@ -798,24 +768,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				default:
 					return Color.WHITE;
 				}
-			}
-
-			/************************************************************
-			 * Get X coordinates of player cards.
-			 * 
-			 * @return arraylist of X coordinates
-			 ***********************************************************/
-			public ArrayList<int[]> getPlayerCardXCoords(){
-				return playerCardXCoords;
-			}
-
-			/************************************************************
-			 * Get Y coordinates of player cards.
-			 * 
-			 * @return arraylist of Y coordinates
-			 ***********************************************************/
-			public ArrayList<int[]> getPlayerCardYCoords(){
-				return playerCardYCoords;
 			}
 
 			/************************************************************
@@ -913,7 +865,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 					return true;
 				}
 			}
-			
 			return false;
 		}
 
@@ -935,8 +886,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 						playBUT.setEnabled(false);
 						purchaseBUT.setEnabled(true);
 					}
-					
-					System.out.println(selectedCardIndex);
 					gameBoardPan.repaint();
 				}
 				
