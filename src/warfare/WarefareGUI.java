@@ -17,6 +17,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 
+	Random rand = new Random();
+	
 	/* Game variable to run game */
 	private Game game;
 
@@ -26,8 +28,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	/* Number of players and index of selected card */
 	private int numPlayers, selectedCardIndex;
 
-	/*  */
-//	private boolean playingAction;
+	/* Is there a computer player */
+	private boolean comPlayer;
 
 	/* Current player */
 	private Player current;
@@ -83,6 +85,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	 * Constructor for objects of type WarefareGUI.
 	 ***********************************************************/
 	public WarefareGUI(){
+		comPlayer = false;
 		playBUT = new JButton("Play Action");
 		purchaseBUT = new JButton("Purchase Card");
 		endTurnBUT = new JButton("End Turn");
@@ -122,7 +125,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		gameBoard.addMouseListener(cl);
 		gameBoard.addMouseMotionListener(cl);
 
-		playerBoard = new playerBoardCanvas(gameBoard);
+		playerBoard = new playerBoardCanvas();
 		playerBoard.addMouseListener(cl);
 		playerBoard.addMouseMotionListener(cl);
 
@@ -174,10 +177,11 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e){
 
 		// 'Continue' button
-		if(e.getSource() == continueBUT){
+		if(e.getSource() == continueBUT){			
 			for(int i=0; i<numPlayers; i++){
 				names.add(nameFLDs[i].getText());
 			}
+			
 			setupInfo();
 			nameFrame.setVisible(false);
 			frame.setVisible(true);
@@ -197,15 +201,12 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		}
 		
 		//'Purchase Card' button
-		if(e.getSource() == purchaseBUT){
-			System.out.println(current.getCurrentMoney());
-			
+		if(e.getSource() == purchaseBUT){			
 			if(!game.checkPurchasable(gameBoard.getSelectedIndex())){
 				gameMessage.setText("Not Enough $$");
 			}else{
 				game.purchaseCard(selectedCardIndex);
 				checkTurn();
-				System.out.println("\n\n\nDiscard:" + current.getDiscard());
 				gameMessage.setText("");
 				setupInfo();
 			}
@@ -216,6 +217,9 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			game.purchases = 0;
 			game.actions = 0;
 			checkTurn();
+			if(comPlayer){
+				compTurn();
+			}
 		}
 		
 		//'Help' button
@@ -223,7 +227,151 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			helpScreen();
 		}
 	}
-
+	
+		// As of now the computer plays like this (not sure if it works perfectly):
+		//		1. Plays all playable cards it can starting with the action cards so it can get more actions
+		//		   and play more cards if possible. If there are more than one action or attack cards it picks
+		//		   a random one of that type.
+		//		2. Randomly picks a card type out of the 5 possibilities (numbered 0-4) and purchases the 
+		//		   most expensive card of that type that it can and continues in that manner until it either
+		//		   runs out of money or purchases.
+		//		3. Ends the turn.
+	
+		/************************************************************
+		 * Carry out computer players turn.
+		 ***********************************************************/
+		private void compTurn(){
+			String message = "";
+			Boolean playable = false;
+			
+			// Find all playable cards
+			for(int i=0; i<current.getHand().size(); i++){
+				Card c = current.getCard(i);
+				if(c instanceof ActionCard || c instanceof AttackCard){
+					playable = true;
+				}
+			}
+			
+			// Play playable cards
+			if(playable){
+				message += compPlay();
+			}
+			
+			// Purchase cards
+			if(current.getCurrentMoney() > 1){
+				message += compPurchase();
+			}
+			
+			JOptionPane.showConfirmDialog(this, message, "Computers Turn", numPlayers);
+			
+			// Next player
+			game.purchases = 0;
+			game.actions = 0;
+			checkTurn();
+		}
+		
+		/************************************************************
+		 * Carry out computer purchases.
+		 ***********************************************************/
+		private String compPurchase(){
+			String message = "Purchases:\n";
+			// Purchase cards until purchase not possible
+			while(game.purchases != 0 && current.getCurrentMoney() > 1){
+				
+				// Random card type
+				int type = rand.nextInt(5);
+				int min, max;
+				
+				// Set range of chosen card type
+				switch(type){
+					// Point card
+					case 0: 
+						min = 0;
+						max = 2;
+						break;
+					// Money card
+					case 1:
+						min = 3;
+						max = 6;
+						break;
+					// Action card
+					case 2:
+						min = 7;
+						max = 11;
+						break;
+					// Attack card
+					case 3:
+						min = 12;
+						max = 15;
+						break;
+					// Defense card
+					case 4:
+						min = 16;
+						max = 16;
+						break;
+					default:
+						min = max = 0;
+				}
+				
+				// Find most expensive card that can be bought
+				while(max >= min && !game.checkPurchasable(max)){
+					max--;
+				}
+				
+				// Purchase card
+				if(game.checkPurchasable(max)){
+					game.purchaseCard(max);
+					message += "  - " + game.getCard(max) + " card.\n";
+				}
+			}
+			return message;
+		}
+		
+		/************************************************************
+		 * Play computers playable cards.
+		 * 
+		 * @param players current playable cards
+		 * @param index of each playable card
+		 ***********************************************************/
+		private String compPlay(){
+			ArrayList <Integer> actionIndex = new ArrayList <Integer>();
+			ArrayList <Integer> attackIndex = new ArrayList <Integer>();
+			String message = "Plays:\n";
+			actionIndex.add(0);
+			attackIndex.add(0);
+			
+			// Play all action and attack cards in hand (action first)
+			// that you can
+			while(game.actions != 0 && actionIndex.size() + attackIndex.size() != 0){
+				actionIndex.clear();
+				attackIndex.clear();
+				
+				for(int i=0; i<current.getHand().size(); i++){
+					Card c = current.getCard(i);
+					if(c instanceof ActionCard){
+						actionIndex.add(i);
+					}else if(c instanceof AttackCard){
+						attackIndex.add(i);
+					}
+				}
+				
+				if(actionIndex.size() != 0){
+					int index = rand.nextInt(actionIndex.size());
+					// If there are more than one it picks a random one to play
+					selectedCardIndex = actionIndex.get(index);
+					game.actionChoice(current, selectedCardIndex);
+					message += "  - " + current.getCard(selectedCardIndex) + " card.\n";
+					current.discardOne(selectedCardIndex);
+				}else if(attackIndex.size() != 0){
+					int index = rand.nextInt(attackIndex.size());
+					selectedCardIndex = attackIndex.get(index);
+					game.actionChoice(current, selectedCardIndex);
+					message += "  - " + current.getCard(selectedCardIndex) + " card.\n";
+					current.discardOne(selectedCardIndex);
+				}
+			}
+			return message;
+		}
 
 		/************************************************************
 		 * Generate and display help screen. 
@@ -314,20 +462,31 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			JPanel namePAN = new JPanel();
 			continueBUT = new JButton("Continue");
 
-			String[] numOpts = {"2", "3", "4"};
+			String[] numOpts = {"1", "2", "3", "4"};
 			String s = (String)JOptionPane.showInputDialog(nameFrame, "How many Players?",
-					"Number of players", JOptionPane.PLAIN_MESSAGE, null, numOpts, "2");
+					"Number of players", JOptionPane.PLAIN_MESSAGE, null, numOpts, "1");
 			numPlayers = Integer.parseInt(s);
+			if(numPlayers == 1){
+				numPlayers = 2;
+				comPlayer = true;
+			}
 			namePAN.setLayout(new BoxLayout(namePAN, BoxLayout.Y_AXIS));
 			namePAN.add(nameLAB);
-
-			nameFLDs = new JTextField[numPlayers];
 			
-			for(int i=0; i<numPlayers; i++){
-				nameFLDs[i] = new JTextField("Player "+(i+1), 30);
-				namePAN.add(nameFLDs[i]);
+			if(comPlayer){
+				nameFLDs = new JTextField[numPlayers];
+				nameFLDs[0] = new JTextField("Player 1", 30);
+				nameFLDs[1] = new JTextField("Computer", 30);
+				namePAN.add(nameFLDs[0]);
+			}else{
+				nameFLDs = new JTextField[numPlayers];
+			
+				for(int i=0; i<numPlayers; i++){
+					nameFLDs[i] = new JTextField("Player "+(i+1), 30);
+					namePAN.add(nameFLDs[i]);
+				}
 			}
-
+			
 			namePAN.add(continueBUT);
 
 			continueBUT.addActionListener(this);
@@ -349,8 +508,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			private final int cardWd = 100;
 			private final int cardHt = 120;
 			private final int cardSp = 20;
-
-			private Boolean selected;
 			private Card selectedCard;
 
 			/************************************************************
@@ -360,7 +517,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			 ***********************************************************/
 			public gameCanvas(ArrayList<ArrayList<Card>> crds){
 				this.crds = crds;
-				selected = false;
 				selectedCard = null;
 			}
 
@@ -434,24 +590,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			 ***********************************************************/
 			public void setSelectedIndex(int i){
 				selectedIndex = i;
-			}
-
-			/************************************************************
-			 * Check if a card is selected.
-			 * 
-			 * @return true if card is selected, false if not
-			 ***********************************************************/
-			public Boolean isSelected(){
-				return selected;
-			}
-
-			/************************************************************
-			 * Set if a card is selected.
-			 * 
-			 * @param true if card is selected, false if not
-			 ***********************************************************/
-			public void setSelected(Boolean b){
-				selected = b;
 			}
 
 			/************************************************************
@@ -589,9 +727,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			private ArrayList<Card> playerHand;
 			private ArrayList<int[]> playerCardXCoords = new ArrayList<int[]>();
 			private ArrayList<int[]> playerCardYCoords = new ArrayList<int[]>();
-			private gameCanvas gameBoard;
-
-
 			private final int cardWd = 100;
 			private final int cardHt = 120;
 			private final int cardSp = 20;
@@ -600,9 +735,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			 * Constructor for objects of type playerBoardCanvas.
 			 ***********************************************************/
 
-			public playerBoardCanvas(gameCanvas gameBoard)
-			{
-				this.gameBoard = gameBoard;
+			public playerBoardCanvas(){
 			}
 
 			/************************************************************
@@ -635,24 +768,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				default:
 					return Color.WHITE;
 				}
-			}
-
-			/************************************************************
-			 * Get X coordinates of player cards.
-			 * 
-			 * @return arraylist of X coordinates
-			 ***********************************************************/
-			public ArrayList<int[]> getPlayerCardXCoords(){
-				return playerCardXCoords;
-			}
-
-			/************************************************************
-			 * Get Y coordinates of player cards.
-			 * 
-			 * @return arraylist of Y coordinates
-			 ***********************************************************/
-			public ArrayList<int[]> getPlayerCardYCoords(){
-				return playerCardYCoords;
 			}
 
 			/************************************************************
@@ -750,7 +865,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 					return true;
 				}
 			}
-			
 			return false;
 		}
 
@@ -772,8 +886,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 						playBUT.setEnabled(false);
 						purchaseBUT.setEnabled(true);
 					}
-					
-					System.out.println(selectedCardIndex);
 					gameBoardPan.repaint();
 				}
 				

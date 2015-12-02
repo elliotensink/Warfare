@@ -255,7 +255,6 @@ public class AttackCard extends Card{
      ***********************************************************/
 	public String toString(){
 		String str = super.toString();
-		str += "values: " + vals;
 		return str;
 	}
 }
