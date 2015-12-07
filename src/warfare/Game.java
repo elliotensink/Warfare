@@ -12,7 +12,7 @@ public class Game {
 
 	/* Random variable */
 	Random rand = new Random(69);
-	
+
 	/* Current player (position in array) and total number of players */
 	private int currentPlayer, numPlayers;
 
@@ -27,14 +27,14 @@ public class Game {
 
 	/* Boolean value to determine when game is over */
 	boolean gameFinished;
-	
+
 	/* Number of actions and purchases current player has */
 	int actions, purchases;
-	
+
 	/************************************************************
 	 * Constructor for objects of type Game.
 	 ***********************************************************/
-	Game(){
+	public Game(){
 		this.numPlayers = 2;
 		players = new Player[numPlayers];
 		for(int i = 0;i<numPlayers;i++)
@@ -45,13 +45,13 @@ public class Game {
 		actions = 1;
 		purchases = 1;
 	}
-	
+
 	/************************************************************
 	 * Constructor for objects of type Game.
 	 * 
 	 * @param number of players
 	 ***********************************************************/
-	Game(int numPlayers){
+	public Game(int numPlayers){
 		this.numPlayers = numPlayers;
 		players = new Player[numPlayers];
 		for(int i = 0;i<numPlayers;i++)
@@ -59,12 +59,11 @@ public class Game {
 		allCards = new ArrayList<ArrayList<Card>>();
 		gameFinished = false;
 		createDeck();
-		setIntialPlayerCards();
 		currentPlayer = 0;
 		actions = 1;
 		purchases = 1;
-		
-		
+
+
 	}
 
 	/************************************************************
@@ -72,7 +71,7 @@ public class Game {
 	 ***********************************************************/
 	public void createDeck(){
 
-			// Adding point cards
+		// Adding point cards
 		PointCard pointCard1 = new PointCard("One VP",2,"Worth 1 Victory Point",1,"point", "OneVP.png");
 		ArrayList<Card> pointCard1Stack = fillCardStack(pointCard1,25);
 		allCards.add(pointCard1Stack);
@@ -83,7 +82,7 @@ public class Game {
 		ArrayList<Card> pointCard10Stack = fillCardStack(pointCard10,5);
 		allCards.add(pointCard10Stack);
 
-			// Adding money cards
+		// Adding money cards
 		MoneyCard moneyCard1 = new MoneyCard("$1 mill",2,"Worth $1 mill",1,"money", "Money.png");
 		ArrayList<Card> moneyCard1Stack = fillCardStack(moneyCard1,50);
 		allCards.add(moneyCard1Stack);
@@ -96,8 +95,8 @@ public class Game {
 		MoneyCard moneyCard4 = new MoneyCard("$4 mill",8,"Worth $4 mill",4,"money", "MoneyFour.png");
 		ArrayList<Card> moneyCard4Stack = fillCardStack(moneyCard4,20);
 		allCards.add(moneyCard4Stack);
-		
-			// Adding action cards
+
+		// Adding action cards
 		ActionCard actionCard1 = new ActionCard("Target Practice", 3, "+1 Cards;+1 Action", 1, 1, 0, 0, "action", "TargetPractice.png");
 		ArrayList<Card> actionCard1Stack = fillCardStack(actionCard1, 50);
 		allCards.add(actionCard1Stack);
@@ -114,8 +113,24 @@ public class Game {
 		ArrayList<Card> actionCard5Stack = fillCardStack(actionCard5, 20);
 		allCards.add(actionCard5Stack);
 		
-			// Adding attack cards
-			//Need to write descriptions for attack cards, I'm not sure how they work yet...-EE
+		ActionCard actionCard6 = new ActionCard("Reload", 4, "+2 Actions", 0, 2, 0, 0, "action", "Ammo.jpg");
+		ArrayList<Card> actionCard6Stack = fillCardStack(actionCard6, 20);
+		allCards.add(actionCard6Stack);
+		ActionCard actionCard7 = new ActionCard("Recruit", 3, "+1Card;+$1 mill", 1, 0, 0, 1, "action", "Recruit.jpg");
+		ArrayList<Card> actionCard7Stack = fillCardStack(actionCard7, 20);
+		allCards.add(actionCard7Stack);
+		ActionCard actionCard8 = new ActionCard("SupplyLine", 7, "+2Cards;+$2 mill", 2, 0, 0, 2, "action", "SupplyLine.jpg");
+		ArrayList<Card> actionCard8Stack = fillCardStack(actionCard8, 20);
+		allCards.add(actionCard8Stack);
+		ActionCard actionCard9 = new ActionCard("Factory", 4, "+1Card;+2Actions", 1, 2, 0, 0, "action", "Factory.jpg");
+		ArrayList<Card> actionCard9Stack = fillCardStack(actionCard9, 20);
+		allCards.add(actionCard9Stack);
+		ActionCard actionCard10 = new ActionCard("MRE", 4, "+1 Purchase;+$3 mill", 0, 0, 1, 3, "action", "MRE.jpg");
+		ArrayList<Card> actionCard10Stack = fillCardStack(actionCard10, 20);
+		allCards.add(actionCard10Stack);
+
+		// Adding attack cards
+		//Need to write descriptions for attack cards, I'm not sure how they work yet...-EE
 		AttackCard attackCard1 = new AttackCard("Recon", 2, "attacks...", new int[]{0, 0, 1, 0, 1}, "attack", "Recon.jpg");
 		ArrayList<Card> attackCard1Stack = fillCardStack(attackCard1, 50);
 		allCards.add(attackCard1Stack);
@@ -128,12 +143,12 @@ public class Game {
 		AttackCard attackCard4 = new AttackCard("Tank", 10, "attacks...", new int[]{0, 0, 1, 0, 2}, "attack", "Tank.jpg");
 		ArrayList<Card> attackCard4Stack = fillCardStack(attackCard4, 20);
 		allCards.add(attackCard4Stack);
-		
-			// Adding defense cards
+
+		// Adding defense cards
 		DefenseCard defenseCard1 = new DefenseCard("Bunker", 2, "Blocks oncoming attacks.", "defense", "Bunker.png");
 		ArrayList<Card> defenseCard1Stack = fillCardStack(defenseCard1, 50);
 		allCards.add(defenseCard1Stack);
-		
+
 		referenceDeck = new ArrayList<Card>();
 		referenceDeck.add(pointCard1);
 		referenceDeck.add(pointCard5);
@@ -147,6 +162,11 @@ public class Game {
 		referenceDeck.add(actionCard3);
 		referenceDeck.add(actionCard4);
 		referenceDeck.add(actionCard5);
+		referenceDeck.add(actionCard6);
+		referenceDeck.add(actionCard7);
+		referenceDeck.add(actionCard8);
+		referenceDeck.add(actionCard9);
+		referenceDeck.add(actionCard10);
 		referenceDeck.add(attackCard1);
 		referenceDeck.add(attackCard2);
 		referenceDeck.add(attackCard3);
@@ -173,11 +193,58 @@ public class Game {
 	public void setIntialPlayerCards(){
 		for(Player p : players){
 			ArrayList<Card> pDeck = new ArrayList<Card>();
-			for(int i = 0;i<3;i++)
-				pDeck.add(allCards.get(0).remove(0));
-			for(int i = 0;i<7;i++)
-				pDeck.add(allCards.get(3).remove(0));
-
+			Faction fac = p.getFaction();
+			if(fac != null){
+				switch(fac){
+				case RED:
+					for(int i = 0;i<2;i++)
+						pDeck.add(allCards.get(17).remove(0));//Get 2 'Recon'
+					for(int i = 0;i<3;i++)
+						pDeck.add(allCards.get(0).remove(0));//Get 3 '1VP'
+					for(int i = 0;i<5;i++)
+						pDeck.add(allCards.get(3).remove(0));//Get 5 '$1 mill'
+					break;
+				case BLUE:
+					for(int i = 0;i<2;i++)
+						pDeck.add(allCards.get(21).remove(0));//Get 2 'Bunkers'
+					for(int i = 0;i<3;i++)
+						pDeck.add(allCards.get(0).remove(0));//Get 3 '1VP'
+					for(int i = 0;i<5;i++)
+						pDeck.add(allCards.get(3).remove(0));//Get 5 '$1 mill'
+					break;
+				case GREEN:
+					for(int i = 0;i<2;i++)
+						pDeck.add(allCards.get(1).remove(0));//Get 2 '5VP'
+					for(int i = 0;i<3;i++)
+						pDeck.add(allCards.get(0).remove(0));//Get 3 '1VP'
+					for(int i = 0;i<5;i++)
+						pDeck.add(allCards.get(3).remove(0));//Get 5 '$1 mill'
+					break;
+				case ORANGE:
+					for(int i = 0;i<2;i++)
+						pDeck.add(allCards.get(7).remove(0));//Get 2 'Target Practice'
+					for(int i = 0;i<3;i++)
+						pDeck.add(allCards.get(0).remove(0));//Get 3 '1VP'
+					for(int i = 0;i<5;i++)
+						pDeck.add(allCards.get(3).remove(0));//Get 5 '$1 mill'
+				case YELLOW:
+					for(int i = 0;i<2;i++)
+						pDeck.add(allCards.get(4).remove(0));//Get 2 '$2 mill'
+					for(int i = 0;i<3;i++)
+						pDeck.add(allCards.get(0).remove(0));//Get 3 '1VP'
+					for(int i = 0;i<5;i++)
+						pDeck.add(allCards.get(3).remove(0));//Get 5 '$1 mill'
+					break;
+				default:
+					break;
+				}
+			}
+			else{
+				for(int i = 0;i<3;i++)
+					pDeck.add(allCards.get(0).remove(0));//Get 3 '1VP'
+				for(int i = 0;i<7;i++)
+					pDeck.add(allCards.get(3).remove(0));//Get 7 '$1 mill'
+			}
 			Collections.shuffle(pDeck, new Random());
 			p.setDeck(pDeck);
 			p.drawCards(5);
@@ -218,7 +285,7 @@ public class Game {
 		purchases--;
 		System.out.println(allCards.get(cardNum).get(0)+" Card Purchased!");
 	}
-	
+
 	/************************************************************
 	 * Checks if card is purchaseable
 	 * 
@@ -233,7 +300,7 @@ public class Game {
 		}
 		return true;
 	}
-	
+
 	/************************************************************
 	 * Check if card is playable.
 	 * 
@@ -261,8 +328,8 @@ public class Game {
 
 	public void checkGameStatus()
 	{
-//		if(allCards.get(2).size()==0)
-//			gameFinished = true;//Game over
+		//		if(allCards.get(2).size()==0)
+		//			gameFinished = true;//Game over
 		for(int i = 0;i<players.length;i++)
 		{
 			if(players[i].getPoints() > 30)
@@ -272,7 +339,7 @@ public class Game {
 			}
 		}
 	}
-	
+
 	/************************************************************
 	 * Determine if game is over or not.
 	 ***********************************************************/
@@ -289,7 +356,7 @@ public class Game {
 		}
 		return winningPlayer;
 	}
-	
+
 	/************************************************************
 	 * Check if player has defense card.
 	 * 
@@ -305,7 +372,7 @@ public class Game {
 		}
 		return false;
 	}
-	
+
 	/************************************************************
 	 * Carry out attack card.
 	 * 
@@ -321,7 +388,7 @@ public class Game {
 			}
 		}
 	}
-	
+
 	/************************************************************
 	 * Carry out effects of attack card.
 	 * 
@@ -332,26 +399,26 @@ public class Game {
 		for(int i=0; i<c.getEffect().size(); i++){
 			Effect e = c.getEffect().get(i);
 			switch(e){
-				case DISCARD:
-					for(int j=0; j<c.vals.get(i); j++){
-						p.discardOne(rand.nextInt(p.getHand().size()));
-					}
-					break;
-				case STEAL:
-					if(p.getCurrentMoney() <= c.vals.get(i)){
-						players[currentPlayer].addMoney(p.getCurrentMoney());
-						p.setCurrentMoney(0);
-					}else{
-						players[currentPlayer].addMoney(c.vals.get(i));
-						p.setCurrentMoney(p.getCurrentMoney()-c.vals.get(i));
-					}
-					break;
-				default:
-					break;
+			case DISCARD:
+				for(int j=0; j<c.vals.get(i); j++){
+					p.discardOne(rand.nextInt(p.getHand().size()));
+				}
+				break;
+			case STEAL:
+				if(p.getCurrentMoney() <= c.vals.get(i)){
+					players[currentPlayer].addMoney(p.getCurrentMoney());
+					p.setCurrentMoney(0);
+				}else{
+					players[currentPlayer].addMoney(c.vals.get(i));
+					p.setCurrentMoney(p.getCurrentMoney()-c.vals.get(i));
+				}
+				break;
+			default:
+				break;
 			}
 		}
 	}
-	
+
 	/************************************************************
 	 * Carry out an ActionCard.
 	 * 
@@ -363,10 +430,10 @@ public class Game {
 		players[currentPlayer].drawCards(action[0]);
 		players[currentPlayer].addMoney(action[3]);
 		int ret[] = {action[1], action[2]};
-		
+
 		return ret;		
 	}
-	
+
 	/************************************************************
 	 * Get specific card.
 	 * 

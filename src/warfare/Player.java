@@ -13,6 +13,9 @@ public class Player {
 	/* Cards in deck, discard pile, and in hand */
 	private ArrayList<Card> deck, discard, hand;
 	
+	/*Faction the player chooses*/
+	private Faction faction;
+	
 	/* Current points */
 	private int points, currentMoney;
 	
@@ -26,6 +29,7 @@ public class Player {
 		hand = new ArrayList<Card>();
 		points = 0;
 		currentMoney = 0;
+		faction = null;
 	}
 	
 	/************************************************************
@@ -236,11 +240,29 @@ public class Player {
 	}
 	
 	/************************************************************
-     * Get current discard pile.
+     * set current discard pile.
      * 
-     * @return discard pile
+     * @param discard pile
      ***********************************************************/
 	public void setDiscard(ArrayList<Card> discard) {
 		this.discard = discard;
+	}
+	
+	/************************************************************
+     * Set the players faction
+     * 
+     * @param location of desired card
+     ***********************************************************/
+	public void setFaction(Faction fac){
+		faction = fac;
+	}
+	
+	/************************************************************
+     * Get players faction
+     * 
+     * @return faction
+     ***********************************************************/
+	public Faction getFaction() {
+		return faction;
 	}
 }
