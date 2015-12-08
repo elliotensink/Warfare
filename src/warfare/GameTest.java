@@ -26,7 +26,7 @@ public class GameTest {
 	@Test
 	public void setInitialPlayerCardTest() {
 		g.createDeck();
-		g.setIntialPlayerCards();
+		g.setInitialPlayerCards();
 		Player[] p = g.getPlayers();
 		for (Player k : p) {
 			assertTrue(k.getDeck().size() == 5);

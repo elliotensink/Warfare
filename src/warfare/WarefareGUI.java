@@ -39,6 +39,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	
 	private JCheckBox expandCHECK, factionCHECK;
 	
+	private ArrayList<String> factions;
+	
 	/* Faction choice for each player */
 	private ArrayList <JComboBox<String>> factionchoice;
 	
@@ -127,13 +129,15 @@ public class WarefareGUI extends JFrame implements ActionListener{
 
 		names = new ArrayList<String>();
 		getNames();
+		getDecision();
 
 		playInfo = new JPanel[numPlayers];
 		infoName = new JLabel[numPlayers];
 		infoPlayer = new JLabel[numPlayers];
-		game = new Game(numPlayers, exp);
-		setUpFactions();
-		setUpInfo();
+		game = new Game(numPlayers, exp, factions);
+		//setUpFactions();
+		current = game.getPlayers()[game.getCurrentPlayer()];
+		
 		frame = new JFrame("Warefare");
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -190,6 +194,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		frame.setResizable(false);
 		playBUT.setEnabled(false);
 		purchaseBUT.setEnabled(false);
+		setUpInfo();
 		frame.setVisible(true);
 
 	}
@@ -208,7 +213,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				names.add(nameFLDs[i].getText());
 			}
 			nameDialog.setVisible(false);
-			getDecision();
 		}
 		
 		// 'Continue' button on faction panel
@@ -222,6 +226,12 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				}
+			}
+			if(factionCHECK.isSelected()){
+				factions = new ArrayList <String>();
+				for(int i=0; i<numPlayers; i++){
+					factions.add((String)factionchoice.get(i).getSelectedItem());
 				}
 			}
 			factionDIA.setVisible(false);
@@ -638,14 +648,14 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	 * Add faction choices for each player.
 	 ***********************************************************/
 	private void addFactions(){
-		String [] factions = {"Red", "Green", "Blue", "Orange", "Yellow"};
+		String [] factionstr = {"Red", "Green", "Blue", "Orange", "Yellow"};
 		factionchoice = new ArrayList <JComboBox<String>>();
 		factionPANs = new ArrayList <JPanel>();
 		factionPAN.removeAll();
 		factionPAN.add(expandCHECK);
 		
 		for(int i=0; i<numPlayers; i++){
-			factionchoice.add(new JComboBox<String>(factions));
+			factionchoice.add(new JComboBox<String>(factionstr));
 			factionPANs.add(new JPanel());
 			factionPANs.get(i).setLayout(new FlowLayout());
 			factionPANs.get(i).add(new JLabel(names.get(i)));
@@ -658,41 +668,41 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	/************************************************************
 	 * Set up factions for the game
 	 ***********************************************************/
-	public void setUpFactions()
-	{
-		//int decision = JOptionPane.showConfirmDialog(factionFrame,"Faction Choice", "Would you like to play with factions?",JOptionPane.YES_NO_OPTION);
-		if(faction){
-			//int playerCount = 1;
-			for(int i=0; i<numPlayers; i++){
-				Player p = game.getPlayers()[i];
-//				String[] factionOpts = {"Red", "Green", "Blue", "Orange", "Yellow"};
-//				String s = (String)JOptionPane.showInputDialog(factionFrame, "Player " + playerCount,
-//						"Choose a Faction:", JOptionPane.PLAIN_MESSAGE, null, factionOpts, "1");
-				System.out.println((String)factionchoice.get(i).getSelectedItem());
-				switch((String)factionchoice.get(i).getSelectedItem()){
-				case "Red":
-					p.setFaction(Faction.RED);
-					break;
-				case "Blue":
-					p.setFaction(Faction.BLUE);
-					break;
-				case "Orange":
-					p.setFaction(Faction.ORANGE);
-					break;
-				case "Yellow":
-					p.setFaction(Faction.YELLOW);
-					break;
-				case "Green":
-					p.setFaction(Faction.GREEN);
-					break;
-				default:
-					break;
-				}
-				//playerCount++;
-			}
-		}
-		game.setIntialPlayerCards();
-	}
+//	public void setUpFactions()
+//	{
+//		//int decision = JOptionPane.showConfirmDialog(factionFrame,"Faction Choice", "Would you like to play with factions?",JOptionPane.YES_NO_OPTION);
+//		if(faction){
+//			//int playerCount = 1;
+//			for(int i=0; i<numPlayers; i++){
+//				Player p = game.getPlayers()[i];
+////				String[] factionOpts = {"Red", "Green", "Blue", "Orange", "Yellow"};
+////				String s = (String)JOptionPane.showInputDialog(factionFrame, "Player " + playerCount,
+////						"Choose a Faction:", JOptionPane.PLAIN_MESSAGE, null, factionOpts, "1");
+//				System.out.println((String)factionchoice.get(i).getSelectedItem());
+//				switch((String)factionchoice.get(i).getSelectedItem()){
+//				case "Red":
+//					p.setFaction(Faction.RED);
+//					break;
+//				case "Blue":
+//					p.setFaction(Faction.BLUE);
+//					break;
+//				case "Orange":
+//					p.setFaction(Faction.ORANGE);
+//				ase "Yellow":
+//					p.setFaction(Faction.YELLOW);
+//					break;
+//				case "Green":
+//					p.setFaction(Faction.GREEN);
+//					break;
+//				default:
+//					break;
+//				}	break;
+//				c
+//				//playerCount++;
+//			}
+//		}
+//		game.setIntialPlayerCards();
+//	}
 
 	/************************************************************
 	 * Class to display and handle selection of game board.

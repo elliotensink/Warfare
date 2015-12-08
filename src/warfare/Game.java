@@ -22,6 +22,9 @@ public class Game {
 
 	/* Array list containing all game cards */
 	ArrayList<ArrayList<Card>> allCards;
+	
+	/* Factions for each player */
+	private ArrayList<String> factions;
 
 	/* Array list containing one copy of each unique card */
 	ArrayList<Card> referenceDeck;
@@ -54,16 +57,20 @@ public class Game {
 	 * 
 	 * @param number of players
 	 ***********************************************************/
-	public Game(int numPlayers, ArrayList<ArrayList<Card>> exp){
+	public Game(int numPlayers, ArrayList<ArrayList<Card>> exp, ArrayList<String> factions){
 		this.numPlayers = numPlayers;
 		if (exp != null)
 			this.expCards = exp;
 		players = new Player[numPlayers];
 		for(int i = 0;i<numPlayers;i++)
 			players[i] = new Player();
+		this.factions = factions;
+		if(factions != null)
+			setUpFactions();
 		allCards = new ArrayList<ArrayList<Card>>();
 		gameFinished = false;
 		createDeck();
+		setInitialPlayerCards();
 		currentPlayer = 0;
 		actions = 1;
 		purchases = 1;
@@ -71,6 +78,42 @@ public class Game {
 
 	}
 
+	/************************************************************
+	 * Set up factions for the game
+	 ***********************************************************/
+	public void setUpFactions()
+	{
+		//int decision = JOptionPane.showConfirmDialog(factionFrame,"Faction Choice", "Would you like to play with factions?",JOptionPane.YES_NO_OPTION);
+			//int playerCount = 1;
+		for(int i=0; i<numPlayers; i++){
+			//Player p = game.getPlayers()[i];
+//			String[] factionOpts = {"Red", "Green", "Blue", "Orange", "Yellow"};
+//			String s = (String)JOptionPane.showInputDialog(factionFrame, "Player " + playerCount,
+//					"Choose a Faction:", JOptionPane.PLAIN_MESSAGE, null, factionOpts, "1");
+			//System.out.println((String)factionchoice.get(i).getSelectedItem());
+			switch(factions.get(i)){
+			case "Red":
+				players[i].setFaction(Faction.RED);
+				break;
+			case "Blue":
+				players[i].setFaction(Faction.BLUE);
+				break;
+			case "Orange":
+				players[i].setFaction(Faction.ORANGE);
+				break;
+			case "Yellow":
+				players[i].setFaction(Faction.YELLOW);
+				break;
+			case "Green":
+				players[i].setFaction(Faction.GREEN);
+				break;
+			default:
+				break;
+			}
+				//playerCount++;
+		}		
+	}
+	
 	/************************************************************
 	 * Generate stack of cards to start game.
 	 ***********************************************************/
@@ -198,7 +241,7 @@ public class Game {
 	/************************************************************
 	 * Deal initial cards to players.
 	 ***********************************************************/
-	public void setIntialPlayerCards(){
+	public void setInitialPlayerCards(){
 		for(Player p : players){
 			ArrayList<Card> pDeck = new ArrayList<Card>();
 			Faction fac = p.getFaction();
