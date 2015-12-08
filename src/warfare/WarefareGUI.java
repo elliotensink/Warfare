@@ -37,7 +37,10 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	
 	private JCheckBox expandCHECK, factionCHECK;
 	
+	/* Faction choice for each player */
 	private ArrayList <JComboBox<String>> factionchoice;
+	
+	/* Panels for player faction choices */
 	private ArrayList <JPanel> factionPANs;
 
 	/* Buttons for user choices */
@@ -200,11 +203,12 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				names.add(nameFLDs[i].getText());
 			}
 			nameFrame.setVisible(false);
-			setUpFactions();
+			getDecision();
 		}
 		
 		// 'Continue' button on faction panel
 		if(e.getSource() == continueBUT2){
+			setUpFactions();
 			setUpInfo();
 			if(expandCHECK.isSelected()){
 				try {
@@ -220,6 +224,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		
 		// 'Use factions?' checkbox
 		if(e.getSource() == factionCHECK){
+			faction = true;
 			addFactions();
 			factionFrame.repaint();
 			factionFrame.pack();			
@@ -597,6 +602,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	 * Get faction and expansion pack decisions from user.
 	 ***********************************************************/
 	private void getDecision(){
+		factionFrame = new JFrame();
 		factionCHECK = new JCheckBox("Use Factions?");
 		expandCHECK = new JCheckBox("Use expansion pack?");
 		continueBUT2 = new JButton("Continue");
@@ -640,9 +646,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	 ***********************************************************/
 	public void setUpFactions()
 	{
-		factionFrame = new JFrame();
 		//int decision = JOptionPane.showConfirmDialog(factionFrame,"Faction Choice", "Would you like to play with factions?",JOptionPane.YES_NO_OPTION);
-		getDecision();
 		if(faction){
 			//int playerCount = 1;
 			for(int i=0; i<numPlayers; i++){
@@ -650,6 +654,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 //				String[] factionOpts = {"Red", "Green", "Blue", "Orange", "Yellow"};
 //				String s = (String)JOptionPane.showInputDialog(factionFrame, "Player " + playerCount,
 //						"Choose a Faction:", JOptionPane.PLAIN_MESSAGE, null, factionOpts, "1");
+				System.out.println((String)factionchoice.get(i).getSelectedItem());
 				switch((String)factionchoice.get(i).getSelectedItem()){
 				case "Red":
 					p.setFaction(Faction.RED);
