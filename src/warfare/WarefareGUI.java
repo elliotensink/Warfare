@@ -585,6 +585,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	 ***********************************************************/
 	private void getNames(){
 		nameDialog = new JDialog();
+		nameDialog.setLocationRelativeTo(null);
 		nameDialog.setModal(true);
 		JLabel nameLAB = new JLabel("Player Names:");
 		JPanel namePAN = new JPanel();
@@ -643,6 +644,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		factionPAN.add(factionCHECK);
 		factionPAN.add(continueBUT2);
 		factionDIA = new JDialog();
+		factionDIA.setLocationRelativeTo(null);
 		factionDIA.setModal(true);
 		factionDIA.add(factionPAN);
 		//factionFrame.add(factionPAN);
