@@ -90,7 +90,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	private JFrame nameFrame;
 	
 	/* Frame to hold faction/expansion choices */
-	private JFrame factionFrame;
+	private JDialog factionDIA;
 
 	/* Color variables for different types of cards */
 	private Color actionColor, moneyColor, pointColor, attackColor, defenseColor;
@@ -125,7 +125,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 
 		names = new ArrayList<String>();
 		getNames();
-
 
 		playInfo = new JPanel[numPlayers];
 		infoName = new JLabel[numPlayers];
@@ -218,7 +217,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 					e1.printStackTrace();
 				}
 			}
-			factionFrame.setVisible(false);
+			factionDIA.setVisible(false);
 			frame.setVisible(true);
 		}
 		
@@ -226,8 +225,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		if(e.getSource() == factionCHECK){
 			faction = true;
 			addFactions();
-			factionFrame.repaint();
-			factionFrame.pack();			
+			factionDIA.repaint();
+			factionDIA.pack();			
 		}
 
 		// 'Play Card' button
@@ -269,6 +268,10 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		if(e.getSource() == helpBUT){
 			helpScreen();
 		}
+	}
+	
+	private void setupGUI(){
+		
 	}
 
 	// As of now the computer plays like this (not sure if it works perfectly):
@@ -602,7 +605,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	 * Get faction and expansion pack decisions from user.
 	 ***********************************************************/
 	private void getDecision(){
-		factionFrame = new JFrame();
+		//factionFrame = new JFrame();
+		
 		factionCHECK = new JCheckBox("Use Factions?");
 		expandCHECK = new JCheckBox("Use expansion pack?");
 		continueBUT2 = new JButton("Continue");
@@ -614,10 +618,13 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		factionPAN.add(expandCHECK);
 		factionPAN.add(factionCHECK);
 		factionPAN.add(continueBUT2);
-		factionFrame.add(factionPAN);
+		factionDIA = new JDialog();
+		factionDIA.add(factionPAN);
+		//factionFrame.add(factionPAN);
 		
-		factionFrame.setVisible(true);
-		factionFrame.pack();
+		new JDialog();
+		factionDIA.setVisible(true);
+		factionDIA.pack();
 	}
 	
 	/************************************************************
