@@ -217,17 +217,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		
 		// 'Continue' button on faction panel
 		if(e.getSource() == continueBUT2){
-			if(expandCHECK.isSelected()){
-				try {
-					System.out.println("In try");
-					ExpansionImporter ei = new ExpansionImporter(this);
-					exp = ei.cards;
-					
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
+			
+
 			if(factionCHECK.isSelected()){
 				factions = new ArrayList <String>();
 				for(int i=0; i<numPlayers; i++){
@@ -235,6 +226,19 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				}
 			}
 			factionDIA.setVisible(false);
+			
+		}
+		
+		if (e.getSource() == expandCHECK){
+			try {
+				System.out.println("In try");
+				ExpansionImporter ei = new ExpansionImporter(this);
+				exp = ei.cards;
+				
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 		// 'Use factions?' checkbox
@@ -538,36 +542,40 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	public ArrayList<ArrayList<Card>> setUpGameDeck(){
 		gameDeck = new ArrayList<ArrayList<Card>>();
 		gameRefDeck = new ArrayList<Card>();
-		for(int i = 0; i < 7; i++){
-			gameDeck.add(game.allCards.get(i));
-			gameRefDeck.add(game.referenceDeck.get(i));
-		}
-		int numActions = 0;
-		Random rand = new Random();
-		ArrayList<Integer> usedNums = new ArrayList<Integer>();
-		while(numActions < 5)
-		{
-			boolean newRand = true;
-			int randAction = rand.nextInt(5)+8;
-			for(int num:usedNums){
-				if(num == randAction){
-					newRand = false;
-					break;
-				}
-			}
-			if(newRand){
-				gameDeck.add(game.allCards.get(randAction));
-				gameRefDeck.add(game.referenceDeck.get(randAction));
-				usedNums.add(randAction);
-				numActions++;
-			}
-		}
-		for(int i = 14; i < 19; i++)
-		{
-			gameDeck.add(game.allCards.get(i));
-			gameRefDeck.add(game.referenceDeck.get(i));
-		}
+		gameRefDeck.addAll(game.referenceDeck);
+		gameDeck.addAll(game.allCards);
 		return gameDeck;
+//		for(int i = 0; i < 7; i++){
+//			gameDeck.add(game.allCards.get(i));
+//			gameRefDeck.add(game.referenceDeck.get(i));
+//		}
+//		int numActions = 0;
+//		Random rand = new Random();
+//		ArrayList<Integer> usedNums = new ArrayList<Integer>();
+//		while(numActions < 5)
+//		{
+//			boolean newRand = true;
+//			int randAction = rand.nextInt(5)+7;
+//			for(int num:usedNums){
+//				if(num == randAction){
+//					newRand = false;
+//					break;
+//				}
+//			}
+//			if(newRand){
+//				gameDeck.add(game.allCards.get(randAction));
+//				gameRefDeck.add(game.referenceDeck.get(randAction));
+//				usedNums.add(randAction);
+//				numActions++;
+//			}
+//		}
+//		int allCardsSize = game.allCards.size();
+//		for(int i = allCardsSize-5; i < allCardsSize; i++)
+//		{
+//			gameDeck.add(game.allCards.get(i));
+//			gameRefDeck.add(game.referenceDeck.get(i));
+//		}
+//		return gameDeck;
 
 	}
 
@@ -627,6 +635,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		continueBUT2 = new JButton("Continue");
 		continueBUT2.addActionListener(this);
 		factionCHECK.addActionListener(this);
+		expandCHECK.addActionListener(this);
 		factionPAN = new JPanel();
 		factionPAN.setLayout(new BoxLayout(factionPAN, BoxLayout.Y_AXIS));
 		
@@ -901,14 +910,14 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			g.drawPolygon(new int[]{XLeft+3,XRight+3,XRight+3,XLeft+3},new int[]{YTop+3,YTop+3,YBot+3,YBot+3},4);
 			g.setColor(Color.BLACK);
 			g.drawPolygon(new int[]{XLeft+4,XRight+4,XRight+4,XLeft+4},new int[]{YTop+4,YTop+4,YBot+4,YBot+4},4);
-			g.setColor(cardColor(crds.get(cardIndex).get(cardIndex).getType()));
+			g.setColor(cardColor(crds.get(cardIndex).get(0).getType()));
 			g.fillPolygon(new int[]{XLeft+5,XRight+4,XRight+4,XLeft+5},new int[]{YTop+5,YTop+5,YBot+4,YBot+4},4);
 			g.setColor(Color.BLACK);
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setStroke(new BasicStroke(2));
 			g2.drawLine(XLeft+5,YTop+10,XRight+3,YTop+10);
 			g2.drawLine(XLeft+5,YTop+35,XRight+3,YTop+35);
-			String nm = crds.get(cardIndex).get(cardIndex).getName();
+			String nm = crds.get(cardIndex).get(0).getName();
 
 			if(nm.length() <= 8)
 				g.setFont(new Font("arial", Font.BOLD, 15));
@@ -916,7 +925,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				g.setFont(new Font("arial", Font.BOLD, 10));
 
 			g.drawString(nm, XLeft+20,YTop+30);
-
 			try{
 				g.drawImage(ImageIO.read(crds.get(cardIndex).get(0).getImg()), XLeft+25, YTop+50, 60, 60, null);
 			}catch (Exception e){

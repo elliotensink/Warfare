@@ -174,10 +174,10 @@ public class Game {
 			
 			ActionCard actionCard6 = new ActionCard("Factory", 4, "+1Card;+2Actions", 1, 2, 0, 0, "action", new File("Factory.jpg"));
 			ArrayList<Card> actionCard6Stack = fillCardStack(actionCard6, 20);
-			allCards.add(actionCard6Stack);
+//			allCards.add(actionCard6Stack);
 			ActionCard actionCard7 = new ActionCard("MRE", 4, "+1 Purchase;+$3 mill", 0, 0, 1, 3, "action", new File("MRE.jpg"));
 			ArrayList<Card> actionCard7Stack = fillCardStack(actionCard7, 20);
-			allCards.add(actionCard7Stack);
+//			allCards.add(actionCard7Stack);
 	
 			// Adding attack cards
 			//Need to write descriptions for attack cards, I'm not sure how they work yet...-EE
@@ -205,8 +205,8 @@ public class Game {
 			referenceDeck.add(actionCard3);
 			referenceDeck.add(actionCard4);
 			referenceDeck.add(actionCard5);
-			referenceDeck.add(actionCard6);
-			referenceDeck.add(actionCard7);
+//			referenceDeck.add(actionCard6);
+//			referenceDeck.add(actionCard7);
 			referenceDeck.add(attackCard1);
 			referenceDeck.add(attackCard2);
 			referenceDeck.add(attackCard3);
@@ -249,7 +249,7 @@ public class Game {
 				switch(fac){
 				case RED:
 					for(int i = 0;i<2;i++)
-						pDeck.add(allCards.get(17).remove(0));//Get 2 'Recon'
+						pDeck.add(allCards.get(8).remove(0));//Get 2 'Recon'
 					for(int i = 0;i<3;i++)
 						pDeck.add(allCards.get(0).remove(0));//Get 3 '1VP'
 					for(int i = 0;i<5;i++)
