@@ -25,6 +25,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 
 	/* Names of all players */
 	private ArrayList<String> names;
+	
+	private ArrayList<ArrayList<Card>> exp;
 
 	/* Number of players and index of selected card */
 	private int numPlayers, selectedCardIndex;
@@ -87,7 +89,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	private JFrame frame;
 
 	/* Frame to hold player name entry components */
-	private JFrame nameFrame;
+	private JDialog nameDialog;
 	
 	/* Frame to hold faction/expansion choices */
 	private JDialog factionDIA;
@@ -129,7 +131,9 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		playInfo = new JPanel[numPlayers];
 		infoName = new JLabel[numPlayers];
 		infoPlayer = new JLabel[numPlayers];
-		game = new Game(numPlayers);
+		game = new Game(numPlayers, exp);
+		setUpFactions();
+		setUpInfo();
 		frame = new JFrame("Warefare");
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -186,6 +190,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		frame.setResizable(false);
 		playBUT.setEnabled(false);
 		purchaseBUT.setEnabled(false);
+		frame.setVisible(true);
+
 	}
 
 	/************************************************************
@@ -201,24 +207,24 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			for(int i=0; i<numPlayers; i++){
 				names.add(nameFLDs[i].getText());
 			}
-			nameFrame.setVisible(false);
+			nameDialog.setVisible(false);
 			getDecision();
 		}
 		
 		// 'Continue' button on faction panel
 		if(e.getSource() == continueBUT2){
-			setUpFactions();
-			setUpInfo();
 			if(expandCHECK.isSelected()){
 				try {
+					System.out.println("In try");
 					ExpansionImporter ei = new ExpansionImporter(this);
+					exp = ei.cards;
+					
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
 			factionDIA.setVisible(false);
-			frame.setVisible(true);
 		}
 		
 		// 'Use factions?' checkbox
@@ -270,9 +276,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		}
 	}
 	
-	private void setupGUI(){
-		
-	}
 
 	// As of now the computer plays like this (not sure if it works perfectly):
 	//		1. Plays all playable cards it can starting with the action cards so it can get more actions
@@ -428,7 +431,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				+ "Use buttons to purchase or play cards\n"
 				+ "Game is over when all high value point cards\n"
 				+ "have been purchased";
-		JOptionPane.showMessageDialog(nameFrame, help);
+		JOptionPane.showMessageDialog(nameDialog, help);
 	}
 
 
@@ -535,7 +538,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		while(numActions < 5)
 		{
 			boolean newRand = true;
-			int randAction = rand.nextInt(9)+8;
+			int randAction = rand.nextInt(5)+8;
 			for(int num:usedNums){
 				if(num == randAction){
 					newRand = false;
@@ -549,7 +552,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				numActions++;
 			}
 		}
-		for(int i = 17; i < 22; i++)
+		for(int i = 14; i < 19; i++)
 		{
 			gameDeck.add(game.allCards.get(i));
 			gameRefDeck.add(game.referenceDeck.get(i));
@@ -563,13 +566,14 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	 * Get player names from user.
 	 ***********************************************************/
 	private void getNames(){
-		nameFrame = new JFrame();
+		nameDialog = new JDialog();
+		nameDialog.setModal(true);
 		JLabel nameLAB = new JLabel("Player Names:");
 		JPanel namePAN = new JPanel();
 		continueBUT = new JButton("Continue");
 
 		String[] numOpts = {"1", "2", "3", "4"};
-		String s = (String)JOptionPane.showInputDialog(nameFrame, "How many Players?",
+		String s = (String)JOptionPane.showInputDialog(nameDialog, "How many Players?",
 				"Number of players", JOptionPane.PLAIN_MESSAGE, null, numOpts, "1");
 		numPlayers = Integer.parseInt(s);
 		if(numPlayers == 1){
@@ -596,9 +600,10 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		namePAN.add(continueBUT);
 
 		continueBUT.addActionListener(this);
-		nameFrame.add(namePAN);
-		nameFrame.setVisible(true);
-		nameFrame.pack();
+		nameDialog.add(namePAN);
+		nameDialog.pack();
+		nameDialog.setVisible(true);
+		
 	}
 	
 	/************************************************************
@@ -619,12 +624,14 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		factionPAN.add(factionCHECK);
 		factionPAN.add(continueBUT2);
 		factionDIA = new JDialog();
+		factionDIA.setModal(true);
 		factionDIA.add(factionPAN);
 		//factionFrame.add(factionPAN);
 		
-		new JDialog();
-		factionDIA.setVisible(true);
+		//new JDialog();
 		factionDIA.pack();
+		factionDIA.setVisible(true);
+		
 	}
 	
 	/************************************************************
