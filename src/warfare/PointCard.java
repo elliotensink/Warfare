@@ -1,5 +1,7 @@
 package warfare;
 
+import java.io.File;
+
 /****************************************************************
  * Class to simulate attributes specific to a Point Card
  * 
@@ -21,7 +23,7 @@ public class PointCard extends Card{
      * @param type of card
      * @param image file
      ***********************************************************/
-	public PointCard(String name, int cost, String description, int point, String type, String img)
+	public PointCard(String name, int cost, String description, int point, String type, File img)
 	{
 		super(name, cost, description, type, img);
 		this.point = point;

@@ -1,5 +1,7 @@
 package warfare;
 
+import java.io.File;
+
 /****************************************************************
  * Class to simulate attributes specific to a Defense Card
  * 
@@ -17,7 +19,7 @@ public class DefenseCard extends Card{
      * @param type of card
      * @param image file
      ***********************************************************/
-	public DefenseCard(String name, int cost, String description, String type, String img){
+	public DefenseCard(String name, int cost, String description, String type, File img){
 		super(name, cost, description, type, img);
 	}
 	

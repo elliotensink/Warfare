@@ -1,5 +1,7 @@
 package warfare;
 
+import java.io.File;
+
 /****************************************************************
  * Class to simulate attributes specific to a Money Card
  * 
@@ -21,7 +23,7 @@ public class MoneyCard extends Card{
      * @param type of card
      * @param image file
      ***********************************************************/
-	public MoneyCard(String name, int cost, String description, int value, String type, String img)
+	public MoneyCard(String name, int cost, String description, int value, String type, File img)
 	{
 		super(name, cost, description, type, img);
 		this.value = value;

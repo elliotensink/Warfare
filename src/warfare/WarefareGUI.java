@@ -773,7 +773,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 				}
 
 				try{
-					g.drawImage(ImageIO.read(new File(selectedCard.getImg())), cardWd*6+cardSp+40, 
+					g.drawImage(ImageIO.read(selectedCard.getImg()), cardWd*6+cardSp+40, 
 							cardHt+cardSp*5+50, 120, 120, null);
 				}catch (Exception e){
 					e.printStackTrace();
@@ -821,7 +821,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			g.drawString(nm, XLeft+20,YTop+30);
 
 			try{
-				g.drawImage(ImageIO.read(new File(crds.get(cardIndex).get(0).getImg())), XLeft+25, YTop+50, 60, 60, null);
+				g.drawImage(ImageIO.read(crds.get(cardIndex).get(0).getImg()), XLeft+25, YTop+50, 60, 60, null);
 			}catch (Exception e){
 				e.printStackTrace();
 			}
@@ -939,7 +939,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			g.drawString(nm, XLeft+20,YTop+30);
 
 			try{
-				g.drawImage(ImageIO.read(new File(playerHand.get(cardIndex).getImg())), XLeft+25, YTop+50, 60, 60, null);
+				g.drawImage(ImageIO.read(playerHand.get(cardIndex).getImg()), XLeft+25, YTop+50, 60, 60, null);
 			}catch (Exception e){
 				e.printStackTrace();
 			}

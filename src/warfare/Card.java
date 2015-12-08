@@ -1,5 +1,7 @@
 package warfare;
 
+import java.io.File;
+
 /****************************************************************
  * Class to simulate all cards
  * 
@@ -15,7 +17,9 @@ public class Card {
 	private int cost;
 	
 	/* Description of the card */
-	private String description, img;
+	private String description;
+	
+	private File img;
 	
 	/************************************************************
      * Constructor for objects of type Card with attributes.
@@ -26,7 +30,7 @@ public class Card {
      * @param type of card
      * @param image file
      ***********************************************************/
-	public Card(String name, int cost, String description, String type, String img)
+	public Card(String name, int cost, String description, String type, File img)
 	{
 		this.name = name;
 		this.cost = cost;
@@ -146,7 +150,7 @@ public class Card {
      * 
      * @return image file
      ***********************************************************/
-	public String getImg() {
+	public File getImg() {
 		return img;
 	}
 
@@ -155,7 +159,7 @@ public class Card {
      * 
      * @param image file
      ***********************************************************/
-	public void setImg(String img) {
+	public void setImg(File img) {
 		this.img = img;
 	}
 	

@@ -1,5 +1,6 @@
 package warfare;
 
+import java.io.File;
 import java.util.*;
 
 /****************************************************************
@@ -33,9 +34,8 @@ public class AttackCard extends Card{
      * @param type of card
      * @param image file
      ***********************************************************/
-	public AttackCard(String name, int cost, String description, int[] effect, String type, String img){
+	public AttackCard(String name, int cost, String description, int[] effect, String type, File img){
 		super(name, cost, description, type, img);
-		img = "nuke.jpg";
 	    decode(effect);
 	}
 

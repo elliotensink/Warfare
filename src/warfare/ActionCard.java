@@ -1,5 +1,7 @@
 package warfare;
 
+import java.io.File;
+
 /****************************************************************
  * Class to simulate attributes specific to an Action Card
  * 
@@ -24,7 +26,7 @@ public class ActionCard extends Card{
      * @param type of card
      * @param image file
      ***********************************************************/
-	public ActionCard(String name, int cost, String description, int cards, int actions, int purchase, int money, String type, String img)
+	public ActionCard(String name, int cost, String description, int cards, int actions, int purchase, int money, String type, File img)
 	{
 		super(name, cost, description, type, img);
 		actionFunction = new int[]{cards, actions, purchase, money};
