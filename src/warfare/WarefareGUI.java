@@ -256,6 +256,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			if(game.pAction(current, selectedCardIndex)){
 				game.actionChoice(current, selectedCardIndex);
 				current.discardOne(selectedCardIndex);
+				checkTurn();
 				gameMessage.setText("");
 				setUpInfo();
 			}else{
@@ -281,9 +282,6 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			game.purchases = 0;
 			game.actions = 0;
 			checkTurn();
-			if(comPlayer){
-				compTurn();
-			}
 		}
 
 		//'Help' button
@@ -489,6 +487,9 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			purchaseBUT.setEnabled(false);
 			gameMessage.setText("");
 			setUpInfo();
+			if(comPlayer && game.getCurrentPlayer() == 1){
+				compTurn();
+			}
 		}
 	}
 
