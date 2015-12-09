@@ -6,7 +6,7 @@ import java.io.File;
  * Class to simulate attributes specific to an Action Card
  * 
  * @author Cameron Novotny, Elliot Ensink, Curtis Holden
- * @version 
+ * @version Friday, December 11, 2015
  ***************************************************************/
 public class ActionCard extends Card{
 	
@@ -26,8 +26,7 @@ public class ActionCard extends Card{
      * @param type of card
      * @param image file
      ***********************************************************/
-	public ActionCard(String name, int cost, String description, int cards, int actions, int purchase, int money, String type, File img)
-	{
+	public ActionCard(String name, int cost, String description, int cards, int actions, int purchase, int money, String type, File img){
 		super(name, cost, description, type, img);
 		actionFunction = new int[]{cards, actions, purchase, money};
 	}
@@ -35,8 +34,7 @@ public class ActionCard extends Card{
 	/************************************************************
      * Constructor for objects of type ACtionCard.
      ***********************************************************/
-	public ActionCard()
-	{
+	public ActionCard(){
 		super();
 		actionFunction = null;
 	}

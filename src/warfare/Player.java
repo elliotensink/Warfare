@@ -6,7 +6,7 @@ import java.util.*;
  * Class for storage of player information
  * 
  * @author Cameron Novotny, Elliot Ensink, Curtis Holden
- * @version 
+ * @version Friday, December 11, 2015
  ***************************************************************/
 public class Player {
 	
@@ -22,8 +22,7 @@ public class Player {
 	/************************************************************
      * Constructor for objects of type Player.
      ***********************************************************/
-	public Player()
-	{
+	public Player(){
 		deck = new ArrayList<Card>();
 		discard = new ArrayList<Card>();
 		hand = new ArrayList<Card>();
@@ -65,12 +64,10 @@ public class Player {
 	/************************************************************
      * Calculate money in current hand.
      ***********************************************************/
-	public void calcMoney()
-	{
+	public void calcMoney(){
 		int sum = currentMoney;
 		for(Card crd: hand){
-			if(crd instanceof MoneyCard)
-			{
+			if(crd instanceof MoneyCard){
 				sum += ((MoneyCard)crd).getValue();
 			}
 		}
@@ -82,25 +79,21 @@ public class Player {
      * 
      * @return number of points in current hand
      ***********************************************************/
-	public int calcPoints()
-	{
+	public int calcPoints(){
 		int points = 0;
 		//deck.addAll(discard);
 		for(Card crd: deck){
-			if(crd instanceof PointCard)
-			{
+			if(crd instanceof PointCard){
 				points += ((PointCard)crd).getPoint();
 			}
 		}
 		for(Card crd: hand){
-			if(crd instanceof PointCard)
-			{
+			if(crd instanceof PointCard){
 				points += ((PointCard)crd).getPoint();
 			}
 		}
 		for(Card crd: discard){
-			if(crd instanceof PointCard)
-			{
+			if(crd instanceof PointCard){
 				points += ((PointCard)crd).getPoint();
 			}
 		}
@@ -132,8 +125,7 @@ public class Player {
      * 
      * @return drawn card
      ***********************************************************/
-	public Card draw()
-	{
+	public Card draw(){
 		return deck.remove(0);
 	}
 	
@@ -196,8 +188,7 @@ public class Player {
      * 
      * @return players deck
      ***********************************************************/
-	public ArrayList<Card> getDeck()
-	{
+	public ArrayList<Card> getDeck(){
 		return deck;
 	}
 	
@@ -215,8 +206,7 @@ public class Player {
      * 
      * @return discard pile
      ***********************************************************/
-	public ArrayList<Card> getDiscard()
-	{
+	public ArrayList<Card> getDiscard(){
 		return discard;
 	}
 	

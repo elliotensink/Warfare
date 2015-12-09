@@ -4,7 +4,7 @@ package warfare;
  * Enumerated class for different factions.
  * 
  * @author Cameron Novotny, Elliot Ensink, Curtis Holden
- * @version 
+ * @version Friday, December 11, 2015
  ***************************************************************/
 public enum Faction {
 	//RED  - 2 Attack Cards, 3 '1VP', and 5 '$1 mil' cards

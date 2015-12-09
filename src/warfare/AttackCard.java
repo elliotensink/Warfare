@@ -7,10 +7,9 @@ import java.util.*;
  * Class to simulate attributes specific to an Attack Card
  * 
  * @author Cameron Novotny, Elliot Ensink, Curtis Holden
- * @version 
+ * @version Friday, December 11, 2015
  ***************************************************************/
 public class AttackCard extends Card{
-    
 	
 	/* How card interacts with game */
     private Interaction inter;
@@ -107,7 +106,6 @@ public class AttackCard extends Card{
         }
         decodeEffect(code);
         decodeValue(code);
-        
     }
     
 	/************************************************************

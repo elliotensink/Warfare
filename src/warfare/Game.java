@@ -7,7 +7,7 @@ import java.util.*;
  * Class for simulation of Warfare card game.
  * 
  * @author Cameron Novotny, Elliot Ensink, Curtis Holden
- * @version 
+ * @version Friday, December 11, 2015
  ***************************************************************/
 public class Game {
 
@@ -29,6 +29,7 @@ public class Game {
 	/* Array list containing one copy of each unique card */
 	ArrayList<Card> referenceDeck;
 	
+	/* Expansion pack cards */
 	ArrayList<ArrayList<Card>> expCards = new ArrayList<ArrayList<Card>>();
 	
 	/* Boolean value to determine when game is over */
@@ -81,16 +82,8 @@ public class Game {
 	/************************************************************
 	 * Set up factions for the game
 	 ***********************************************************/
-	public void setUpFactions()
-	{
-		//int decision = JOptionPane.showConfirmDialog(factionFrame,"Faction Choice", "Would you like to play with factions?",JOptionPane.YES_NO_OPTION);
-			//int playerCount = 1;
+	public void setUpFactions(){
 		for(int i=0; i<numPlayers; i++){
-			//Player p = game.getPlayers()[i];
-//			String[] factionOpts = {"Red", "Green", "Blue", "Orange", "Yellow"};
-//			String s = (String)JOptionPane.showInputDialog(factionFrame, "Player " + playerCount,
-//					"Choose a Faction:", JOptionPane.PLAIN_MESSAGE, null, factionOpts, "1");
-			//System.out.println((String)factionchoice.get(i).getSelectedItem());
 			switch(factions.get(i)){
 			case "Red":
 				players[i].setFaction(Faction.RED);
@@ -110,7 +103,6 @@ public class Game {
 			default:
 				break;
 			}
-				//playerCount++;
 		}		
 	}
 	
@@ -174,10 +166,10 @@ public class Game {
 			
 			ActionCard actionCard6 = new ActionCard("Factory", 4, "+1Card;+2Actions", 1, 2, 0, 0, "action", new File("Factory.jpg"));
 			ArrayList<Card> actionCard6Stack = fillCardStack(actionCard6, 20);
-//			allCards.add(actionCard6Stack);
+			allCards.add(actionCard6Stack);
 			ActionCard actionCard7 = new ActionCard("MRE", 4, "+1 Purchase;+$3 mill", 0, 0, 1, 3, "action", new File("MRE.jpg"));
 			ArrayList<Card> actionCard7Stack = fillCardStack(actionCard7, 20);
-//			allCards.add(actionCard7Stack);
+			allCards.add(actionCard7Stack);
 	
 			// Adding attack cards
 			//Need to write descriptions for attack cards, I'm not sure how they work yet...-EE
@@ -205,8 +197,8 @@ public class Game {
 			referenceDeck.add(actionCard3);
 			referenceDeck.add(actionCard4);
 			referenceDeck.add(actionCard5);
-//			referenceDeck.add(actionCard6);
-//			referenceDeck.add(actionCard7);
+			referenceDeck.add(actionCard6);
+			referenceDeck.add(actionCard7);
 			referenceDeck.add(attackCard1);
 			referenceDeck.add(attackCard2);
 			referenceDeck.add(attackCard3);
@@ -377,14 +369,9 @@ public class Game {
 	 * Determine if game is over or not.
 	 ***********************************************************/
 
-	public void checkGameStatus()
-	{
-		//		if(allCards.get(2).size()==0)
-		//			gameFinished = true;//Game over
-		for(int i = 0;i<players.length;i++)
-		{
-			if(players[i].getPoints() > 30)
-			{
+	public void checkGameStatus(){
+		for(int i = 0;i<players.length;i++){
+			if(players[i].getPoints() > 30){
 				gameFinished = true;
 				break;
 			}
@@ -584,6 +571,11 @@ public class Game {
 		this.purchases = purchases;
 	}
 	
+	/************************************************************
+	 * Set expansion pack cards.
+	 * 
+	 * @param decks of expansion pack cards
+	 ***********************************************************/
 	public void setExpCards(ArrayList<ArrayList<Card>> exp) {
 		this.expCards = exp;
 	}

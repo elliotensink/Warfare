@@ -6,7 +6,7 @@ import java.io.File;
  * Class to simulate attributes specific to a Point Card
  * 
  * @author Cameron Novotny, Elliot Ensink, Curtis Holden
- * @version 
+ * @version Friday, December 11, 2015
  ***************************************************************/
 public class PointCard extends Card{
 	
@@ -23,8 +23,7 @@ public class PointCard extends Card{
      * @param type of card
      * @param image file
      ***********************************************************/
-	public PointCard(String name, int cost, String description, int point, String type, File img)
-	{
+	public PointCard(String name, int cost, String description, int point, String type, File img){
 		super(name, cost, description, type, img);
 		this.point = point;
 	}
@@ -32,8 +31,7 @@ public class PointCard extends Card{
 	/************************************************************
      * Constructor for objects of type DefenseCard.
      ***********************************************************/
-	public PointCard()
-	{
+	public PointCard(){
 		super();
 		point = 0;
 	}
@@ -62,8 +60,7 @@ public class PointCard extends Card{
      * 
      * @return point value
      ***********************************************************/
-	public int getPoint() 
-	{
+	public int getPoint(){
 		return point;
 	}
 
@@ -72,8 +69,7 @@ public class PointCard extends Card{
      * 
      * @param point value
      ***********************************************************/
-	public void setPoint(int point) 
-	{
+	public void setPoint(int point){
 		this.point = point;
 	}
 	

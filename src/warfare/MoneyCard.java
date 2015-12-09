@@ -6,7 +6,7 @@ import java.io.File;
  * Class to simulate attributes specific to a Money Card
  * 
  * @author Cameron Novotny, Elliot Ensink, Curtis Holden
- * @version 
+ * @version Friday, December 11, 2015
  ***************************************************************/
 public class MoneyCard extends Card{
 
@@ -23,8 +23,7 @@ public class MoneyCard extends Card{
      * @param type of card
      * @param image file
      ***********************************************************/
-	public MoneyCard(String name, int cost, String description, int value, String type, File img)
-	{
+	public MoneyCard(String name, int cost, String description, int value, String type, File img){
 		super(name, cost, description, type, img);
 		this.value = value;
 	}
@@ -32,8 +31,7 @@ public class MoneyCard extends Card{
 	/************************************************************
      * Constructor for objects of type DefenseCard.
      ***********************************************************/
-	public MoneyCard()
-	{
+	public MoneyCard(){
 		super();
 		value = 0;
 	}

@@ -6,7 +6,7 @@ import java.io.File;
  * Class to simulate attributes specific to a Defense Card
  * 
  * @author Cameron Novotny, Elliot Ensink, Curtis Holden
- * @version 
+ * @version Friday, December 11, 2015
  ***************************************************************/
 public class DefenseCard extends Card{
 	

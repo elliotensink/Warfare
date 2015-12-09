@@ -6,7 +6,7 @@ import java.io.File;
  * Class to simulate all cards
  * 
  * @author Cameron Novotny, Elliot Ensink, Curtis Holden
- * @version 
+ * @version Friday, December 11, 2015
  ***************************************************************/
 public class Card {
 
@@ -19,6 +19,7 @@ public class Card {
 	/* Description of the card */
 	private String description;
 	
+	/* Image file */
 	private File img;
 	
 	/************************************************************
@@ -30,8 +31,7 @@ public class Card {
      * @param type of card
      * @param image file
      ***********************************************************/
-	public Card(String name, int cost, String description, String type, File img)
-	{
+	public Card(String name, int cost, String description, String type, File img){
 		this.name = name;
 		this.cost = cost;
 		this.type = type;
@@ -42,8 +42,7 @@ public class Card {
 	/************************************************************
      * Constructor for objects of type Card.
      ***********************************************************/
-	public Card()
-	{
+	public Card(){
 		name = "";
 		cost = 0;
 		description = "";
@@ -55,8 +54,7 @@ public class Card {
      * @param card to be cloned
      * @return cloned of card
      ***********************************************************/
-	public Card cardClone(Card c)
-	{
+	public Card cardClone(Card c){
 		Card newC = new Card();
 		newC.setName(c.getName());
 		newC.setCost(c.getCost());
@@ -72,8 +70,7 @@ public class Card {
      * 
      * @return name of card
      ***********************************************************/
-	public String getName()
-	{
+	public String getName(){
 		return name;
 	}
 	
@@ -82,8 +79,7 @@ public class Card {
      * 
      * @param name of card
      ***********************************************************/
-	public void setName(String name) 
-	{
+	public void setName(String name){
 		this.name = name;
 	}
 	
@@ -92,8 +88,7 @@ public class Card {
      * 
      * @return cost of card
      ***********************************************************/
-	public int getCost()
-	{
+	public int getCost(){
 		return cost;
 	}
 	
@@ -102,8 +97,7 @@ public class Card {
      * 
      * @param cost of card
      ***********************************************************/
-	public void setCost(int cost) 
-	{
+	public void setCost(int cost){
 		this.cost = cost;
 	}
 	
@@ -112,8 +106,7 @@ public class Card {
      * 
      * @return card description
      ***********************************************************/
-	public String getDescription() 
-	{
+	public String getDescription(){
 		return description;
 	}
 
@@ -122,8 +115,7 @@ public class Card {
      * 
      * @param card description
      ***********************************************************/
-	public void setDescription(String description) 
-	{
+	public void setDescription(String description){
 		this.description = description;
 	}
 
