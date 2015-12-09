@@ -65,7 +65,7 @@ public class Player {
      * Calculate money in current hand.
      ***********************************************************/
 	public void calcMoney(){
-		int sum = currentMoney;
+		int sum = 0;
 		for(Card crd: hand){
 			if(crd instanceof MoneyCard){
 				sum += ((MoneyCard)crd).getValue();

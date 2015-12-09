@@ -166,10 +166,10 @@ public class Game {
 			
 			ActionCard actionCard6 = new ActionCard("Factory", 4, "+1Card;+2Actions", 1, 2, 0, 0, "action", new File("Factory.jpg"));
 			ArrayList<Card> actionCard6Stack = fillCardStack(actionCard6, 20);
-			allCards.add(actionCard6Stack);
+//			allCards.add(actionCard6Stack);
 			ActionCard actionCard7 = new ActionCard("MRE", 4, "+1 Purchase;+$3 mill", 0, 0, 1, 3, "action", new File("MRE.jpg"));
 			ArrayList<Card> actionCard7Stack = fillCardStack(actionCard7, 20);
-			allCards.add(actionCard7Stack);
+//			allCards.add(actionCard7Stack);
 	
 			// Adding attack cards
 			//Need to write descriptions for attack cards, I'm not sure how they work yet...-EE
@@ -197,8 +197,8 @@ public class Game {
 			referenceDeck.add(actionCard3);
 			referenceDeck.add(actionCard4);
 			referenceDeck.add(actionCard5);
-			referenceDeck.add(actionCard6);
-			referenceDeck.add(actionCard7);
+	//		referenceDeck.add(actionCard6);
+	//		referenceDeck.add(actionCard7);
 			referenceDeck.add(attackCard1);
 			referenceDeck.add(attackCard2);
 			referenceDeck.add(attackCard3);
@@ -240,16 +240,18 @@ public class Game {
 			if(fac != null){
 				switch(fac){
 				case RED:
+					AttackCard attackCard1 = new AttackCard("Recon", 2, "ALL Enem. Discard 1", new int[]{0, 0, 1, 0, 1}, "attack", new File("Recon.jpg"));
 					for(int i = 0;i<2;i++)
-						pDeck.add(allCards.get(8).remove(0));//Get 2 'Recon'
+						pDeck.add(attackCard1);//Get 2 'Recon'
 					for(int i = 0;i<3;i++)
 						pDeck.add(allCards.get(0).remove(0));//Get 3 '1VP'
 					for(int i = 0;i<5;i++)
 						pDeck.add(allCards.get(3).remove(0));//Get 5 '$1 mill'
 					break;
 				case BLUE:
+					DefenseCard defenseCard1 = new DefenseCard("Bunker", 2, "Blocks oncoming attacks.", "defense", new File("Bunker.png"));
 					for(int i = 0;i<2;i++)
-						pDeck.add(allCards.get(21).remove(0));//Get 2 'Bunkers'
+						pDeck.add(defenseCard1);//Get 2 'Bunkers'
 					for(int i = 0;i<3;i++)
 						pDeck.add(allCards.get(0).remove(0));//Get 3 '1VP'
 					for(int i = 0;i<5;i++)
@@ -264,8 +266,9 @@ public class Game {
 						pDeck.add(allCards.get(3).remove(0));//Get 5 '$1 mill'
 					break;
 				case ORANGE:
+					ActionCard actionCard1 = new ActionCard("Target Practice", 3, "+1 Cards;+1 Action", 1, 1, 0, 0, "action", new File("TargetPractice.png"));
 					for(int i = 0;i<2;i++)
-						pDeck.add(allCards.get(7).remove(0));//Get 2 'Target Practice'
+						pDeck.add(actionCard1);//Get 2 'Target Practice'
 					for(int i = 0;i<3;i++)
 						pDeck.add(allCards.get(0).remove(0));//Get 3 '1VP'
 					for(int i = 0;i<5;i++)
