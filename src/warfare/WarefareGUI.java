@@ -46,6 +46,8 @@ public class WarefareGUI extends JFrame implements ActionListener{
 	
 	/* Panels for player faction choices */
 	private ArrayList <JPanel> factionPANs;
+	
+	private String [] factionstr = {"Red", "Green", "Blue", "Orange", "Yellow"};
 
 	/* Buttons for user choices */
 	private JButton playBUT;
@@ -126,6 +128,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		pointColor = new Color(154,245,157);
 		attackColor = new Color(237,69,69);
 		defenseColor = new Color(173,221,237);
+		
 
 		names = new ArrayList<String>();
 		getNames();
@@ -221,8 +224,13 @@ public class WarefareGUI extends JFrame implements ActionListener{
 
 			if(factionCHECK.isSelected()){
 				factions = new ArrayList <String>();
-				for(int i=0; i<numPlayers; i++){
-					factions.add((String)factionchoice.get(i).getSelectedItem());
+				if(comPlayer){
+					factions.add((String)factionchoice.get(0).getSelectedItem());
+					factions.add(factionstr[rand.nextInt(5)]);
+				}else{
+					for(int i=0; i<numPlayers; i++){
+						factions.add((String)factionchoice.get(i).getSelectedItem());
+					}
 				}
 			}
 			factionDIA.setVisible(false);
@@ -665,13 +673,22 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		factionPAN.removeAll();
 		factionPAN.add(expandCHECK);
 		
-		for(int i=0; i<numPlayers; i++){
+		if(comPlayer){
 			factionchoice.add(new JComboBox<String>(factionstr));
 			factionPANs.add(new JPanel());
-			factionPANs.get(i).setLayout(new FlowLayout());
-			factionPANs.get(i).add(new JLabel(names.get(i)));
-			factionPANs.get(i).add(factionchoice.get(i));
-			factionPAN.add(factionPANs.get(i));
+			factionPANs.get(0).setLayout(new FlowLayout());
+			factionPANs.get(0).add(new JLabel(names.get(0)));
+			factionPANs.get(0).add(factionchoice.get(0));
+			factionPAN.add(factionPANs.get(0));
+		}else{
+			for(int i=0; i<numPlayers; i++){
+				factionchoice.add(new JComboBox<String>(factionstr));
+				factionPANs.add(new JPanel());
+				factionPANs.get(i).setLayout(new FlowLayout());
+				factionPANs.get(i).add(new JLabel(names.get(i)));
+				factionPANs.get(i).add(factionchoice.get(i));
+				factionPAN.add(factionPANs.get(i));
+			}
 		}
 		factionPAN.add(continueBUT2);		
 	}
