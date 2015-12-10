@@ -7,8 +7,6 @@ import org.junit.Test;
 
 public class PlayerTest {
 	Player p = new Player();
-
-		
 	
 	@Test
 	public void drawCardsTest1() {
@@ -123,6 +121,12 @@ public class PlayerTest {
 		assertTrue(p.getCard(0) == p.getHand().get(0));
 		assertTrue(p.getCard(1) == p.getHand().get(1));
 		p.getHand().clear();
+	}
+	
+	@Test
+	public void setFactionTest(){
+		p.setFaction(Faction.BLUE);
+		assertTrue(p.getFaction().equals(Faction.BLUE));
 	}
 	
 

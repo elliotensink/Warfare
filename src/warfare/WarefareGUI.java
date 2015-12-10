@@ -181,7 +181,7 @@ public class WarefareGUI extends JFrame implements ActionListener{
 		endTurnBUT.addActionListener(this);
 		helpBUT.addActionListener(this);
 
-		menuPAN.add(playBUT);;
+		menuPAN.add(playBUT);
 		menuPAN.add(purchaseBUT);
 		menuPAN.add(endTurnBUT);
 		menuPAN.add(helpBUT);
@@ -267,10 +267,10 @@ public class WarefareGUI extends JFrame implements ActionListener{
 
 		//'Purchase Card' button
 		if(e.getSource() == purchaseBUT){			
-			if(!game.checkPurchasable(gameBoard.getSelectedIndex())){
+			if(!game.checkPurchasable(gameBoard.getSelectedIndex(),gameDeck)){
 				gameMessage.setText("Not Enough $$");
 			}else{
-				game.purchaseCard(selectedCardIndex);
+				game.purchaseCard(selectedCardIndex,gameDeck);
 				checkTurn();
 				gameMessage.setText("");
 				setUpInfo();
@@ -377,13 +377,13 @@ public class WarefareGUI extends JFrame implements ActionListener{
 			}
 
 			// Find most expensive card that can be bought
-			while(max >= min && !game.checkPurchasable(max)){
+			while(max >= min && !game.checkPurchasable(max,gameDeck)){
 				max--;
 			}
 
 			// Purchase card
-			if(game.checkPurchasable(max)){
-				game.purchaseCard(max);
+			if(game.checkPurchasable(max,gameDeck)){
+				game.purchaseCard(max,gameDeck);
 				message += "  - " + game.getCard(max) + " card.\n";
 			}
 		}

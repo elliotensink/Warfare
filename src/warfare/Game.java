@@ -323,13 +323,13 @@ public class Game {
 	 * 
 	 * @param card index
 	 ***********************************************************/
-	public void purchaseCard(int cardNum){
+	public void purchaseCard(int cardNum, ArrayList<ArrayList<Card>> crds){
 		Player p = players[currentPlayer];
-		int cost = allCards.get(cardNum).get(0).getCost();
+		int cost = crds.get(cardNum).get(0).getCost();
 		p.setCurrentMoney(p.getCurrentMoney()-cost);
-		players[currentPlayer].addPurchase(allCards.get(cardNum).remove(0));
+		players[currentPlayer].addPurchase(crds.get(cardNum).remove(0));
 		purchases--;
-		System.out.println(allCards.get(cardNum).get(0)+" Card Purchased!");
+		System.out.println(crds.get(cardNum).get(0)+" Card Purchased!");
 	}
 
 	/************************************************************
@@ -338,9 +338,9 @@ public class Game {
 	 * @param card index
 	 * @return true if purchaseable, false otherwise
 	 ***********************************************************/
-	public boolean checkPurchasable(int cardNum){
+	public boolean checkPurchasable(int cardNum,ArrayList<ArrayList<Card>> crds){
 		Player p = players[currentPlayer];
-		int cost = allCards.get(cardNum).get(0).getCost();
+		int cost = crds.get(cardNum).get(0).getCost();
 		if(cost > p.getCurrentMoney() || purchases == 0){
 			return false;
 		}
